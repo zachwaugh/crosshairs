@@ -9,7 +9,7 @@
 #import "CHView.h"
 
 
-NSRect NSRectFromTwoPoints( NSPoint a, NSPoint b )
+NSRect NSRectFromTwoPoints(NSPoint a, NSPoint b)
 {
 	NSRect r;
 	
@@ -22,13 +22,34 @@ NSRect NSRectFromTwoPoints( NSPoint a, NSPoint b )
 	return r;
 }
 
+
+NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
+{
+	NSRect r;
+	
+	r.origin.x = MIN(a.x, b.x);
+	r.origin.y = MIN(a.y, b.y);
+	
+	float width;
+	float height;
+	
+	width = ABS(a.x - b.x);
+	height = ABS(a.y - b.y);
+	
+	r.size.width = MIN(width, height);
+	r.size.height = MIN(width, height);
+	
+	return r;
+}
+
+
 @implementation CHView
 
 // retained
 @synthesize textAttrs;
 
 // assigned
-@synthesize startPoint, box, dragging;
+@synthesize startPoint, box, dragging, drawing;
 
 
 - (id)initWithFrame:(NSRect)frame
@@ -39,6 +60,7 @@ NSRect NSRectFromTwoPoints( NSPoint a, NSPoint b )
 	{
 		self.box = NSZeroRect;
 		self.dragging = NO;
+		self.drawing = NO;
 	}
 
 	return self;
@@ -51,6 +73,7 @@ NSRect NSRectFromTwoPoints( NSPoint a, NSPoint b )
 	
 	[super dealloc];
 }
+
 
 - (BOOL)acceptsFirstResponder
 {
@@ -81,7 +104,42 @@ NSRect NSRectFromTwoPoints( NSPoint a, NSPoint b )
 	self.dragging = NO;
 	
 	[[self window] makeFirstResponder:self];
-	[[NSCursor crosshairCursor] set];
+}
+
+
+- (void)cancelOperation:(id)sender
+{
+	self.box = NSZeroRect;
+	[self setNeedsDisplay:YES];
+	[NSApp hide:nil];
+}
+
+
+- (void)moveUp:(id)sender
+{
+	self.box = NSOffsetRect(self.box, 0, 1);
+	[self setNeedsDisplay:YES];
+}
+
+
+- (void)moveDown:(id)sender
+{
+	self.box = NSOffsetRect(self.box, 0, -1);
+	[self setNeedsDisplay:YES];
+}
+
+
+- (void)moveLeft:(id)sender
+{
+	self.box = NSOffsetRect(self.box, -1, 0);
+	[self setNeedsDisplay:YES];
+}
+
+
+- (void)moveRight:(id)sender
+{
+	self.box = NSOffsetRect(self.box, 1, 0);
+	[self setNeedsDisplay:YES];
 }
 
 
@@ -94,6 +152,11 @@ NSRect NSRectFromTwoPoints( NSPoint a, NSPoint b )
 	{
 		self.dragging = YES;
 	}
+	else
+	{
+		self.drawing = YES;
+	}
+
 }
 
 
@@ -114,8 +177,17 @@ NSRect NSRectFromTwoPoints( NSPoint a, NSPoint b )
 	}
 	else
 	{
-		[[NSCursor crosshairCursor] set];
-		self.box = NSRectFromTwoPoints(self.startPoint, point);
+		//[[NSCursor crosshairCursor] set];
+		[[[NSCursor alloc] initWithImage:[NSImage imageNamed:@"crosshairs.png"] hotSpot:NSMakePoint(10, 10)] set];
+
+		if ([event modifierFlags] & NSShiftKeyMask)
+		{
+			self.box = NSRectSquareFromTwoPoints(self.startPoint, point);
+		}
+		else
+		{
+			self.box = NSRectFromTwoPoints(self.startPoint, point);
+		}
 	}
 
 	[self setNeedsDisplay:YES];
@@ -126,6 +198,8 @@ NSRect NSRectFromTwoPoints( NSPoint a, NSPoint b )
 {
 	//[[NSCursor arrowCursor] set];
 	self.dragging = NO;
+	self.drawing = NO;
+	[self setNeedsDisplay:YES];
 }
 
 
@@ -141,55 +215,56 @@ NSRect NSRectFromTwoPoints( NSPoint a, NSPoint b )
 		[outline setLineWidth:1.0];
 		[outline stroke];
 		
-		
-		NSBezierPath *circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(self.box.origin.x - 5.5, self.box.origin.y - 5.5, 10, 10)];
-		[[NSColor grayColor] set];
-		[circle fill];
-		[[NSColor whiteColor] set];
-		[circle stroke];
-		
-		circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMinX(self.box) - 5.5, NSMaxY(self.box) - 5.5, 10, 10)];
-		[[NSColor grayColor] set];
-		[circle fill];
-		[[NSColor whiteColor] set];
-		[circle stroke];
-		
-		circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMaxX(self.box) - 5.5, NSMinY(self.box) - 5.5, 10, 10)];
-		[[NSColor grayColor] set];
-		[circle fill];
-		[[NSColor whiteColor] set];
-		[circle stroke];
-		
-		circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMidX(self.box) - 5.5, NSMaxY(self.box) - 5.5, 10, 10)];
-		[[NSColor grayColor] set];
-		[circle fill];
-		[[NSColor whiteColor] set];
-		[circle stroke];
-		
-		circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMaxX(self.box) - 5.5, NSMidY(self.box) - 5.5, 10, 10)];
-		[[NSColor grayColor] set];
-		[circle fill];
-		[[NSColor whiteColor] set];
-		[circle stroke];
-		
-		circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMinX(self.box) - 5.5, NSMidY(self.box) - 5.5, 10, 10)];
-		[[NSColor grayColor] set];
-		[circle fill];
-		[[NSColor whiteColor] set];
-		[circle stroke];
-		
-		circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMaxX(self.box) - 5.5, NSMaxY(self.box) - 5.5, 10, 10)];
-		[[NSColor grayColor] set];
-		[circle fill];
-		[[NSColor whiteColor] set];
-		[circle stroke];
-		
-		circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMidX(self.box) - 5.5, NSMinY(self.box) - 5.5, 10, 10)];
-		[[NSColor grayColor] set];
-		[circle fill];
-		[[NSColor whiteColor] set];
-		[circle stroke];
-		
+		if (!self.drawing)
+		{
+			NSBezierPath *circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(self.box.origin.x - 5.5, self.box.origin.y - 5.5, 10, 10)];
+			[[NSColor grayColor] set];
+			[circle fill];
+			[[NSColor whiteColor] set];
+			[circle stroke];
+			
+			circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMinX(self.box) - 5.5, NSMaxY(self.box) - 5.5, 10, 10)];
+			[[NSColor grayColor] set];
+			[circle fill];
+			[[NSColor whiteColor] set];
+			[circle stroke];
+			
+			circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMaxX(self.box) - 5.5, NSMinY(self.box) - 5.5, 10, 10)];
+			[[NSColor grayColor] set];
+			[circle fill];
+			[[NSColor whiteColor] set];
+			[circle stroke];
+			
+			circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMidX(self.box) - 5.5, NSMaxY(self.box) - 5.5, 10, 10)];
+			[[NSColor grayColor] set];
+			[circle fill];
+			[[NSColor whiteColor] set];
+			[circle stroke];
+			
+			circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMaxX(self.box) - 5.5, NSMidY(self.box) - 5.5, 10, 10)];
+			[[NSColor grayColor] set];
+			[circle fill];
+			[[NSColor whiteColor] set];
+			[circle stroke];
+			
+			circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMinX(self.box) - 5.5, NSMidY(self.box) - 5.5, 10, 10)];
+			[[NSColor grayColor] set];
+			[circle fill];
+			[[NSColor whiteColor] set];
+			[circle stroke];
+			
+			circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMaxX(self.box) - 5.5, NSMaxY(self.box) - 5.5, 10, 10)];
+			[[NSColor grayColor] set];
+			[circle fill];
+			[[NSColor whiteColor] set];
+			[circle stroke];
+			
+			circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMidX(self.box) - 5.5, NSMinY(self.box) - 5.5, 10, 10)];
+			[[NSColor grayColor] set];
+			[circle fill];
+			[[NSColor whiteColor] set];
+			[circle stroke];
+		}
 		
 		// draw instructional text
 		NSString *dimensions = [NSString stringWithFormat:@"%d x %d", (int)round(self.box.size.width), (int)round(self.box.size.height)];

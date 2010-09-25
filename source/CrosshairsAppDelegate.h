@@ -8,10 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface CrosshairsAppDelegate : NSObject <NSApplicationDelegate> {
-    NSWindow *window;
+@class CHWindow;
+
+@interface CrosshairsAppDelegate : NSObject <NSApplicationDelegate>
+{
+	CHWindow *window;
+	NSStatusItem *statusItem;
 }
 
-@property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet CHWindow *window;
+@property (retain) NSStatusItem *statusItem;
 
 @end

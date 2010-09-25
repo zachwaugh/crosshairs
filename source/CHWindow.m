@@ -13,16 +13,18 @@
 
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag 
 {	
-	NSWindow *result = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
+	NSWindow *window = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
 	
-	[result setBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.25]];
-	[result setLevel:NSStatusWindowLevel];
-	[result setAlphaValue:1.0];
-	[result setOpaque:NO];
-	[result setHasShadow:NO];
-	[result setMovableByWindowBackground:NO];
+	[window setBackgroundColor:[NSColor clearColor]];
+	[window setLevel:NSStatusWindowLevel];
+	[window setAlphaValue:1.0];
+	[window setOpaque:NO];
+	[window setHasShadow:NO];
+	[window setMovableByWindowBackground:NO];
+	[window setAcceptsMouseMovedEvents:YES];
+	[window setIgnoresMouseEvents:NO];
 	
-	return result;
+	return window;
 }
 
 
@@ -35,7 +37,6 @@
 - (void)awakeFromNib
 {
 	[self makeKeyAndOrderFront:nil];
-	[self setAcceptsMouseMovedEvents:YES];
 }
 
 

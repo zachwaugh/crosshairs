@@ -14,12 +14,14 @@
 	NSPoint startPoint;
 	NSRect box;
 	BOOL dragging;
+	BOOL drawing;
 	NSDictionary *textAttrs;
 }
 
 @property(assign) NSPoint startPoint;
 @property(assign) NSRect box;
 @property(assign) BOOL dragging;
+@property(assign) BOOL drawing;
 @property(retain) NSDictionary *textAttrs;
 
 @end
