@@ -10,13 +10,19 @@
 
 @class CHWindow;
 
-@interface CrosshairsAppDelegate : NSObject <NSApplicationDelegate>
+@interface CHAppDelegate : NSObject <NSApplicationDelegate>
 {
 	CHWindow *window;
 	NSStatusItem *statusItem;
+	IBOutlet NSMenu *statusMenu;
 }
 
 @property (assign) IBOutlet CHWindow *window;
 @property (retain) NSStatusItem *statusItem;
+@property (retain) NSMenu *statusMenu;
+
+- (void)didClickStatusItem;
+- (void)didRightClickStatusItem:(NSEvent *)event;
+
 
 @end

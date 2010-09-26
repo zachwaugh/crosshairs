@@ -16,6 +16,7 @@
 	NSWindow *window = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
 	
 	[window setBackgroundColor:[NSColor clearColor]];
+	//[window setBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.5]];
 	[window setLevel:NSStatusWindowLevel];
 	[window setAlphaValue:1.0];
 	[window setOpaque:NO];

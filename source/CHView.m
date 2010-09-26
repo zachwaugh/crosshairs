@@ -115,6 +115,9 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 }
 
 
+#pragma mark -
+#pragma mark Move via keyboard arrows
+
 - (void)moveUp:(id)sender
 {
 	self.box = NSOffsetRect(self.box, 0, 1);
@@ -142,6 +145,9 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	[self setNeedsDisplay:YES];
 }
 
+
+#pragma mark -
+#pragma mark mouse handlers
 
 - (void)mouseDown:(NSEvent *)event
 {
@@ -215,7 +221,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 		[outline setLineWidth:1.0];
 		[outline stroke];
 		
-		if (!self.drawing)
+		if (!self.drawing && !self.dragging)
 		{
 			NSBezierPath *circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(self.box.origin.x - 5.5, self.box.origin.y - 5.5, 10, 10)];
 			[[NSColor grayColor] set];
