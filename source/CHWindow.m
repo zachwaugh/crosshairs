@@ -18,11 +18,11 @@
 	[window setBackgroundColor:[NSColor clearColor]];
 	//[window setBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.5]];
 	[window setLevel:NSStatusWindowLevel];
+	[window setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
 	[window setAlphaValue:1.0];
 	[window setOpaque:NO];
 	[window setHasShadow:NO];
 	[window setMovableByWindowBackground:NO];
-	[window setAcceptsMouseMovedEvents:YES];
 	[window setIgnoresMouseEvents:NO];
 	
 	return window;

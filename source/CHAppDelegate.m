@@ -8,6 +8,7 @@
 
 #import "CHAppDelegate.h"
 #import "CHStatusItemView.h"
+#import "DDHotKeyCenter.h"
 
 @implementation CHAppDelegate
 
@@ -25,12 +26,8 @@
 	[self.window setFrame:windowRect display:YES animate:NO];
 
 	
-	//[NSApp preventWindowOrdering];
-//	[NSEvent addGlobalMonitorForEventsMatchingMask:NSKeyDownMask 
-//                                         handler:^{
-//																					 [NSApp activateIgnoringOtherApps:YES];
-//																					 [mainWindowController showWindow:self];
-//																				 }];
+	DDHotKeyCenter *hotKeyCenter = [[[DDHotKeyCenter alloc] init] autorelease];
+	[hotKeyCenter registerHotKeyWithKeyCode:19 modifierFlags:(NSShiftKeyMask | NSCommandKeyMask) target:self action:@selector(hotkeyWithEvent:) object:nil];
 	
 	// Build the statusbar menu
 	self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
@@ -49,6 +46,12 @@
 	[super dealloc];
 }
 
+
+- (void)hotkeyWithEvent:(NSEvent *)event
+{
+	NSLog(@"hotkey triggered");
+	[NSApp activateIgnoringOtherApps:YES];
+}
 
 
 - (void)didClickStatusItem

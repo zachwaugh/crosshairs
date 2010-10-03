@@ -6,6 +6,9 @@
 //  Copyright 2010 zachwaugh.com. All rights reserved.
 //
 
+#define HANDLE_SIZE 8
+#define HANDLE_CENTER (HANDLE_SIZE / 2.0)
+
 #import "CHView.h"
 
 
@@ -43,13 +46,30 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 }
 
 
+@interface CHView ()
+
+- (NSRect)resizedRectForPoint:(NSPoint)point;
+- (NSRect)topLeft;
+- (NSRect)topCenter;
+- (NSRect)topRight;
+- (NSRect)bottomRight;
+- (NSRect)bottomLeft;
+- (NSRect)bottomCenter;
+- (NSRect)leftCenter;
+- (NSRect)rightCenter;
+- (NSRect)adjustedOverlayRect;
+
+@end
+
+
+
 @implementation CHView
 
 // retained
-@synthesize textAttrs;
+@synthesize textAttrs, crosshairsCursor, resizeLeftDiagonalCursor, resizeRightDiagonalCursor;
 
 // assigned
-@synthesize startPoint, box, dragging, drawing;
+@synthesize startPoint, lastPoint, overlayRect, dragging, drawing, resizing, shiftPressed, resizeDirection;
 
 
 - (id)initWithFrame:(NSRect)frame
@@ -58,9 +78,32 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 
 	if (self)
 	{
-		self.box = NSZeroRect;
+		self.overlayRect = NSZeroRect;
 		self.dragging = NO;
 		self.drawing = NO;
+		self.resizing = NO;
+		self.shiftPressed = NO;
+		self.crosshairsCursor = [[[NSCursor alloc] initWithImage:[NSImage imageNamed:@"crosshairs_cursor.png"] hotSpot:NSMakePoint(10, 10)] autorelease];
+		self.resizeLeftDiagonalCursor = [[[NSCursor alloc] initWithImage:[NSImage imageNamed:@"resize_cursor_diagonal_left.tiff"] hotSpot:NSMakePoint(8, 8)] autorelease];
+		self.resizeRightDiagonalCursor = [[[NSCursor alloc] initWithImage:[NSImage imageNamed:@"resize_cursor_diagonal_right.tiff"] hotSpot:NSMakePoint(8, 8)] autorelease];
+
+		NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+		[paragraphStyle setAlignment:NSCenterTextAlignment];
+		
+		NSShadow *shadow = [[NSShadow alloc] init];
+		[shadow setShadowColor:[NSColor blackColor]];
+		[shadow setShadowOffset:NSMakeSize(0, -1)];
+		
+		NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
+		[attrs setObject:[NSFont fontWithName:@"Helvetica Bold" size:36.0] forKey:NSFontAttributeName];
+		[attrs setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
+		[attrs setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
+		[paragraphStyle release];
+		
+		[attrs setObject:shadow forKey:NSShadowAttributeName];
+		[shadow release];
+		
+		self.textAttrs = attrs;
 	}
 
 	return self;
@@ -70,6 +113,9 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 - (void)dealloc
 {
 	self.textAttrs = nil;
+	self.crosshairsCursor = nil;
+	self.resizeLeftDiagonalCursor = nil;
+	self.resizeRightDiagonalCursor = nil;
 	
 	[super dealloc];
 }
@@ -83,34 +129,35 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 
 - (void)awakeFromNib
 {
-	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-	[paragraphStyle setAlignment:NSCenterTextAlignment];
-	
-	NSShadow *shadow = [[NSShadow alloc] init];
-	[shadow setShadowColor:[NSColor blackColor]];
-	[shadow setShadowOffset:NSMakeSize(0, -1)];
-	
-	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
-	[attrs setObject:[NSFont fontWithName:@"Helvetica Bold" size:36.0] forKey:NSFontAttributeName];
-	[attrs setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
-	[attrs setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
-	[paragraphStyle release];
-	
-	[attrs setObject:shadow forKey:NSShadowAttributeName];
-	[shadow release];
-	
-	self.textAttrs = attrs;
-	self.box = NSZeroRect;
-	self.dragging = NO;
-	
 	[[self window] makeFirstResponder:self];
+}
+
+
+- (void)resetCursorRects
+{
+	[self discardCursorRects];
+
+	[self addCursorRect:[self visibleRect] cursor:self.crosshairsCursor];
+
+	if (!NSIsEmptyRect(self.overlayRect))
+	{
+		[self addCursorRect:NSInsetRect(self.overlayRect, 2, 2) cursor:[NSCursor openHandCursor]];
+		
+		[self addCursorRect:[self leftCenter] cursor:[NSCursor resizeLeftRightCursor]];
+		[self addCursorRect:[self rightCenter] cursor:[NSCursor resizeLeftRightCursor]];
+		[self addCursorRect:[self topLeft] cursor:self.resizeLeftDiagonalCursor];
+		[self addCursorRect:[self topRight] cursor:self.resizeRightDiagonalCursor];
+		[self addCursorRect:[self bottomLeft] cursor:self.resizeRightDiagonalCursor];
+		[self addCursorRect:[self bottomRight] cursor:self.resizeLeftDiagonalCursor];
+		[self addCursorRect:[self topCenter] cursor:[NSCursor resizeUpDownCursor]];
+		[self addCursorRect:[self bottomCenter] cursor:[NSCursor resizeUpDownCursor]];
+	}
 }
 
 
 - (void)cancelOperation:(id)sender
 {
-	self.box = NSZeroRect;
-	[self setNeedsDisplay:YES];
+	self.overlayRect = NSZeroRect;
 	[NSApp hide:nil];
 }
 
@@ -118,31 +165,34 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 #pragma mark -
 #pragma mark Move via keyboard arrows
 
+
 - (void)moveUp:(id)sender
 {
-	self.box = NSOffsetRect(self.box, 0, 1);
-	[self setNeedsDisplay:YES];
+	self.overlayRect = NSOffsetRect(self.overlayRect, 0, (self.isShiftPressed) ? 10 : 1);
 }
 
 
 - (void)moveDown:(id)sender
 {
-	self.box = NSOffsetRect(self.box, 0, -1);
-	[self setNeedsDisplay:YES];
+	self.overlayRect = NSOffsetRect(self.overlayRect, 0, (self.isShiftPressed) ? -10 : -1);
 }
 
 
 - (void)moveLeft:(id)sender
 {
-	self.box = NSOffsetRect(self.box, -1, 0);
-	[self setNeedsDisplay:YES];
+	self.overlayRect = NSOffsetRect(self.overlayRect, (self.isShiftPressed) ? -10 : -1, 0);
 }
 
 
 - (void)moveRight:(id)sender
 {
-	self.box = NSOffsetRect(self.box, 1, 0);
-	[self setNeedsDisplay:YES];
+	self.overlayRect = NSOffsetRect(self.overlayRect, (self.isShiftPressed) ? 10 : 1, 0);
+}
+
+
+- (void)flagsChanged:(NSEvent *)event
+{
+	self.shiftPressed = ([event modifierFlags] & NSShiftKeyMask) ? YES : NO;
 }
 
 
@@ -153,22 +203,74 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 {
 	NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
 	self.startPoint = point;
+	self.lastPoint = point;
 	
-	if (NSPointInRect(point, self.box))
+	if (NSPointInRect(point, [self leftCenter]))
+	{
+		self.resizing = YES;
+		self.resizeDirection = CHResizeLeftCenter;
+		[[self window] disableCursorRects];
+		[[NSCursor resizeLeftRightCursor] push];
+	}
+	else if (NSPointInRect(point, [self rightCenter]))
+	{
+		self.resizing = YES;
+		self.resizeDirection = CHResizeRightCenter;
+		[[self window] disableCursorRects];
+		[[NSCursor resizeLeftRightCursor] push];
+	}
+	else if (NSPointInRect(point, [self topCenter]))
+	{
+		self.resizing = YES;
+		self.resizeDirection = CHResizeTopCenter;
+		[[self window] disableCursorRects];
+		[[NSCursor resizeUpDownCursor] push];
+	}
+	else if (NSPointInRect(point, [self bottomCenter]))
+	{
+		self.resizing = YES;
+		self.resizeDirection = CHResizeBottomCenter;
+		[[self window] disableCursorRects];
+		[[NSCursor resizeUpDownCursor] push];
+	}
+	else if (NSPointInRect(point, [self topLeft]))
+	{
+		self.resizing = YES;
+		self.resizeDirection = CHResizeTopLeft;
+		[[self window] disableCursorRects];
+		[self.resizeLeftDiagonalCursor push];
+	}
+	else if (NSPointInRect(point, [self topRight]))
+	{
+		self.resizing = YES;
+		self.resizeDirection = CHResizeTopRight;
+		[[self window] disableCursorRects];
+		[self.resizeRightDiagonalCursor push];
+	}
+	else if (NSPointInRect(point, [self bottomLeft]))
+	{
+		self.resizing = YES;
+		self.resizeDirection = CHResizeBottomLeft;
+		[[self window] disableCursorRects];
+		[self.resizeRightDiagonalCursor push];
+	}
+	else if (NSPointInRect(point, [self bottomRight]))
+	{
+		self.resizing = YES;
+		self.resizeDirection = CHResizeBottomRight;
+		[[self window] disableCursorRects];
+		[self.resizeLeftDiagonalCursor push];
+	}
+	else if (NSPointInRect(point, self.overlayRect))
 	{
 		self.dragging = YES;
+		[[self window] disableCursorRects];
+		[[NSCursor closedHandCursor] push];
 	}
 	else
 	{
 		self.drawing = YES;
 	}
-
-}
-
-
-- (void)mouseMoved:(NSEvent *)event
-{
-	//NSPoint point = [event locationInWindow];
 }
 
 
@@ -176,110 +278,284 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 {
 	NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
 	
-	if (self.dragging)
+	if (self.isResizing)
 	{
-		self.box = NSOffsetRect(self.box, point.x - self.startPoint.x, point.y - self.startPoint.y);
+		self.overlayRect = [self resizedRectForPoint:point];
+	}
+	else if (self.isDragging)
+	{
+		self.overlayRect = NSOffsetRect(self.overlayRect, point.x - self.startPoint.x, point.y - self.startPoint.y);
 		self.startPoint = point;
 	}
 	else
 	{
-		//[[NSCursor crosshairCursor] set];
-		[[[NSCursor alloc] initWithImage:[NSImage imageNamed:@"crosshairs.png"] hotSpot:NSMakePoint(10, 10)] set];
-
 		if ([event modifierFlags] & NSShiftKeyMask)
 		{
-			self.box = NSRectSquareFromTwoPoints(self.startPoint, point);
+			self.overlayRect = NSRectSquareFromTwoPoints(self.startPoint, point);
 		}
 		else
 		{
-			self.box = NSRectFromTwoPoints(self.startPoint, point);
+			self.overlayRect = NSRectFromTwoPoints(self.startPoint, point);
 		}
 	}
-
-	[self setNeedsDisplay:YES];
+	
+	self.lastPoint = point;
 }
 
 
 - (void)mouseUp:(NSEvent *)event
 {
-	//[[NSCursor arrowCursor] set];
+	if (self.isDragging || self.isResizing)
+	{
+		[NSCursor pop];
+		[[self window] enableCursorRects];
+	}
+	
 	self.dragging = NO;
 	self.drawing = NO;
-	[self setNeedsDisplay:YES];
+	self.resizing = NO;
+	[self setNeedsDisplayInRect:[self adjustedOverlayRect]];
+	[[self window] invalidateCursorRectsForView:self];
 }
 
 
+#pragma mark  -
+#pragma mark Drawing
+
 - (void)drawRect:(NSRect)dirtyRect
 {
-	if (!NSEqualRects(self.box, NSZeroRect))
+	if (!NSIsEmptyRect(self.overlayRect))
 	{
-		[[NSColor colorWithCalibratedWhite:0.0 alpha:0.25] set];
-		NSRectFill(self.box);
+		[[NSColor colorWithCalibratedWhite:0.0 alpha:0.1] set];
+		NSRectFill(self.overlayRect);
 		
-		NSBezierPath *outline = [NSBezierPath bezierPathWithRect:NSInsetRect(self.box, 0.5, 0.5)];
+		
+		// Draw dashed outline of rect
+		CGFloat pattern[2] = { 4.0, 4.0 };
+		
+		NSBezierPath *outline = [NSBezierPath bezierPathWithRect:NSInsetRect(self.overlayRect, -0.5, -0.5)];
+
 		[[NSColor whiteColor] set];
-		[outline setLineWidth:1.0];
 		[outline stroke];
+//		[[NSColor blackColor] set];
+//		[outline stroke];
 		
-		if (!self.drawing && !self.dragging)
+//		[[NSColor whiteColor] set];
+//		[outline setLineDash:pattern count:2 phase:0];
+//		[outline setLineWidth:1.0];
+//		[outline stroke];
+		
+		
+		if (!self.isDrawing && !self.isDragging)
 		{
-			NSBezierPath *circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(self.box.origin.x - 5.5, self.box.origin.y - 5.5, 10, 10)];
+			// top left
+			NSBezierPath *circle = [NSBezierPath bezierPathWithOvalInRect:[self topLeft]];
 			[[NSColor grayColor] set];
 			[circle fill];
 			[[NSColor whiteColor] set];
 			[circle stroke];
 			
-			circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMinX(self.box) - 5.5, NSMaxY(self.box) - 5.5, 10, 10)];
+			
+			// top center
+			circle = [NSBezierPath bezierPathWithOvalInRect:[self topCenter]];
 			[[NSColor grayColor] set];
 			[circle fill];
 			[[NSColor whiteColor] set];
 			[circle stroke];
 			
-			circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMaxX(self.box) - 5.5, NSMinY(self.box) - 5.5, 10, 10)];
+			
+			// top right
+			circle = [NSBezierPath bezierPathWithOvalInRect:[self topRight]];
 			[[NSColor grayColor] set];
 			[circle fill];
 			[[NSColor whiteColor] set];
 			[circle stroke];
 			
-			circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMidX(self.box) - 5.5, NSMaxY(self.box) - 5.5, 10, 10)];
+			
+			// right center
+			circle = [NSBezierPath bezierPathWithOvalInRect:[self rightCenter]];
 			[[NSColor grayColor] set];
 			[circle fill];
 			[[NSColor whiteColor] set];
 			[circle stroke];
 			
-			circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMaxX(self.box) - 5.5, NSMidY(self.box) - 5.5, 10, 10)];
+			
+			// bottom right
+			circle = [NSBezierPath bezierPathWithOvalInRect:[self bottomRight]];
 			[[NSColor grayColor] set];
 			[circle fill];
 			[[NSColor whiteColor] set];
 			[circle stroke];
 			
-			circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMinX(self.box) - 5.5, NSMidY(self.box) - 5.5, 10, 10)];
+			
+			// bottom center
+			circle = [NSBezierPath bezierPathWithOvalInRect:[self bottomCenter]];
 			[[NSColor grayColor] set];
 			[circle fill];
 			[[NSColor whiteColor] set];
 			[circle stroke];
 			
-			circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMaxX(self.box) - 5.5, NSMaxY(self.box) - 5.5, 10, 10)];
+			
+			// bottom left
+			circle = [NSBezierPath bezierPathWithOvalInRect:[self bottomLeft]];
 			[[NSColor grayColor] set];
 			[circle fill];
 			[[NSColor whiteColor] set];
 			[circle stroke];
 			
-			circle = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(NSMidX(self.box) - 5.5, NSMinY(self.box) - 5.5, 10, 10)];
+			
+			// left center
+			circle = [NSBezierPath bezierPathWithOvalInRect:[self leftCenter]];
 			[[NSColor grayColor] set];
 			[circle fill];
 			[[NSColor whiteColor] set];
 			[circle stroke];
 		}
 		
-		// draw instructional text
-		NSString *dimensions = [NSString stringWithFormat:@"%d x %d", (int)round(self.box.size.width), (int)round(self.box.size.height)];
+		NSString *dimensions = [NSString stringWithFormat:@"%d x %d", (int)round(self.overlayRect.size.width), (int)round(self.overlayRect.size.height)];
 		
 		NSSize textSize = [dimensions sizeWithAttributes:self.textAttrs];
-		NSRect textRect = NSMakeRect(self.box.origin.x, (self.box.size.height - textSize.height) / 2 + self.box.origin.y, self.box.size.width, textSize.height);
+		NSRect textRect = NSMakeRect(self.overlayRect.origin.x, (self.overlayRect.size.height - textSize.height) / 2 + self.overlayRect.origin.y, self.overlayRect.size.width, textSize.height);
 		[dimensions drawInRect:textRect withAttributes:self.textAttrs];
 	}
 }
 
+
+#pragma mark -
+#pragma mark Rectangle generation/adjustment methods
+
+// Override setter to refresh display
+- (void)setOverlayRect:(NSRect)newRect
+{
+	[self setNeedsDisplayInRect:[self adjustedOverlayRect]];
+	
+	overlayRect = newRect;
+	
+	[self setNeedsDisplayInRect:[self adjustedOverlayRect]];
+}
+
+
+- (NSRect)adjustedOverlayRect
+{
+	return NSInsetRect(self.overlayRect, -HANDLE_SIZE, -HANDLE_SIZE);
+}
+
+
+- (NSRect)resizedRectForPoint:(NSPoint)point
+{
+	NSRect newRect = self.overlayRect;
+	
+	if (self.resizeDirection == CHResizeLeftCenter)
+	{
+		float delta = self.lastPoint.x - point.x;
+		
+		newRect.origin.x = point.x;
+		newRect.size.width += delta;
+	}
+	else if (self.resizeDirection == CHResizeRightCenter)
+	{
+		float delta = point.x - self.lastPoint.x;
+		
+		newRect.size.width += delta;
+	}
+	else if (self.resizeDirection == CHResizeTopCenter)
+	{
+		float delta = point.y - self.lastPoint.y;
+		
+		newRect.size.height += delta;
+	}
+	else if (self.resizeDirection == CHResizeBottomCenter)
+	{
+		float delta = self.lastPoint.y - point.y;
+		
+		newRect.origin.y = point.y;
+		newRect.size.height += delta;
+	}
+	else if (self.resizeDirection == CHResizeTopLeft)
+	{
+		float deltaX = self.lastPoint.x - point.x; 
+		float deltaY = point.y - self.lastPoint.y;
+		
+		newRect.origin.x = point.x;
+		newRect.size.height += deltaY;
+		newRect.size.width += deltaX;
+	}
+	else if (self.resizeDirection == CHResizeTopRight)
+	{
+		float deltaX = point.x - self.lastPoint.x;
+		float deltaY = point.y - self.lastPoint.y;
+		
+		newRect.size.width += deltaX;
+		newRect.size.height += deltaY;
+	}
+	else if (self.resizeDirection == CHResizeBottomLeft)
+	{
+		float deltaX = self.lastPoint.x - point.x;
+		float deltaY = self.lastPoint.y - point.y;
+		
+		newRect.origin = point;
+		newRect.size.width += deltaX;
+		newRect.size.height += deltaY;
+	}
+	else if (self.resizeDirection == CHResizeBottomRight)
+	{
+		float deltaX = point.x - self.lastPoint.x; 
+		float deltaY = self.lastPoint.y - point.y;
+		
+		newRect.origin.y = point.y;
+		newRect.size.height += deltaY;
+		newRect.size.width += deltaX;
+	}	
+	
+	return newRect;
+}
+
+
+- (NSRect)topLeft
+{
+	return NSMakeRect(NSMinX(self.overlayRect) - HANDLE_CENTER, NSMaxY(self.overlayRect) - HANDLE_CENTER, HANDLE_SIZE, HANDLE_SIZE);
+}
+
+
+- (NSRect)topCenter
+{
+	return NSMakeRect(NSMidX(self.overlayRect) - HANDLE_CENTER, NSMaxY(self.overlayRect) - HANDLE_CENTER, HANDLE_SIZE, HANDLE_SIZE);
+}
+
+
+- (NSRect)topRight
+{
+	return NSMakeRect(NSMaxX(self.overlayRect) - HANDLE_CENTER, NSMaxY(self.overlayRect) - HANDLE_CENTER, HANDLE_SIZE, HANDLE_SIZE);
+}
+
+								
+- (NSRect)rightCenter
+{
+	return NSMakeRect(NSMaxX(self.overlayRect) - HANDLE_CENTER, NSMidY(self.overlayRect) - HANDLE_CENTER, HANDLE_SIZE, HANDLE_SIZE);
+}
+
+
+- (NSRect)bottomRight
+{
+	return NSMakeRect(NSMaxX(self.overlayRect) - HANDLE_CENTER, NSMinY(self.overlayRect) - HANDLE_CENTER, HANDLE_SIZE, HANDLE_SIZE);
+}
+
+								
+- (NSRect)bottomLeft
+{
+	return NSMakeRect(self.overlayRect.origin.x - HANDLE_CENTER, self.overlayRect.origin.y - HANDLE_CENTER, HANDLE_SIZE, HANDLE_SIZE);
+}
+
+
+- (NSRect)bottomCenter
+{
+	return NSMakeRect(NSMidX(self.overlayRect) - HANDLE_CENTER, NSMinY(self.overlayRect) - HANDLE_CENTER, HANDLE_SIZE, HANDLE_SIZE);
+}
+
+
+- (NSRect)leftCenter
+{
+	return NSMakeRect(NSMinX(self.overlayRect) - HANDLE_CENTER, NSMidY(self.overlayRect) - HANDLE_CENTER, HANDLE_SIZE, HANDLE_SIZE);	
+}
 
 @end

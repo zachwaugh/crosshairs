@@ -6,22 +6,52 @@
 //  Copyright 2010 zachwaugh.com. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 
+typedef enum
+{
+	CHResizeTopLeft,
+	CHResizeTopCenter,
+	CHResizeTopRight,
+	CHResizeRightCenter,
+	CHResizeBottomRight,
+	CHResizeBottomCenter,
+	CHResizeBottomLeft,
+	CHResizeLeftCenter
+} CHResizeDirection;
+
+#import <Cocoa/Cocoa.h>
 
 @interface CHView : NSView
 {
 	NSPoint startPoint;
-	NSRect box;
+	NSPoint lastPoint;
+	NSRect overlayRect;
+
+	NSDictionary *textAttrs;
+	
+	NSCursor *crosshairsCursor;
+	NSCursor *resizeRightDiagonalCursor;
+	NSCursor *resizeLeftDiagonalCursor;
+	
+	CHResizeDirection resizeDirection;
+	
 	BOOL dragging;
 	BOOL drawing;
-	NSDictionary *textAttrs;
+	BOOL resizing;
+	BOOL shiftPressed;
 }
 
 @property(assign) NSPoint startPoint;
-@property(assign) NSRect box;
-@property(assign) BOOL dragging;
-@property(assign) BOOL drawing;
+@property(assign) NSPoint lastPoint;
+@property(assign) NSRect overlayRect;
 @property(retain) NSDictionary *textAttrs;
+@property(retain) NSCursor *crosshairsCursor;
+@property(retain) NSCursor *resizeRightDiagonalCursor;
+@property(retain) NSCursor *resizeLeftDiagonalCursor;
+@property(assign) CHResizeDirection resizeDirection;
+@property(assign, getter=isDragging) BOOL dragging;
+@property(assign, getter=isDrawing) BOOL drawing;
+@property(assign, getter=isResizing) BOOL resizing;
+@property(assign, getter=isShiftPressed) BOOL shiftPressed;
 
 @end

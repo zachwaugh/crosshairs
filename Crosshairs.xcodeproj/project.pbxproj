@@ -12,7 +12,12 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		BF9B1E28124EA86E00308205 /* crosshairs.png in Resources */ = {isa = PBXBuildFile; fileRef = BF9B1E27124EA86E00308205 /* crosshairs.png */; };
+		BF492AEB1259385800641851 /* resize_cursor_diagonal_right.tiff in Resources */ = {isa = PBXBuildFile; fileRef = BF492AE91259385800641851 /* resize_cursor_diagonal_right.tiff */; };
+		BF492AEC1259385800641851 /* resize_cursor_diagonal_left.tiff in Resources */ = {isa = PBXBuildFile; fileRef = BF492AEA1259385800641851 /* resize_cursor_diagonal_left.tiff */; };
+		BF61A8A71258EB59001E5D63 /* crosshairs_menu_off.png in Resources */ = {isa = PBXBuildFile; fileRef = BF61A8A61258EB59001E5D63 /* crosshairs_menu_off.png */; };
+		BF957AED12592F990064B988 /* DDHotKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = BF957AEC12592F990064B988 /* DDHotKeyCenter.m */; };
+		BF957B091259310B0064B988 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF957B081259310B0064B988 /* Carbon.framework */; };
+		BF9B1E28124EA86E00308205 /* crosshairs_cursor.png in Resources */ = {isa = PBXBuildFile; fileRef = BF9B1E27124EA86E00308205 /* crosshairs_cursor.png */; };
 		BFA0267E1250004F00D5175A /* CHStatusItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFA0267D1250004F00D5175A /* CHStatusItemView.m */; };
 		BFADE6C5124C296F0065F2E0 /* CHWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = BFADE6C4124C296F0065F2E0 /* CHWindow.m */; };
 		BFADE6F0124C2A290065F2E0 /* CHView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFADE6EF124C2A290065F2E0 /* CHView.m */; };
@@ -31,7 +36,13 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* Crosshairs-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Crosshairs-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Crosshairs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Crosshairs.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BF9B1E27124EA86E00308205 /* crosshairs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crosshairs.png; sourceTree = "<group>"; };
+		BF492AE91259385800641851 /* resize_cursor_diagonal_right.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = resize_cursor_diagonal_right.tiff; sourceTree = "<group>"; };
+		BF492AEA1259385800641851 /* resize_cursor_diagonal_left.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = resize_cursor_diagonal_left.tiff; sourceTree = "<group>"; };
+		BF61A8A61258EB59001E5D63 /* crosshairs_menu_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crosshairs_menu_off.png; sourceTree = "<group>"; };
+		BF957AEB12592F990064B988 /* DDHotKeyCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDHotKeyCenter.h; sourceTree = "<group>"; };
+		BF957AEC12592F990064B988 /* DDHotKeyCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHotKeyCenter.m; sourceTree = "<group>"; };
+		BF957B081259310B0064B988 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		BF9B1E27124EA86E00308205 /* crosshairs_cursor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crosshairs_cursor.png; sourceTree = "<group>"; };
 		BFA0267C1250004F00D5175A /* CHStatusItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHStatusItemView.h; sourceTree = "<group>"; };
 		BFA0267D1250004F00D5175A /* CHStatusItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHStatusItemView.m; sourceTree = "<group>"; };
 		BFADE6C3124C296F0065F2E0 /* CHWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHWindow.h; sourceTree = "<group>"; };
@@ -46,6 +57,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				BF957B091259310B0064B988 /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,6 +67,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				BF957AEA12592F8E0064B988 /* DDHotKey */,
 				256AC3D80F4B6AC300CF3369 /* CHAppDelegate.h */,
 				256AC3D90F4B6AC300CF3369 /* CHAppDelegate.m */,
 				BFADE6C3124C296F0065F2E0 /* CHWindow.h */,
@@ -72,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+				BF957B081259310B0064B988 /* Carbon.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -118,7 +132,10 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				BF9B1E27124EA86E00308205 /* crosshairs.png */,
+				BF492AE91259385800641851 /* resize_cursor_diagonal_right.tiff */,
+				BF492AEA1259385800641851 /* resize_cursor_diagonal_left.tiff */,
+				BF9B1E27124EA86E00308205 /* crosshairs_cursor.png */,
+				BF61A8A61258EB59001E5D63 /* crosshairs_menu_off.png */,
 				8D1107310486CEB800E47090 /* Crosshairs-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
@@ -134,6 +151,15 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BF957AEA12592F8E0064B988 /* DDHotKey */ = {
+			isa = PBXGroup;
+			children = (
+				BF957AEB12592F990064B988 /* DDHotKeyCenter.h */,
+				BF957AEC12592F990064B988 /* DDHotKeyCenter.m */,
+			);
+			name = DDHotKey;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,7 +214,10 @@
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
-				BF9B1E28124EA86E00308205 /* crosshairs.png in Resources */,
+				BF9B1E28124EA86E00308205 /* crosshairs_cursor.png in Resources */,
+				BF61A8A71258EB59001E5D63 /* crosshairs_menu_off.png in Resources */,
+				BF492AEB1259385800641851 /* resize_cursor_diagonal_right.tiff in Resources */,
+				BF492AEC1259385800641851 /* resize_cursor_diagonal_left.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,6 +233,7 @@
 				BFADE6C5124C296F0065F2E0 /* CHWindow.m in Sources */,
 				BFADE6F0124C2A290065F2E0 /* CHView.m in Sources */,
 				BFA0267E1250004F00D5175A /* CHStatusItemView.m in Sources */,
+				BF957AED12592F990064B988 /* DDHotKeyCenter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,6 +273,7 @@
 				INFOPLIST_FILE = "resources/Crosshairs-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Crosshairs;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -257,6 +288,7 @@
 				INFOPLIST_FILE = "resources/Crosshairs-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Crosshairs;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};

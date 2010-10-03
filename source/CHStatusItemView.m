@@ -19,7 +19,7 @@
 
 	if (self)
 	{
-		self.image = [NSImage imageNamed:@"crosshairs.png"];
+		self.image = [NSImage imageNamed:@"crosshairs_menu_off.png"];
 		self.highlighted = NO;
 	}
 	
