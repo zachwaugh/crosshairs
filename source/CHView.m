@@ -48,6 +48,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 
 @interface CHView ()
 
+- (void)refresh;
 - (NSRect)resizedRectForPoint:(NSPoint)point;
 - (NSRect)topLeft;
 - (NSRect)topCenter;
@@ -66,10 +67,10 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 @implementation CHView
 
 // retained
-@synthesize textAttrs, crosshairsCursor, resizeLeftDiagonalCursor, resizeRightDiagonalCursor;
+@synthesize textAttrs, fillColor, crosshairsCursor, resizeLeftDiagonalCursor, resizeRightDiagonalCursor;
 
 // assigned
-@synthesize startPoint, lastPoint, overlayRect, dragging, drawing, resizing, shiftPressed, resizeDirection;
+@synthesize startPoint, lastPoint, overlayRect, dragging, drawing, resizing, shiftPressed, commandPressed, resizeDirection, alternateColor, fillOpacity;
 
 
 - (id)initWithFrame:(NSRect)frame
@@ -79,10 +80,14 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	if (self)
 	{
 		self.overlayRect = NSZeroRect;
+		self.fillOpacity = 0.25;
+		self.fillColor = [NSColor colorWithCalibratedWhite:0.0 alpha:self.fillOpacity];
+		self.alternateColor = NO;
 		self.dragging = NO;
 		self.drawing = NO;
 		self.resizing = NO;
 		self.shiftPressed = NO;
+		self.commandPressed = NO;
 		self.crosshairsCursor = [[[NSCursor alloc] initWithImage:[NSImage imageNamed:@"crosshairs_cursor.png"] hotSpot:NSMakePoint(10, 10)] autorelease];
 		self.resizeLeftDiagonalCursor = [[[NSCursor alloc] initWithImage:[NSImage imageNamed:@"resize_cursor_diagonal_left.tiff"] hotSpot:NSMakePoint(8, 8)] autorelease];
 		self.resizeRightDiagonalCursor = [[[NSCursor alloc] initWithImage:[NSImage imageNamed:@"resize_cursor_diagonal_right.tiff"] hotSpot:NSMakePoint(8, 8)] autorelease];
@@ -113,6 +118,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 - (void)dealloc
 {
 	self.textAttrs = nil;
+	self.fillColor = nil;
 	self.crosshairsCursor = nil;
 	self.resizeLeftDiagonalCursor = nil;
 	self.resizeRightDiagonalCursor = nil;
@@ -155,26 +161,48 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 }
 
 
+// Escape key hit
 - (void)cancelOperation:(id)sender
 {
 	self.overlayRect = NSZeroRect;
-	[NSApp hide:nil];
+	[[self window] orderOut:sender];
 }
 
 
 #pragma mark -
 #pragma mark Move via keyboard arrows
 
-
 - (void)moveUp:(id)sender
 {
-	self.overlayRect = NSOffsetRect(self.overlayRect, 0, (self.isShiftPressed) ? 10 : 1);
+	if (self.isCommandPressed)
+	{
+		self.fillOpacity = (self.fillOpacity < 1) ? self.fillOpacity + 0.1 : 1.0;
+		
+		self.fillColor = [NSColor colorWithCalibratedWhite:self.isAlternateColor alpha:self.fillOpacity];
+		
+		[self refresh];
+	}
+	else
+	{
+		self.overlayRect = NSOffsetRect(self.overlayRect, 0, (self.isShiftPressed) ? 10 : 1);
+	}
 }
 
 
 - (void)moveDown:(id)sender
 {
-	self.overlayRect = NSOffsetRect(self.overlayRect, 0, (self.isShiftPressed) ? -10 : -1);
+	if (self.isCommandPressed)
+	{
+		self.fillOpacity = (self.fillOpacity > 0.05) ? self.fillOpacity - 0.1 : 0.05;
+		
+		self.fillColor = [NSColor colorWithCalibratedWhite:self.isAlternateColor alpha:self.fillOpacity];
+		
+		[self refresh];
+	}
+	else
+	{
+		self.overlayRect = NSOffsetRect(self.overlayRect, 0, (self.isShiftPressed) ? -10 : -1);
+	}
 }
 
 
@@ -193,6 +221,15 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 - (void)flagsChanged:(NSEvent *)event
 {
 	self.shiftPressed = ([event modifierFlags] & NSShiftKeyMask) ? YES : NO;
+	self.commandPressed = ([event modifierFlags] & NSCommandKeyMask) ? YES : NO;
+	
+	if ([event modifierFlags] & NSAlternateKeyMask)
+	{
+		self.alternateColor = !self.alternateColor;
+		self.fillColor = [NSColor colorWithCalibratedWhite:self.isAlternateColor alpha:self.fillOpacity];
+
+		[self refresh];
+	}
 }
 
 
@@ -314,7 +351,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	self.dragging = NO;
 	self.drawing = NO;
 	self.resizing = NO;
-	[self setNeedsDisplayInRect:[self adjustedOverlayRect]];
+	[self refresh];
 	[[self window] invalidateCursorRectsForView:self];
 }
 
@@ -322,21 +359,28 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 #pragma mark  -
 #pragma mark Drawing
 
+- (void)refresh
+{
+	[self setNeedsDisplayInRect:[self adjustedOverlayRect]];
+}
+
+
 - (void)drawRect:(NSRect)dirtyRect
 {
 	if (!NSIsEmptyRect(self.overlayRect))
 	{
-		[[NSColor colorWithCalibratedWhite:0.0 alpha:0.1] set];
+		[self.fillColor set];
 		NSRectFill(self.overlayRect);
 		
 		
 		// Draw dashed outline of rect
-		CGFloat pattern[2] = { 4.0, 4.0 };
+		//CGFloat pattern[2] = { 4.0, 4.0 };
 		
-		NSBezierPath *outline = [NSBezierPath bezierPathWithRect:NSInsetRect(self.overlayRect, -0.5, -0.5)];
-
-		[[NSColor whiteColor] set];
-		[outline stroke];
+		//NSBezierPath *outline = [NSBezierPath bezierPathWithRect:NSInsetRect(self.overlayRect, -0.5, -0.5)];
+		//NSBezierPath *outline = [NSBezierPath bezierPathWithRect:self.overlayRect];
+		
+		//[[NSColor whiteColor] set];
+		//[outline stroke];
 //		[[NSColor blackColor] set];
 //		[outline stroke];
 		
@@ -427,11 +471,11 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 // Override setter to refresh display
 - (void)setOverlayRect:(NSRect)newRect
 {
-	[self setNeedsDisplayInRect:[self adjustedOverlayRect]];
+	[self refresh];
 	
 	overlayRect = newRect;
 	
-	[self setNeedsDisplayInRect:[self adjustedOverlayRect]];
+	[self refresh];
 }
 
 

@@ -7,8 +7,17 @@
 //
 
 #import "CHAppDelegate.h"
-#import "CHStatusItemView.h"
 #import "DDHotKeyCenter.h"
+#import "CHPreferencesController.h"
+
+
+@interface CHAppDelegate ()
+
+- (void)checkForBetaExpiration;
+- (void)createStatusItem;
+
+@end
+
 
 @implementation CHAppDelegate
 
@@ -16,6 +25,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+	[self checkForBetaExpiration];
+	
 	NSRect windowRect = NSZeroRect;
 	
 	for (NSScreen *screen in [NSScreen screens])
@@ -24,16 +35,12 @@
 	}
 	
 	[self.window setFrame:windowRect display:YES animate:NO];
-
+	[self.window makeKeyAndOrderFront:nil];
 	
 	DDHotKeyCenter *hotKeyCenter = [[[DDHotKeyCenter alloc] init] autorelease];
 	[hotKeyCenter registerHotKeyWithKeyCode:19 modifierFlags:(NSShiftKeyMask | NSCommandKeyMask) target:self action:@selector(hotkeyWithEvent:) object:nil];
 	
-	// Build the statusbar menu
-	self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
-	CHStatusItemView *statusItemView = [[[CHStatusItemView alloc] initWithFrame:NSMakeRect(0, 0, [[NSStatusBar systemStatusBar] thickness], [[NSStatusBar systemStatusBar] thickness])] autorelease];
-	statusItemView.delegate = self;
-	[self.statusItem setView:statusItemView];
+	[self createStatusItem];
 }
 
 
@@ -47,29 +54,55 @@
 }
 
 
+- (void)checkForBetaExpiration
+{
+	NSDate *expiration = [NSDate dateWithNaturalLanguageString:@"2010-11-01 23:59:00"];
+	
+	if ([expiration earlierDate:[NSDate date]] == expiration)
+	{
+		NSLog(@"Beta has expired!");
+		NSAlert *alert = [NSAlert alertWithMessageText:@"I'm sorry, this beta version has expired. Please download a new version" defaultButton:@"Ok" alternateButton:nil otherButton:nil informativeTextWithFormat:@""];
+		[alert runModal];
+		[NSApp terminate:nil];
+	}
+}
+
+
+- (void)createStatusItem
+{
+	// Build the statusbar menu
+	self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
+	[self.statusItem setImage:[NSImage imageNamed:@"crosshairs_menu_off.png"]];
+	[self.statusItem setAlternateImage:[NSImage imageNamed:@"crosshairs_menu_on.png"]];
+	[self.statusItem setHighlightMode:YES];
+	[self.statusItem setMenu:self.statusMenu];
+}
+
+
 - (void)hotkeyWithEvent:(NSEvent *)event
 {
-	NSLog(@"hotkey triggered");
 	[NSApp activateIgnoringOtherApps:YES];
+	[self.window makeKeyAndOrderFront:nil];
 }
 
 
-- (void)didClickStatusItem
+- (void)activateApp:(id)sender
 {
-	if ([self.window isVisible] && [NSApp isActive])
-	{
-		[NSApp hide:nil];
-	}
-	else
-	{	
-		[NSApp activateIgnoringOtherApps:YES];
-	}
+	[NSApp activateIgnoringOtherApps:YES];
+	[self.window makeKeyAndOrderFront:nil];
 }
 
 
-- (void)didRightClickStatusItem:(NSEvent *)event
+- (void)openWebsite:(id)sender
 {
-	[self.statusItem popUpStatusItemMenu:self.statusMenu];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://zachwaugh.com/crosshairs?ref=app"]];
+}
+
+
+- (void)showPreferences:(id)sender
+{
+	CHPreferencesController *preferencesController = [[[CHPreferencesController alloc] initWithWindowNibName:@"CHPreferencesController"] autorelease];
+	[preferencesController showWindow:sender];
 }
 
 @end

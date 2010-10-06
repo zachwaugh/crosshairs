@@ -21,8 +21,8 @@
 @property (retain) NSStatusItem *statusItem;
 @property (retain) NSMenu *statusMenu;
 
-- (void)didClickStatusItem;
-- (void)didRightClickStatusItem:(NSEvent *)event;
-
+- (void)activateApp:(id)sender;
+- (void)showPreferences:(id)sender;
+- (void)openWebsite:(id)sender;
 
 @end
