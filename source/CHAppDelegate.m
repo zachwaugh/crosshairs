@@ -9,7 +9,7 @@
 #import "CHAppDelegate.h"
 #import "DDHotKeyCenter.h"
 #import "CHPreferencesController.h"
-
+#import "CHView.h"
 
 @interface CHAppDelegate ()
 
@@ -21,7 +21,7 @@
 
 @implementation CHAppDelegate
 
-@synthesize window, statusItem, statusMenu;
+@synthesize window, view, statusItem, statusMenu;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -35,12 +35,12 @@
 	}
 	
 	[self.window setFrame:windowRect display:YES animate:NO];
-	[self.window makeKeyAndOrderFront:nil];
 	
 	DDHotKeyCenter *hotKeyCenter = [[[DDHotKeyCenter alloc] init] autorelease];
 	[hotKeyCenter registerHotKeyWithKeyCode:19 modifierFlags:(NSShiftKeyMask | NSCommandKeyMask) target:self action:@selector(hotkeyWithEvent:) object:nil];
 	
 	[self createStatusItem];
+	[self activateApp:nil];
 }
 
 

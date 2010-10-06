@@ -133,12 +133,6 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 }
 
 
-- (void)awakeFromNib
-{
-	[[self window] makeFirstResponder:self];
-}
-
-
 - (void)resetCursorRects
 {
 	[self discardCursorRects];

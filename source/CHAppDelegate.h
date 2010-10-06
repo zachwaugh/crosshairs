@@ -9,15 +9,18 @@
 #import <Cocoa/Cocoa.h>
 
 @class CHWindow;
+@class CHView;
 
 @interface CHAppDelegate : NSObject <NSApplicationDelegate>
 {
 	CHWindow *window;
+	CHView *view;
 	NSStatusItem *statusItem;
 	IBOutlet NSMenu *statusMenu;
 }
 
 @property (assign) IBOutlet CHWindow *window;
+@property (assign) IBOutlet CHView *view;
 @property (retain) NSStatusItem *statusItem;
 @property (retain) NSMenu *statusMenu;
 
