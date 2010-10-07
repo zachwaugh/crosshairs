@@ -7,6 +7,10 @@
 //
 
 
+#define TAB_KEY 48
+#define Q_KEY 12
+#define H_KEY 4
+
 typedef enum
 {
 	CHResizeTopLeft,
@@ -21,13 +25,13 @@ typedef enum
 
 #import <Cocoa/Cocoa.h>
 
-@interface CHView : NSView
+@interface CHOverlayView : NSView
 {
 	NSPoint startPoint;
 	NSPoint lastPoint;
 	NSRect overlayRect;
 
-	NSDictionary *textAttrs;
+	NSMutableDictionary *textAttrs;
 	
 	NSColor *fillColor;
 	
@@ -51,7 +55,7 @@ typedef enum
 @property(assign) NSPoint lastPoint;
 @property(assign) NSRect overlayRect;
 @property(retain) NSColor *fillColor;
-@property(retain) NSDictionary *textAttrs;
+@property(retain) NSMutableDictionary *textAttrs;
 @property(retain) NSCursor *crosshairsCursor;
 @property(retain) NSCursor *resizeRightDiagonalCursor;
 @property(retain) NSCursor *resizeLeftDiagonalCursor;

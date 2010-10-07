@@ -9,7 +9,7 @@
 #define HANDLE_SIZE 8
 #define HANDLE_CENTER (HANDLE_SIZE / 2.0)
 
-#import "CHView.h"
+#import "CHOverlayView.h"
 
 
 NSRect NSRectFromTwoPoints(NSPoint a, NSPoint b)
@@ -46,9 +46,11 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 }
 
 
-@interface CHView ()
+@interface CHOverlayView ()
 
 - (void)refresh;
+- (void)toggleColors;
+
 - (NSRect)resizedRectForPoint:(NSPoint)point;
 - (NSRect)topLeft;
 - (NSRect)topCenter;
@@ -64,7 +66,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 
 
 
-@implementation CHView
+@implementation CHOverlayView
 
 // retained
 @synthesize textAttrs, fillColor, crosshairsCursor, resizeLeftDiagonalCursor, resizeRightDiagonalCursor;
@@ -92,10 +94,12 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 		self.resizeLeftDiagonalCursor = [[[NSCursor alloc] initWithImage:[NSImage imageNamed:@"resize_cursor_diagonal_left.tiff"] hotSpot:NSMakePoint(8, 8)] autorelease];
 		self.resizeRightDiagonalCursor = [[[NSCursor alloc] initWithImage:[NSImage imageNamed:@"resize_cursor_diagonal_right.tiff"] hotSpot:NSMakePoint(8, 8)] autorelease];
 
-		NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+		
+		// Setup text attributes
+		NSMutableParagraphStyle *paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
 		[paragraphStyle setAlignment:NSCenterTextAlignment];
 		
-		NSShadow *shadow = [[NSShadow alloc] init];
+		NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
 		[shadow setShadowColor:[NSColor blackColor]];
 		[shadow setShadowOffset:NSMakeSize(0, -1)];
 		
@@ -103,10 +107,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 		[attrs setObject:[NSFont fontWithName:@"Helvetica Bold" size:36.0] forKey:NSFontAttributeName];
 		[attrs setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
 		[attrs setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
-		[paragraphStyle release];
-		
 		[attrs setObject:shadow forKey:NSShadowAttributeName];
-		[shadow release];
 		
 		self.textAttrs = attrs;
 	}
@@ -155,16 +156,31 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 }
 
 
-// Escape key hit
-- (void)cancelOperation:(id)sender
-{
-	self.overlayRect = NSZeroRect;
-	[[self window] orderOut:sender];
+#pragma mark -
+#pragma mark Move via keyboard arrows
+
+- (BOOL)performKeyEquivalent:(NSEvent *)event
+{	
+	// Handle tab key switching colors
+	if ([[event charactersIgnoringModifiers] characterAtIndex:0] == NSTabCharacter)
+	{
+		[self toggleColors];
+		return YES;
+	}
+	
+	return [super performKeyEquivalent:event];
 }
 
 
-#pragma mark -
-#pragma mark Move via keyboard arrows
+- (void)toggleColors
+{
+	self.alternateColor = !self.alternateColor;
+	self.fillColor = [NSColor colorWithCalibratedWhite:self.isAlternateColor alpha:self.fillOpacity];
+	[self.textAttrs setObject:[NSColor colorWithCalibratedWhite:!self.isAlternateColor alpha:1.0] forKey:NSForegroundColorAttributeName];
+	
+	[self refresh];
+}
+
 
 - (void)moveUp:(id)sender
 {
@@ -188,7 +204,6 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	if (self.isCommandPressed)
 	{
 		self.fillOpacity = (self.fillOpacity > 0.05) ? self.fillOpacity - 0.1 : 0.05;
-		
 		self.fillColor = [NSColor colorWithCalibratedWhite:self.isAlternateColor alpha:self.fillOpacity];
 		
 		[self refresh];
@@ -216,14 +231,6 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 {
 	self.shiftPressed = ([event modifierFlags] & NSShiftKeyMask) ? YES : NO;
 	self.commandPressed = ([event modifierFlags] & NSCommandKeyMask) ? YES : NO;
-	
-	if ([event modifierFlags] & NSAlternateKeyMask)
-	{
-		self.alternateColor = !self.alternateColor;
-		self.fillColor = [NSColor colorWithCalibratedWhite:self.isAlternateColor alpha:self.fillOpacity];
-
-		[self refresh];
-	}
 }
 
 

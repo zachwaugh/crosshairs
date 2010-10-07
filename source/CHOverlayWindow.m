@@ -6,10 +6,10 @@
 //  Copyright 2010 zachwaugh.com. All rights reserved.
 //
 
-#import "CHWindow.h"
+#import "CHOverlayWindow.h"
 
 
-@implementation CHWindow
+@implementation CHOverlayWindow
 
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag 
 {	
@@ -38,6 +38,50 @@
 - (void)awakeFromNib
 {
 	[self makeKeyAndOrderFront:nil];
+}
+
+
+- (void)keyDown:(NSEvent *)event
+{
+	if ([event keyCode] == ESC_KEY)
+	{
+		[NSApp hide:nil];
+		return;
+	}
+	else
+	{
+		[super keyDown:event];
+	}
+}
+
+
+- (BOOL)performKeyEquivalent:(NSEvent *)event
+{
+	NSString *characters = [event charactersIgnoringModifiers];
+	
+	// cmd-q - quit the app
+	if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@"q"])
+	{
+		[NSApp terminate:nil];
+		return YES;
+	}
+	
+	// cmd-h - hide the app
+	if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@"h"])
+	{
+		[NSApp hide:nil];
+		return YES;
+	}
+	
+	
+	// cmd-c - copy dimensions
+	if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@"c"])
+	{
+		[self.delegate copyDimensionsToClipboard];
+		return YES;
+	}
+	
+	return [super performKeyEquivalent:event];
 }
 
 

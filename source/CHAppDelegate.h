@@ -8,24 +8,25 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class CHWindow;
-@class CHView;
+@class CHOverlayWindow;
+@class CHOverlayView;
 
 @interface CHAppDelegate : NSObject <NSApplicationDelegate>
 {
-	CHWindow *window;
-	CHView *view;
+	CHOverlayWindow *window;
+	CHOverlayView *view;
 	NSStatusItem *statusItem;
 	IBOutlet NSMenu *statusMenu;
 }
 
-@property (assign) IBOutlet CHWindow *window;
-@property (assign) IBOutlet CHView *view;
+@property (assign) IBOutlet CHOverlayWindow *window;
+@property (assign) IBOutlet CHOverlayView *view;
 @property (retain) NSStatusItem *statusItem;
 @property (retain) NSMenu *statusMenu;
 
 - (void)activateApp:(id)sender;
 - (void)showPreferences:(id)sender;
 - (void)openWebsite:(id)sender;
+- (void)copyDimensionsToClipboard;
 
 @end

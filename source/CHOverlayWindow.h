@@ -8,10 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
+#define ESC_KEY 53
 
-@interface CHWindow : NSWindow
+@interface CHOverlayWindow : NSWindow
 {
-
+	
 }
 
 @end

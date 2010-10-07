@@ -9,7 +9,7 @@
 #import "CHAppDelegate.h"
 #import "DDHotKeyCenter.h"
 #import "CHPreferencesController.h"
-#import "CHView.h"
+#import "CHOverlayView.h"
 
 @interface CHAppDelegate ()
 
@@ -38,7 +38,8 @@
 	
 	DDHotKeyCenter *hotKeyCenter = [[[DDHotKeyCenter alloc] init] autorelease];
 	[hotKeyCenter registerHotKeyWithKeyCode:19 modifierFlags:(NSShiftKeyMask | NSCommandKeyMask) target:self action:@selector(hotkeyWithEvent:) object:nil];
-	
+	[hotKeyCenter registerHotKeyWithKeyCode:84 modifierFlags:(NSShiftKeyMask | NSCommandKeyMask) target:self action:@selector(hotkeyWithEvent:) object:nil];
+
 	[self createStatusItem];
 	[self activateApp:nil];
 }
@@ -90,6 +91,14 @@
 {
 	[NSApp activateIgnoringOtherApps:YES];
 	[self.window makeKeyAndOrderFront:nil];
+}
+
+
+- (void)copyDimensionsToClipboard
+{
+	NSLog(@"copyDimensionsToClipboard: %@", NSStringFromRect(self.view.overlayRect));
+	[[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:self];
+	[[NSPasteboard generalPasteboard] setString:[NSString stringWithFormat:@"%dx%d", (int)self.view.overlayRect.size.width, (int)self.view.overlayRect.size.height] forType:NSStringPboardType];
 }
 
 
