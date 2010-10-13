@@ -28,5 +28,7 @@
 - (void)showPreferences:(id)sender;
 - (void)openWebsite:(id)sender;
 - (void)copyDimensionsToClipboard;
+- (void)checkForUpdates:(id)sender;
+- (void)takeScreenshot;
 
 @end

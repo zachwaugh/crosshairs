@@ -160,13 +160,14 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 #pragma mark Move via keyboard arrows
 
 - (BOOL)performKeyEquivalent:(NSEvent *)event
-{	
+{
 	// Handle tab key switching colors
 	if ([[event charactersIgnoringModifiers] characterAtIndex:0] == NSTabCharacter)
 	{
 		[self toggleColors];
 		return YES;
 	}
+
 	
 	return [super performKeyEquivalent:event];
 }

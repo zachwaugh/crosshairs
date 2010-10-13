@@ -48,6 +48,11 @@
 		[NSApp hide:nil];
 		return;
 	}
+	else if ([event keyCode] == SPACE_KEY)
+	{
+		[[NSApp delegate] takeScreenshot];
+		return;
+	}
 	else
 	{
 		[super keyDown:event];
@@ -83,6 +88,5 @@
 	
 	return [super performKeyEquivalent:event];
 }
-
 
 @end

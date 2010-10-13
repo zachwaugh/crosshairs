@@ -29,7 +29,7 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>SUFeedURL</key>
-	<string>http://zachwaugh.com/crosshairs/appcast.xml</string>
+	<string>http://zachwaugh.com/dimensions/appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>LSUIElement</key>

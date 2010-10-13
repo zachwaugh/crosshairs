@@ -1,3 +1,7 @@
+0.9.2b
+- Changed name from Crosshairs to Dimensions
+
+
 0.9.1b
 - Changed "Activate" to "Show" in dropdown menu
 - Changed switch overlay color keyboard shortcut from alt (option) to tab

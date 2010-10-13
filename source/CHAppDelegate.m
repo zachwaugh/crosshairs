@@ -10,6 +10,7 @@
 #import "DDHotKeyCenter.h"
 #import "CHPreferencesController.h"
 #import "CHOverlayView.h"
+#import <Sparkle/Sparkle.h>
 
 @interface CHAppDelegate ()
 
@@ -34,6 +35,7 @@
 		windowRect = NSUnionRect([screen frame], windowRect);
 	}
 	
+	NSLog(@"windowRect: %@", NSStringFromRect(windowRect));
 	[self.window setFrame:windowRect display:YES animate:NO];
 	
 	DDHotKeyCenter *hotKeyCenter = [[[DDHotKeyCenter alloc] init] autorelease];
@@ -80,6 +82,14 @@
 }
 
 
+- (void)checkForUpdates:(id)sender
+{
+	[NSApp activateIgnoringOtherApps:YES];
+	[self.window orderOut:sender];
+	[[SUUpdater sharedUpdater] checkForUpdates:sender];
+}
+
+
 - (void)hotkeyWithEvent:(NSEvent *)event
 {
 	[NSApp activateIgnoringOtherApps:YES];
@@ -112,6 +122,31 @@
 {
 	CHPreferencesController *preferencesController = [[[CHPreferencesController alloc] initWithWindowNibName:@"CHPreferencesController"] autorelease];
 	[preferencesController showWindow:sender];
+}
+
+
+#pragma mark -
+#pragma mark Screenshot
+
+- (void)takeScreenshot
+{	
+	CGRect captureRect = NSRectToCGRect(self.view.overlayRect);
+	NSLog(@"captureRect: %@", NSStringFromRect(captureRect));
+	float windowHeight = NSHeight([self.window frame]);
+	float overlayHeight = NSHeight(captureRect);
+	
+	if (overlayHeight < windowHeight)
+	{
+		float adjustment = windowHeight - overlayHeight;
+		NSLog(@"adjustment: %f, captureRect origin y: %f", adjustment, captureRect.origin.y);
+		captureRect.origin.y -= adjustment + (adjustment + captureRect.origin.y);
+	}
+	
+	CGImageRef screenShot = CGWindowListCreateImage(captureRect, kCGWindowListOptionOnScreenBelowWindow, [self.window windowNumber], kCGWindowImageDefault);
+	NSBitmapImageRep *image = [[[NSBitmapImageRep alloc] initWithCGImage:screenShot] autorelease];
+	[[image representationUsingType:NSPNGFileType properties:nil] writeToFile:[NSString stringWithFormat:@"%@/Desktop/Screen shot %@.png", NSHomeDirectory(), [NSDate date]] atomically:NO];
+
+	CGImageRelease(screenShot);
 }
 
 @end
