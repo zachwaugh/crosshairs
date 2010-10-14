@@ -49,6 +49,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 @interface CHOverlayView ()
 
 - (void)refresh;
+- (void)clearOverlay;
 - (void)toggleColors;
 
 - (NSRect)resizedRectForPoint:(NSPoint)point;
@@ -65,14 +66,13 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 @end
 
 
-
 @implementation CHOverlayView
 
 // retained
 @synthesize textAttrs, fillColor, crosshairsCursor, resizeLeftDiagonalCursor, resizeRightDiagonalCursor;
 
 // assigned
-@synthesize startPoint, lastPoint, overlayRect, dragging, drawing, resizing, shiftPressed, commandPressed, resizeDirection, alternateColor, fillOpacity;
+@synthesize startPoint, lastPoint, lastPointInOverlay, overlayRect, dragging, drawing, resizing, shiftPressed, commandPressed, resizeDirection, alternateColor, fillOpacity;
 
 
 - (id)initWithFrame:(NSRect)frame
@@ -90,17 +90,17 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 		self.resizing = NO;
 		self.shiftPressed = NO;
 		self.commandPressed = NO;
+		self.lastPointInOverlay = NO;
 		self.crosshairsCursor = [[[NSCursor alloc] initWithImage:[NSImage imageNamed:@"crosshairs_cursor.png"] hotSpot:NSMakePoint(10, 10)] autorelease];
 		self.resizeLeftDiagonalCursor = [[[NSCursor alloc] initWithImage:[NSImage imageNamed:@"resize_cursor_diagonal_left.tiff"] hotSpot:NSMakePoint(8, 8)] autorelease];
 		self.resizeRightDiagonalCursor = [[[NSCursor alloc] initWithImage:[NSImage imageNamed:@"resize_cursor_diagonal_right.tiff"] hotSpot:NSMakePoint(8, 8)] autorelease];
 
-		
 		// Setup text attributes
 		NSMutableParagraphStyle *paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
 		[paragraphStyle setAlignment:NSCenterTextAlignment];
 		
 		NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
-		[shadow setShadowColor:[NSColor blackColor]];
+		[shadow setShadowColor:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]];
 		[shadow setShadowOffset:NSMakeSize(0, -1)];
 		
 		NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
@@ -137,13 +137,11 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 - (void)resetCursorRects
 {
 	[self discardCursorRects];
-
 	[self addCursorRect:[self visibleRect] cursor:self.crosshairsCursor];
-
+	
 	if (!NSIsEmptyRect(self.overlayRect))
 	{
 		[self addCursorRect:NSInsetRect(self.overlayRect, 2, 2) cursor:[NSCursor openHandCursor]];
-		
 		[self addCursorRect:[self leftCenter] cursor:[NSCursor resizeLeftRightCursor]];
 		[self addCursorRect:[self rightCenter] cursor:[NSCursor resizeLeftRightCursor]];
 		[self addCursorRect:[self topLeft] cursor:self.resizeLeftDiagonalCursor];
@@ -167,9 +165,20 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 		[self toggleColors];
 		return YES;
 	}
-
+	else if ([[event charactersIgnoringModifiers] characterAtIndex:0] == NSDeleteCharacter)
+	{
+		[self clearOverlay];
+		return YES;
+	}
 	
 	return [super performKeyEquivalent:event];
+}
+
+
+- (void)clearOverlay
+{
+	self.overlayRect = NSZeroRect;
+	[self refresh];
 }
 
 
@@ -179,7 +188,12 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	self.fillColor = [NSColor colorWithCalibratedWhite:self.isAlternateColor alpha:self.fillOpacity];
 	[self.textAttrs setObject:[NSColor colorWithCalibratedWhite:!self.isAlternateColor alpha:1.0] forKey:NSForegroundColorAttributeName];
 	
-	[self refresh];
+	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
+	[shadow setShadowColor:[NSColor colorWithCalibratedWhite:self.isAlternateColor alpha:1.0]];
+	[shadow setShadowOffset:NSMakeSize(0, -1)];
+	[self.textAttrs setObject:shadow forKey:NSShadowAttributeName];
+	 
+	[self setNeedsDisplayInRect:[self adjustedOverlayRect]];
 }
 
 
@@ -188,10 +202,8 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	if (self.isCommandPressed)
 	{
 		self.fillOpacity = (self.fillOpacity < 1) ? self.fillOpacity + 0.1 : 1.0;
-		
 		self.fillColor = [NSColor colorWithCalibratedWhite:self.isAlternateColor alpha:self.fillOpacity];
-		
-		[self refresh];
+		[self setNeedsDisplayInRect:[self adjustedOverlayRect]];
 	}
 	else
 	{
@@ -204,10 +216,10 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 {
 	if (self.isCommandPressed)
 	{
-		self.fillOpacity = (self.fillOpacity > 0.05) ? self.fillOpacity - 0.1 : 0.05;
+		self.fillOpacity = ((self.fillOpacity - 0.1) > 0.05) ? self.fillOpacity - 0.1 : 0.05;
 		self.fillColor = [NSColor colorWithCalibratedWhite:self.isAlternateColor alpha:self.fillOpacity];
 		
-		[self refresh];
+		[self setNeedsDisplayInRect:[self adjustedOverlayRect]];
 	}
 	else
 	{
@@ -313,6 +325,22 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 }
 
 
+//- (void)mouseMoved:(NSEvent *)event
+//{
+//	NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
+//	
+//	BOOL pointInOverlay = NSPointInRect(point, self.overlayRect);
+//	
+//	if (!pointInOverlay && self.lastPointInOverlay)
+//	{
+//		NSLog(@"invalidating rects");
+//		[[self window] invalidateCursorRectsForView:self];
+//	}
+//	
+//	self.lastPointInOverlay = pointInOverlay;
+//}
+
+
 - (void)mouseDragged:(NSEvent *)event
 {
 	NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
@@ -354,7 +382,6 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	self.drawing = NO;
 	self.resizing = NO;
 	[self refresh];
-	[[self window] invalidateCursorRectsForView:self];
 }
 
 
@@ -364,6 +391,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 - (void)refresh
 {
 	[self setNeedsDisplayInRect:[self adjustedOverlayRect]];
+	[[self window] invalidateCursorRectsForView:self];
 }
 
 
@@ -373,7 +401,6 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	{
 		[self.fillColor set];
 		NSRectFill(self.overlayRect);
-		
 		
 		// Draw dashed outline of rect
 		//CGFloat pattern[2] = { 4.0, 4.0 };
@@ -473,7 +500,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 // Override setter to refresh display
 - (void)setOverlayRect:(NSRect)newRect
 {
-	[self refresh];
+	[self setNeedsDisplayInRect:[self adjustedOverlayRect]];
 	
 	overlayRect = newRect;
 	

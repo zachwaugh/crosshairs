@@ -1,6 +1,8 @@
 0.9.2b
 - Changed name from Crosshairs to Dimensions
-
+- Delete key clears overlay
+- Spacebar takes screenshot
+- Fixed text shadow color on white overlay
 
 0.9.1b
 - Changed "Activate" to "Show" in dropdown menu

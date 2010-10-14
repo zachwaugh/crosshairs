@@ -7,7 +7,7 @@
 //
 
 #import "CHOverlayWindow.h"
-
+#import "CHAppDelegate.h"
 
 @implementation CHOverlayWindow
 
@@ -24,6 +24,7 @@
 	[window setHasShadow:NO];
 	[window setMovableByWindowBackground:NO];
 	[window setIgnoresMouseEvents:NO];
+	[window setAcceptsMouseMovedEvents:YES];
 	
 	return window;
 }
@@ -50,7 +51,7 @@
 	}
 	else if ([event keyCode] == SPACE_KEY)
 	{
-		[[NSApp delegate] takeScreenshot];
+		[(CHAppDelegate *)self.delegate takeScreenshot];
 		return;
 	}
 	else
@@ -82,7 +83,7 @@
 	// cmd-c - copy dimensions
 	if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@"c"])
 	{
-		[self.delegate copyDimensionsToClipboard];
+		[(CHAppDelegate *)self.delegate copyDimensionsToClipboard];
 		return YES;
 	}
 	

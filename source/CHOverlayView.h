@@ -49,6 +49,7 @@ typedef enum
 	BOOL resizing;
 	BOOL shiftPressed;
 	BOOL commandPressed;
+	BOOL lastPointInOverlay;
 }
 
 @property(assign) NSPoint startPoint;
@@ -67,5 +68,6 @@ typedef enum
 @property(assign, getter=isShiftPressed) BOOL shiftPressed;
 @property(assign, getter=isCommandPressed) BOOL commandPressed;
 @property(assign, getter=isAlternateColor) BOOL alternateColor;
+@property(assign) BOOL lastPointInOverlay;
 
 @end

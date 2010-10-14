@@ -33,6 +33,6 @@
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>LSUIElement</key>
-	<true/>
+	<false/>
 </dict>
 </plist>

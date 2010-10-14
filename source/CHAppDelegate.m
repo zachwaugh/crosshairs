@@ -106,9 +106,8 @@
 
 - (void)copyDimensionsToClipboard
 {
-	NSLog(@"copyDimensionsToClipboard: %@", NSStringFromRect(self.view.overlayRect));
 	[[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:self];
-	[[NSPasteboard generalPasteboard] setString:[NSString stringWithFormat:@"%dx%d", (int)self.view.overlayRect.size.width, (int)self.view.overlayRect.size.height] forType:NSStringPboardType];
+	[[NSPasteboard generalPasteboard] setString:[NSString stringWithFormat:@"%d %d", (int)self.view.overlayRect.size.width, (int)self.view.overlayRect.size.height] forType:NSStringPboardType];
 }
 
 
@@ -129,18 +128,24 @@
 #pragma mark Screenshot
 
 - (void)takeScreenshot
-{	
+{
 	CGRect captureRect = NSRectToCGRect(self.view.overlayRect);
-	NSLog(@"captureRect: %@", NSStringFromRect(captureRect));
-	float windowHeight = NSHeight([self.window frame]);
-	float overlayHeight = NSHeight(captureRect);
-	
-	if (overlayHeight < windowHeight)
-	{
-		float adjustment = windowHeight - overlayHeight;
-		NSLog(@"adjustment: %f, captureRect origin y: %f", adjustment, captureRect.origin.y);
-		captureRect.origin.y -= adjustment + (adjustment + captureRect.origin.y);
-	}
+	captureRect.origin.y = NSMaxY([[self.window screen] frame]) - NSMaxY(self.view.overlayRect);
+
+	// adjust if there are multiple displays
+//	if ([[NSScreen screens] count] > 1)
+//	{
+//		float windowHeight = NSHeight([self.window frame]);
+//		float overlayHeight = NSHeight(captureRect);
+//		
+//		if (overlayHeight < windowHeight)
+//		{
+//			float adjustment = windowHeight - overlayHeight;
+//			NSLog(@"adjustment: %f, captureRect origin y: %f", adjustment, captureRect.origin.y);
+//			captureRect.origin.y -= adjustment + (adjustment + captureRect.origin.y);
+//		}
+//	}
+
 	
 	CGImageRef screenShot = CGWindowListCreateImage(captureRect, kCGWindowListOptionOnScreenBelowWindow, [self.window windowNumber], kCGWindowImageDefault);
 	NSBitmapImageRep *image = [[[NSBitmapImageRep alloc] initWithCGImage:screenShot] autorelease];
