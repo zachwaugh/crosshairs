@@ -9,13 +9,16 @@
 #import "CHAppDelegate.h"
 #import "DDHotKeyCenter.h"
 #import "CHPreferencesController.h"
+#import "CHPreferences.h"
 #import "CHOverlayView.h"
+#import "CHGlobals.h"
 #import <Sparkle/Sparkle.h>
 
 @interface CHAppDelegate ()
 
 - (void)checkForBetaExpiration;
 - (void)createStatusItem;
+- (void)setupHotkeys;
 
 @end
 
@@ -26,22 +29,9 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-	[self checkForBetaExpiration];
-	
-	NSRect windowRect = NSZeroRect;
-	
-	for (NSScreen *screen in [NSScreen screens])
-	{
-		windowRect = NSUnionRect([screen frame], windowRect);
-	}
-	
-	NSLog(@"windowRect: %@", NSStringFromRect(windowRect));
-	[self.window setFrame:windowRect display:YES animate:NO];
-	
-	DDHotKeyCenter *hotKeyCenter = [[[DDHotKeyCenter alloc] init] autorelease];
-	[hotKeyCenter registerHotKeyWithKeyCode:19 modifierFlags:(NSShiftKeyMask | NSCommandKeyMask) target:self action:@selector(hotkeyWithEvent:) object:nil];
-	[hotKeyCenter registerHotKeyWithKeyCode:84 modifierFlags:(NSShiftKeyMask | NSCommandKeyMask) target:self action:@selector(hotkeyWithEvent:) object:nil];
-
+	[CHPreferences registerDefaults];
+	[self checkForBetaExpiration];	
+	[self setupHotkeys];
 	[self createStatusItem];
 	[self activateApp:nil];
 }
@@ -52,6 +42,7 @@
 	[[NSStatusBar systemStatusBar] removeStatusItem:self.statusItem];
 	self.statusItem = nil;
 	self.statusMenu = nil;
+	[preferencesController release];
 	
 	[super dealloc];
 }
@@ -59,7 +50,7 @@
 
 - (void)checkForBetaExpiration
 {
-	NSDate *expiration = [NSDate dateWithNaturalLanguageString:@"2010-11-01 23:59:00"];
+	NSDate *expiration = [NSDate dateWithNaturalLanguageString:@"2010-11-10 23:59:00"];
 	
 	if ([expiration earlierDate:[NSDate date]] == expiration)
 	{
@@ -87,6 +78,14 @@
 	[NSApp activateIgnoringOtherApps:YES];
 	[self.window orderOut:sender];
 	[[SUUpdater sharedUpdater] checkForUpdates:sender];
+}
+
+
+- (void)setupHotkeys
+{
+	DDHotKeyCenter *hotKeyCenter = [[[DDHotKeyCenter alloc] init] autorelease];
+	[hotKeyCenter registerHotKeyWithKeyCode:19 modifierFlags:(NSShiftKeyMask | NSCommandKeyMask) target:self action:@selector(hotkeyWithEvent:) object:nil];
+	[hotKeyCenter registerHotKeyWithKeyCode:84 modifierFlags:(NSShiftKeyMask | NSCommandKeyMask) target:self action:@selector(hotkeyWithEvent:) object:nil];
 }
 
 
@@ -119,7 +118,14 @@
 
 - (void)showPreferences:(id)sender
 {
-	CHPreferencesController *preferencesController = [[[CHPreferencesController alloc] initWithWindowNibName:@"CHPreferencesController"] autorelease];
+	[NSApp activateIgnoringOtherApps:YES];
+	[self.window orderOut:sender];
+	
+	if (preferencesController == nil)
+	{
+		preferencesController = [[CHPreferencesController alloc] initWithWindowNibName:@"CHPreferencesController"];
+	}
+
 	[preferencesController showWindow:sender];
 }
 

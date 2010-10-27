@@ -35,10 +35,6 @@ typedef enum
 	
 	NSColor *fillColor;
 	
-	NSCursor *crosshairsCursor;
-	NSCursor *resizeRightDiagonalCursor;
-	NSCursor *resizeLeftDiagonalCursor;
-	
 	CHResizeDirection resizeDirection;
 	
 	float fillOpacity;
@@ -57,9 +53,6 @@ typedef enum
 @property(assign) NSRect overlayRect;
 @property(retain) NSColor *fillColor;
 @property(retain) NSMutableDictionary *textAttrs;
-@property(retain) NSCursor *crosshairsCursor;
-@property(retain) NSCursor *resizeRightDiagonalCursor;
-@property(retain) NSCursor *resizeLeftDiagonalCursor;
 @property(assign) CHResizeDirection resizeDirection;
 @property(assign) float fillOpacity;
 @property(assign, getter=isDragging) BOOL dragging;

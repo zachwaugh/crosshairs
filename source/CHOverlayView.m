@@ -6,11 +6,11 @@
 //  Copyright 2010 zachwaugh.com. All rights reserved.
 //
 
-#define HANDLE_SIZE 8
+#define HANDLE_SIZE 9
 #define HANDLE_CENTER (HANDLE_SIZE / 2.0)
 
 #import "CHOverlayView.h"
-
+#import "NSCursor+Custom.h"
 
 NSRect NSRectFromTwoPoints(NSPoint a, NSPoint b)
 {
@@ -63,13 +63,15 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 - (NSRect)rightCenter;
 - (NSRect)adjustedOverlayRect;
 
+- (void)drawHandleInRect:(NSRect)rect;
+
 @end
 
 
 @implementation CHOverlayView
 
 // retained
-@synthesize textAttrs, fillColor, crosshairsCursor, resizeLeftDiagonalCursor, resizeRightDiagonalCursor;
+@synthesize textAttrs, fillColor;
 
 // assigned
 @synthesize startPoint, lastPoint, lastPointInOverlay, overlayRect, dragging, drawing, resizing, shiftPressed, commandPressed, resizeDirection, alternateColor, fillOpacity;
@@ -91,14 +93,8 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 		self.shiftPressed = NO;
 		self.commandPressed = NO;
 		self.lastPointInOverlay = NO;
-		self.crosshairsCursor = [[[NSCursor alloc] initWithImage:[NSImage imageNamed:@"crosshairs_cursor.png"] hotSpot:NSMakePoint(10, 10)] autorelease];
-		self.resizeLeftDiagonalCursor = [[[NSCursor alloc] initWithImage:[NSImage imageNamed:@"resize_cursor_diagonal_left.tiff"] hotSpot:NSMakePoint(8, 8)] autorelease];
-		self.resizeRightDiagonalCursor = [[[NSCursor alloc] initWithImage:[NSImage imageNamed:@"resize_cursor_diagonal_right.tiff"] hotSpot:NSMakePoint(8, 8)] autorelease];
 
 		// Setup text attributes
-		NSMutableParagraphStyle *paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
-		[paragraphStyle setAlignment:NSCenterTextAlignment];
-		
 		NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
 		[shadow setShadowColor:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]];
 		[shadow setShadowOffset:NSMakeSize(0, -1)];
@@ -106,7 +102,6 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 		NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
 		[attrs setObject:[NSFont fontWithName:@"Helvetica Bold" size:36.0] forKey:NSFontAttributeName];
 		[attrs setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
-		[attrs setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
 		[attrs setObject:shadow forKey:NSShadowAttributeName];
 		
 		self.textAttrs = attrs;
@@ -120,9 +115,6 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 {
 	self.textAttrs = nil;
 	self.fillColor = nil;
-	self.crosshairsCursor = nil;
-	self.resizeLeftDiagonalCursor = nil;
-	self.resizeRightDiagonalCursor = nil;
 	
 	[super dealloc];
 }
@@ -134,20 +126,29 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 }
 
 
+- (void)cursorUpdate:(NSEvent *)event
+{
+	NSLog(@"cursorUpdate (view): %@", event);
+	[super cursorUpdate:event];
+}
+
+
 - (void)resetCursorRects
 {
 	[self discardCursorRects];
-	[self addCursorRect:[self visibleRect] cursor:self.crosshairsCursor];
+	
+	[self addCursorRect:[self visibleRect] cursor:[NSCursor crosshairsCursor]];
 	
 	if (!NSIsEmptyRect(self.overlayRect))
 	{
 		[self addCursorRect:NSInsetRect(self.overlayRect, 2, 2) cursor:[NSCursor openHandCursor]];
+		
 		[self addCursorRect:[self leftCenter] cursor:[NSCursor resizeLeftRightCursor]];
 		[self addCursorRect:[self rightCenter] cursor:[NSCursor resizeLeftRightCursor]];
-		[self addCursorRect:[self topLeft] cursor:self.resizeLeftDiagonalCursor];
-		[self addCursorRect:[self topRight] cursor:self.resizeRightDiagonalCursor];
-		[self addCursorRect:[self bottomLeft] cursor:self.resizeRightDiagonalCursor];
-		[self addCursorRect:[self bottomRight] cursor:self.resizeLeftDiagonalCursor];
+		[self addCursorRect:[self topLeft] cursor:[NSCursor resizeLeftDiagonalCursor]];
+		[self addCursorRect:[self topRight] cursor:[NSCursor resizeRightDiagonalCursor]];
+		[self addCursorRect:[self bottomLeft] cursor:[NSCursor resizeRightDiagonalCursor]];
+		[self addCursorRect:[self bottomRight] cursor:[NSCursor resizeLeftDiagonalCursor]];
 		[self addCursorRect:[self topCenter] cursor:[NSCursor resizeUpDownCursor]];
 		[self addCursorRect:[self bottomCenter] cursor:[NSCursor resizeUpDownCursor]];
 	}
@@ -165,7 +166,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 		[self toggleColors];
 		return YES;
 	}
-	else if ([[event charactersIgnoringModifiers] characterAtIndex:0] == NSDeleteCharacter)
+	else if ([[event charactersIgnoringModifiers] characterAtIndex:0] == NSDeleteCharacter || [[event charactersIgnoringModifiers] characterAtIndex:0] == NSDeleteFunctionKey)
 	{
 		[self clearOverlay];
 		return YES;
@@ -197,6 +198,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 }
 
 
+		 
 - (void)moveUp:(id)sender
 {
 	if (self.isCommandPressed)
@@ -247,6 +249,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 }
 
 
+
 #pragma mark -
 #pragma mark mouse handlers
 
@@ -289,28 +292,28 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 		self.resizing = YES;
 		self.resizeDirection = CHResizeTopLeft;
 		[[self window] disableCursorRects];
-		[self.resizeLeftDiagonalCursor push];
+		[[NSCursor resizeLeftDiagonalCursor] push];
 	}
 	else if (NSPointInRect(point, [self topRight]))
 	{
 		self.resizing = YES;
 		self.resizeDirection = CHResizeTopRight;
 		[[self window] disableCursorRects];
-		[self.resizeRightDiagonalCursor push];
+		[[NSCursor resizeRightDiagonalCursor] push];
 	}
 	else if (NSPointInRect(point, [self bottomLeft]))
 	{
 		self.resizing = YES;
 		self.resizeDirection = CHResizeBottomLeft;
 		[[self window] disableCursorRects];
-		[self.resizeRightDiagonalCursor push];
+		[[NSCursor resizeRightDiagonalCursor] push];
 	}
 	else if (NSPointInRect(point, [self bottomRight]))
 	{
 		self.resizing = YES;
 		self.resizeDirection = CHResizeBottomRight;
 		[[self window] disableCursorRects];
-		[self.resizeLeftDiagonalCursor push];
+		[[NSCursor resizeLeftDiagonalCursor] push];
 	}
 	else if (NSPointInRect(point, self.overlayRect))
 	{
@@ -390,8 +393,12 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 
 - (void)refresh
 {
+	if (!self.isDrawing)
+	{
+		[[self window] invalidateCursorRectsForView:self];
+	}
+	
 	[self setNeedsDisplayInRect:[self adjustedOverlayRect]];
-	[[self window] invalidateCursorRectsForView:self];
 }
 
 
@@ -402,95 +409,49 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 		[self.fillColor set];
 		NSRectFill(self.overlayRect);
 		
-		// Draw dashed outline of rect
-		//CGFloat pattern[2] = { 4.0, 4.0 };
-		
-		//NSBezierPath *outline = [NSBezierPath bezierPathWithRect:NSInsetRect(self.overlayRect, -0.5, -0.5)];
-		//NSBezierPath *outline = [NSBezierPath bezierPathWithRect:self.overlayRect];
-		
-		//[[NSColor whiteColor] set];
-		//[outline stroke];
-//		[[NSColor blackColor] set];
-//		[outline stroke];
-		
+		// Draw outline of rect
+//		NSBezierPath *outline = [NSBezierPath bezierPathWithRect:NSInsetRect(self.overlayRect, -0.5, -0.5)];
+//		//NSBezierPath *outline = [NSBezierPath bezierPathWithRect:self.overlayRect];
+//
 //		[[NSColor whiteColor] set];
-//		[outline setLineDash:pattern count:2 phase:0];
-//		[outline setLineWidth:1.0];
 //		[outline stroke];
 		
 		
-		if (!self.isDrawing && !self.isDragging)
+		if (!self.isDrawing && !self.isDragging && !self.isResizing)
 		{
-			// top left
-			NSBezierPath *circle = [NSBezierPath bezierPathWithOvalInRect:[self topLeft]];
-			[[NSColor grayColor] set];
-			[circle fill];
-			[[NSColor whiteColor] set];
-			[circle stroke];
-			
-			
-			// top center
-			circle = [NSBezierPath bezierPathWithOvalInRect:[self topCenter]];
-			[[NSColor grayColor] set];
-			[circle fill];
-			[[NSColor whiteColor] set];
-			[circle stroke];
-			
-			
-			// top right
-			circle = [NSBezierPath bezierPathWithOvalInRect:[self topRight]];
-			[[NSColor grayColor] set];
-			[circle fill];
-			[[NSColor whiteColor] set];
-			[circle stroke];
-			
-			
-			// right center
-			circle = [NSBezierPath bezierPathWithOvalInRect:[self rightCenter]];
-			[[NSColor grayColor] set];
-			[circle fill];
-			[[NSColor whiteColor] set];
-			[circle stroke];
-			
-			
-			// bottom right
-			circle = [NSBezierPath bezierPathWithOvalInRect:[self bottomRight]];
-			[[NSColor grayColor] set];
-			[circle fill];
-			[[NSColor whiteColor] set];
-			[circle stroke];
-			
-			
-			// bottom center
-			circle = [NSBezierPath bezierPathWithOvalInRect:[self bottomCenter]];
-			[[NSColor grayColor] set];
-			[circle fill];
-			[[NSColor whiteColor] set];
-			[circle stroke];
-			
-			
-			// bottom left
-			circle = [NSBezierPath bezierPathWithOvalInRect:[self bottomLeft]];
-			[[NSColor grayColor] set];
-			[circle fill];
-			[[NSColor whiteColor] set];
-			[circle stroke];
-			
-			
-			// left center
-			circle = [NSBezierPath bezierPathWithOvalInRect:[self leftCenter]];
-			[[NSColor grayColor] set];
-			[circle fill];
-			[[NSColor whiteColor] set];
-			[circle stroke];
+			// draw handles
+			[self drawHandleInRect:[self topLeft]];			
+			[self drawHandleInRect:[self topCenter]];	
+			[self drawHandleInRect:[self topRight]];	
+			[self drawHandleInRect:[self rightCenter]];	
+			[self drawHandleInRect:[self bottomRight]];	
+			[self drawHandleInRect:[self bottomCenter]];	
+			[self drawHandleInRect:[self bottomLeft]];	
+			[self drawHandleInRect:[self leftCenter]];
 		}
 		
 		NSString *dimensions = [NSString stringWithFormat:@"%d x %d", (int)round(self.overlayRect.size.width), (int)round(self.overlayRect.size.height)];
 		
 		NSSize textSize = [dimensions sizeWithAttributes:self.textAttrs];
-		NSRect textRect = NSMakeRect(self.overlayRect.origin.x, (self.overlayRect.size.height - textSize.height) / 2 + self.overlayRect.origin.y, self.overlayRect.size.width, textSize.height);
-		[dimensions drawInRect:textRect withAttributes:self.textAttrs];
+		NSRect textRect = NSMakeRect((self.overlayRect.size.width - textSize.width) / 2 + self.overlayRect.origin.x, (self.overlayRect.size.height - textSize.height) / 2 + self.overlayRect.origin.y, textSize.width, textSize.height);
+		
+		// Only draw text if it will fit in overlay
+		if (NSContainsRect(self.overlayRect, textRect))
+		{
+			[dimensions drawInRect:textRect withAttributes:self.textAttrs];
+		}
 	}
+}
+
+
+- (void)drawHandleInRect:(NSRect)rect
+{
+	NSBezierPath *circle = [NSBezierPath bezierPathWithOvalInRect:rect];
+	//[[NSColor grayColor] set];
+	[[NSColor colorWithCalibratedWhite:!self.alternateColor alpha:1.0] set];
+	[circle fill];
+	[[NSColor colorWithCalibratedWhite:self.alternateColor alpha:0.5] set];
+	[circle stroke];
 }
 
 
@@ -522,7 +483,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	{
 		float delta = self.lastPoint.x - point.x;
 		
-		newRect.origin.x = point.x;
+		newRect.origin.x -= delta;
 		newRect.size.width += delta;
 	}
 	else if (self.resizeDirection == CHResizeRightCenter)
@@ -541,7 +502,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	{
 		float delta = self.lastPoint.y - point.y;
 		
-		newRect.origin.y = point.y;
+		newRect.origin.y -= delta;
 		newRect.size.height += delta;
 	}
 	else if (self.resizeDirection == CHResizeTopLeft)
@@ -549,7 +510,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 		float deltaX = self.lastPoint.x - point.x; 
 		float deltaY = point.y - self.lastPoint.y;
 		
-		newRect.origin.x = point.x;
+		newRect.origin.x -= deltaX;
 		newRect.size.height += deltaY;
 		newRect.size.width += deltaX;
 	}
@@ -566,7 +527,8 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 		float deltaX = self.lastPoint.x - point.x;
 		float deltaY = self.lastPoint.y - point.y;
 		
-		newRect.origin = point;
+		newRect.origin.x -= deltaX;
+		newRect.origin.y -= deltaY;
 		newRect.size.width += deltaX;
 		newRect.size.height += deltaY;
 	}
@@ -575,7 +537,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 		float deltaX = point.x - self.lastPoint.x; 
 		float deltaY = self.lastPoint.y - point.y;
 		
-		newRect.origin.y = point.y;
+		newRect.origin.y -= deltaY;
 		newRect.size.height += deltaY;
 		newRect.size.width += deltaX;
 	}	

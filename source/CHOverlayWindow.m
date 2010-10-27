@@ -8,6 +8,7 @@
 
 #import "CHOverlayWindow.h"
 #import "CHAppDelegate.h"
+#import "NSCursor+Custom.h"
 
 @implementation CHOverlayWindow
 
@@ -25,6 +26,7 @@
 	[window setMovableByWindowBackground:NO];
 	[window setIgnoresMouseEvents:NO];
 	[window setAcceptsMouseMovedEvents:YES];
+	[window setHidesOnDeactivate:YES];
 	
 	return window;
 }
@@ -38,8 +40,18 @@
 
 - (void)awakeFromNib
 {
+	NSRect windowRect = NSZeroRect;
+	
+	for (NSScreen *screen in [NSScreen screens])
+	{
+		windowRect = NSUnionRect([screen frame], windowRect);
+	}
+	
+	[self setFrame:windowRect display:YES animate:NO];
+	
 	[self makeKeyAndOrderFront:nil];
 }
+
 
 
 - (void)keyDown:(NSEvent *)event
@@ -79,11 +91,17 @@
 		return YES;
 	}
 	
-	
 	// cmd-c - copy dimensions
 	if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@"c"])
 	{
 		[(CHAppDelegate *)self.delegate copyDimensionsToClipboard];
+		return YES;
+	}
+	
+	// cmd-, - Show Preferences
+	if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@","])
+	{
+		[(CHAppDelegate *)self.delegate showPreferences:nil];
 		return YES;
 	}
 	

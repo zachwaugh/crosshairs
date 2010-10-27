@@ -10,6 +10,7 @@
 
 @class CHOverlayWindow;
 @class CHOverlayView;
+@class CHPreferencesController;
 
 @interface CHAppDelegate : NSObject <NSApplicationDelegate>
 {
@@ -17,6 +18,7 @@
 	CHOverlayView *view;
 	NSStatusItem *statusItem;
 	IBOutlet NSMenu *statusMenu;
+	CHPreferencesController *preferencesController;
 }
 
 @property (assign) IBOutlet CHOverlayWindow *window;
