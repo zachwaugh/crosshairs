@@ -212,7 +212,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	}
 	else
 	{
-		self.overlayRect = NSOffsetRect(self.overlayRect, 0, (self.isShiftPressed) ? 10 : 1);
+		self.overlayRect = NSOffsetRect(self.overlayRect, 0, (self.isShiftPressed) ? -10 : -1);
 	}
 }
 
@@ -228,7 +228,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	}
 	else
 	{
-		self.overlayRect = NSOffsetRect(self.overlayRect, 0, (self.isShiftPressed) ? -10 : -1);
+		self.overlayRect = NSOffsetRect(self.overlayRect, 0, (self.isShiftPressed) ? 10 : 1);
 	}
 }
 
