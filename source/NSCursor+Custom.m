@@ -23,7 +23,7 @@
 	
 	if (!crosshairsCursor)
 	{ 
-		crosshairsCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"crosshairs_cursor.png"] hotSpot:NSMakePoint(10, 10)]; 
+		crosshairsCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"crosshairs_cursor.png"] hotSpot:NSMakePoint(12, 12)]; 
 	}
 	
 	return crosshairsCursor; 

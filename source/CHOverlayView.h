@@ -32,6 +32,7 @@ typedef enum
 	NSRect overlayRect;
 
 	NSMutableDictionary *textAttrs;
+	NSMutableDictionary *smallTextAttrs;
 	
 	NSColor *fillColor;
 	
@@ -53,6 +54,7 @@ typedef enum
 @property(assign) NSRect overlayRect;
 @property(retain) NSColor *fillColor;
 @property(retain) NSMutableDictionary *textAttrs;
+@property(retain) NSMutableDictionary *smallTextAttrs;
 @property(assign) CHResizeDirection resizeDirection;
 @property(assign) float fillOpacity;
 @property(assign, getter=isDragging) BOOL dragging;
