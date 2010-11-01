@@ -125,7 +125,7 @@
 				BF626E2D126A6071005D84F0 /* Categories */,
 				BF957AEA12592F8E0064B988 /* DDHotKey */,
 				9287E794127DC1FF000FCCB6 /* Models */,
-				92CC55A2127DFB8300A7CEED /* views */,
+				92CC55A2127DFB8300A7CEED /* Views */,
 				92CC55A1127DF8D800A7CEED /* Controllers */,
 				256AC3D80F4B6AC300CF3369 /* CHAppDelegate.h */,
 				256AC3D90F4B6AC300CF3369 /* CHAppDelegate.m */,
@@ -243,7 +243,7 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
-		92CC55A2127DFB8300A7CEED /* views */ = {
+		92CC55A2127DFB8300A7CEED /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				BFADE6C3124C296F0065F2E0 /* CHOverlayWindow.h */,
@@ -251,7 +251,7 @@
 				BFADE6EE124C2A290065F2E0 /* CHOverlayView.h */,
 				BFADE6EF124C2A290065F2E0 /* CHOverlayView.m */,
 			);
-			name = views;
+			name = Views;
 			sourceTree = "<group>";
 		};
 		92CC56CA127E116400A7CEED /* MPLoginItems */ = {

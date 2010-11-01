@@ -106,18 +106,25 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 		self.lastPointInOverlay = NO;
     [self bind:@"showDimensionsOutside" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.showDimensionsOutside" options:nil];
 
-		// Setup text attributes
+		// Setup overlay text attributes
 		NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
 		[shadow setShadowColor:[NSColor colorWithCalibratedWhite:self.switchedColors alpha:1.0]];
 		[shadow setShadowOffset:NSMakeSize(0, -1)];
 		
-		NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
-		[attrs setObject:[NSFont fontWithName:@"Helvetica Bold" size:20.0] forKey:NSFontAttributeName];
-		[attrs setObject:[NSColor colorWithCalibratedWhite:!self.switchedColors alpha:1.0] forKey:NSForegroundColorAttributeName];
-		[attrs setObject:shadow forKey:NSShadowAttributeName];
+		self.textAttrs = [NSMutableDictionary dictionary];
+		[self.textAttrs setObject:[NSFont fontWithName:@"Helvetica Bold" size:20.0] forKey:NSFontAttributeName];
+		[self.textAttrs setObject:[NSColor colorWithCalibratedWhite:!self.switchedColors alpha:1.0] forKey:NSForegroundColorAttributeName];
+		[self.textAttrs setObject:shadow forKey:NSShadowAttributeName];
 		
-		self.textAttrs = attrs;
-		self.smallTextAttrs = [attrs mutableCopy];
+    
+    // setup dimensions bubble text attrs
+    shadow = [[[NSShadow alloc] init] autorelease];
+		[shadow setShadowColor:[NSColor blackColor]];
+		[shadow setShadowOffset:NSMakeSize(0, -1)];
+    
+		self.smallTextAttrs = [NSMutableDictionary dictionary];
+    [self.smallTextAttrs setObject:shadow forKey:NSShadowAttributeName];
+    [self.smallTextAttrs setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
 		[self.smallTextAttrs setObject:[NSFont fontWithName:@"Helvetica Bold" size:14.0] forKey:NSFontAttributeName];
     
     

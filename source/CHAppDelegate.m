@@ -144,11 +144,20 @@
 
 - (void)takeScreenshot
 {
+  // Capture screenshot
 	CGRect captureRect = NSRectToCGRect(self.view.overlayRect);
-
 	CGImageRef screenShot = CGWindowListCreateImage(captureRect, kCGWindowListOptionOnScreenBelowWindow, [self.window windowNumber], kCGWindowImageDefault);
 	NSBitmapImageRep *image = [[[NSBitmapImageRep alloc] initWithCGImage:screenShot] autorelease];
-	[[image representationUsingType:NSPNGFileType properties:nil] writeToFile:[NSString stringWithFormat:@"%@/Desktop/Screen shot %@.png", NSHomeDirectory(), [NSDate date]] atomically:NO];
+  
+  // Build screenshot filename
+  int width = (int)self.view.overlayRect.size.width;
+  int height = (int)self.view.overlayRect.size.height;
+  NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+  [dateFormatter setDateFormat:@"yyyy-MM-dd 'at' h.mm.ss a"];
+  NSString *timestamp = [NSString stringWithFormat:@"%@ (%d x %d)", [dateFormatter stringFromDate:[NSDate date]], width, height];
+  
+  // Write out screenshot png
+  [[image representationUsingType:NSPNGFileType properties:nil] writeToFile:[NSString stringWithFormat:@"%@/Desktop/Screen shot %@.png", NSHomeDirectory(), timestamp] atomically:NO];
 
 	CGImageRelease(screenShot);
 }
