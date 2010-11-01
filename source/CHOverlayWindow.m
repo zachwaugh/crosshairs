@@ -27,7 +27,7 @@
 	[window setIgnoresMouseEvents:NO];
 	[window setAcceptsMouseMovedEvents:YES];
 	[window setHidesOnDeactivate:YES];
-	[window disableCursorRects];
+	//[window disableCursorRects];
 	
 	return window;
 }
@@ -36,13 +36,6 @@
 - (BOOL)canBecomeKeyWindow
 {
 	return YES;
-}
-
-
-- (void)makeKeyAndOrderFront:(id)sender
-{
-	[super makeKeyAndOrderFront:sender];
-	[[NSCursor crosshairsCursor] set];
 }
 
 

@@ -12,6 +12,10 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		9287E7B3127DC4B4000FCCB6 /* NSUserDefaults+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 9287E7B2127DC4B4000FCCB6 /* NSUserDefaults+Color.m */; };
+		92CC56CD127E117400A7CEED /* MPLoginItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 92CC56CC127E117400A7CEED /* MPLoginItems.m */; };
+		92CC576B127E1C6200A7CEED /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92CC576A127E1C6200A7CEED /* ShortcutRecorder.framework */; };
+		92CC5776127E1C6500A7CEED /* ShortcutRecorder.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 92CC576A127E1C6200A7CEED /* ShortcutRecorder.framework */; };
 		BF0AA0CF125D68BA00EB9C85 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = BF0AA0CE125D68BA00EB9C85 /* CHANGELOG.md */; };
 		BF216B1C125C304400C63D4B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = BF216B1B125C304400C63D4B /* dsa_pub.pem */; };
 		BF492AEB1259385800641851 /* resize_cursor_diagonal_right.tiff in Resources */ = {isa = PBXBuildFile; fileRef = BF492AE91259385800641851 /* resize_cursor_diagonal_right.tiff */; };
@@ -33,7 +37,6 @@
 		BFECBA64125C03190001CB88 /* CHPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFECBA63125C03190001CB88 /* CHPreferencesController.m */; };
 		BFECBA66125C032D0001CB88 /* CHPreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BFECBA65125C032D0001CB88 /* CHPreferencesController.xib */; };
 		BFECBAD6125C0BCA0001CB88 /* crosshairs_menu_on.png in Resources */ = {isa = PBXBuildFile; fileRef = BFECBAD5125C0BCA0001CB88 /* crosshairs_menu_on.png */; };
-		BFECBB1C125C0F670001CB88 /* CHMenuItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFECBB1B125C0F670001CB88 /* CHMenuItemView.m */; };
 		BFECBB3F125C13770001CB88 /* beta_warning.png in Resources */ = {isa = PBXBuildFile; fileRef = BFECBB3E125C13770001CB88 /* beta_warning.png */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +47,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				92CC5776127E1C6500A7CEED /* ShortcutRecorder.framework in CopyFiles */,
 				BFECBA3A125BFF700001CB88 /* BWToolkitFramework.framework in CopyFiles */,
 				BFECB9FE125BFE770001CB88 /* Sparkle.framework in CopyFiles */,
 			);
@@ -64,6 +68,11 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* Crosshairs-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Crosshairs-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Crosshairs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Crosshairs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9287E7B1127DC4B4000FCCB6 /* NSUserDefaults+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Color.h"; sourceTree = "<group>"; };
+		9287E7B2127DC4B4000FCCB6 /* NSUserDefaults+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Color.m"; sourceTree = "<group>"; };
+		92CC56CB127E117400A7CEED /* MPLoginItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPLoginItems.h; sourceTree = "<group>"; };
+		92CC56CC127E117400A7CEED /* MPLoginItems.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPLoginItems.m; sourceTree = "<group>"; };
+		92CC576A127E1C6200A7CEED /* ShortcutRecorder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShortcutRecorder.framework; sourceTree = "<group>"; };
 		BF0AA0CE125D68BA00EB9C85 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG.md; sourceTree = "<group>"; };
 		BF216B1B125C304400C63D4B /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		BF492AE91259385800641851 /* resize_cursor_diagonal_right.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = resize_cursor_diagonal_right.tiff; sourceTree = "<group>"; };
@@ -90,8 +99,6 @@
 		BFECBA63125C03190001CB88 /* CHPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHPreferencesController.m; sourceTree = "<group>"; };
 		BFECBA65125C032D0001CB88 /* CHPreferencesController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CHPreferencesController.xib; sourceTree = "<group>"; };
 		BFECBAD5125C0BCA0001CB88 /* crosshairs_menu_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crosshairs_menu_on.png; sourceTree = "<group>"; };
-		BFECBB1A125C0F670001CB88 /* CHMenuItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHMenuItemView.h; sourceTree = "<group>"; };
-		BFECBB1B125C0F670001CB88 /* CHMenuItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHMenuItemView.m; sourceTree = "<group>"; };
 		BFECBB3E125C13770001CB88 /* beta_warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beta_warning.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -104,6 +111,7 @@
 				BF957B091259310B0064B988 /* Carbon.framework in Frameworks */,
 				BFECB9ED125BFDC70001CB88 /* Sparkle.framework in Frameworks */,
 				BFECBA09125BFF6E0001CB88 /* BWToolkitFramework.framework in Frameworks */,
+				92CC576B127E1C6200A7CEED /* ShortcutRecorder.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,22 +121,14 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				92CC56CA127E116400A7CEED /* MPLoginItems */,
 				BF626E2D126A6071005D84F0 /* Categories */,
 				BF957AEA12592F8E0064B988 /* DDHotKey */,
+				9287E794127DC1FF000FCCB6 /* Models */,
+				92CC55A2127DFB8300A7CEED /* views */,
+				92CC55A1127DF8D800A7CEED /* Controllers */,
 				256AC3D80F4B6AC300CF3369 /* CHAppDelegate.h */,
 				256AC3D90F4B6AC300CF3369 /* CHAppDelegate.m */,
-				BFADE6C3124C296F0065F2E0 /* CHOverlayWindow.h */,
-				BFADE6C4124C296F0065F2E0 /* CHOverlayWindow.m */,
-				BFADE6EE124C2A290065F2E0 /* CHOverlayView.h */,
-				BFADE6EF124C2A290065F2E0 /* CHOverlayView.m */,
-				BFECBA62125C03190001CB88 /* CHPreferencesController.h */,
-				BFECBA63125C03190001CB88 /* CHPreferencesController.m */,
-				BFECBB1A125C0F670001CB88 /* CHMenuItemView.h */,
-				BFECBB1B125C0F670001CB88 /* CHMenuItemView.m */,
-				BF626E2A126A6065005D84F0 /* CHPreferences.h */,
-				BF626E2B126A6065005D84F0 /* CHPreferences.m */,
-				BF626EA9126A65BB005D84F0 /* CHGlobals.h */,
-				BF626EAA126A65BB005D84F0 /* CHGlobals.m */,
 			);
 			name = Classes;
 			path = source;
@@ -185,6 +185,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9287E795127DC226000FCCB6 /* xibs */,
 				BFECB9CC125BFD120001CB88 /* crosshairs_app_icon.icns */,
 				BF492AE91259385800641851 /* resize_cursor_diagonal_right.tiff */,
 				BF492AEA1259385800641851 /* resize_cursor_diagonal_left.tiff */,
@@ -195,8 +196,6 @@
 				BF216B1B125C304400C63D4B /* dsa_pub.pem */,
 				8D1107310486CEB800E47090 /* Crosshairs-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
-				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
-				BFECBA65125C032D0001CB88 /* CHPreferencesController.xib */,
 				BF0AA0CE125D68BA00EB9C85 /* CHANGELOG.md */,
 			);
 			name = Resources;
@@ -206,6 +205,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				92CC576A127E1C6200A7CEED /* ShortcutRecorder.framework */,
 				BFECBA08125BFF6E0001CB88 /* BWToolkitFramework.framework */,
 				BFECB9EC125BFDC70001CB88 /* Sparkle.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
@@ -214,11 +214,62 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9287E794127DC1FF000FCCB6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BF626EA9126A65BB005D84F0 /* CHGlobals.h */,
+				BF626EAA126A65BB005D84F0 /* CHGlobals.m */,
+				BF626E2A126A6065005D84F0 /* CHPreferences.h */,
+				BF626E2B126A6065005D84F0 /* CHPreferences.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		9287E795127DC226000FCCB6 /* xibs */ = {
+			isa = PBXGroup;
+			children = (
+				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
+				BFECBA65125C032D0001CB88 /* CHPreferencesController.xib */,
+			);
+			name = xibs;
+			sourceTree = "<group>";
+		};
+		92CC55A1127DF8D800A7CEED /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BFECBA62125C03190001CB88 /* CHPreferencesController.h */,
+				BFECBA63125C03190001CB88 /* CHPreferencesController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		92CC55A2127DFB8300A7CEED /* views */ = {
+			isa = PBXGroup;
+			children = (
+				BFADE6C3124C296F0065F2E0 /* CHOverlayWindow.h */,
+				BFADE6C4124C296F0065F2E0 /* CHOverlayWindow.m */,
+				BFADE6EE124C2A290065F2E0 /* CHOverlayView.h */,
+				BFADE6EF124C2A290065F2E0 /* CHOverlayView.m */,
+			);
+			name = views;
+			sourceTree = "<group>";
+		};
+		92CC56CA127E116400A7CEED /* MPLoginItems */ = {
+			isa = PBXGroup;
+			children = (
+				92CC56CB127E117400A7CEED /* MPLoginItems.h */,
+				92CC56CC127E117400A7CEED /* MPLoginItems.m */,
+			);
+			name = MPLoginItems;
+			sourceTree = "<group>";
+		};
 		BF626E2D126A6071005D84F0 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
 				BF626B38126A304A005D84F0 /* NSCursor+Custom.h */,
 				BF626B39126A304A005D84F0 /* NSCursor+Custom.m */,
+				9287E7B1127DC4B4000FCCB6 /* NSUserDefaults+Color.h */,
+				9287E7B2127DC4B4000FCCB6 /* NSUserDefaults+Color.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -311,10 +362,11 @@
 				BFADE6F0124C2A290065F2E0 /* CHOverlayView.m in Sources */,
 				BF957AED12592F990064B988 /* DDHotKeyCenter.m in Sources */,
 				BFECBA64125C03190001CB88 /* CHPreferencesController.m in Sources */,
-				BFECBB1C125C0F670001CB88 /* CHMenuItemView.m in Sources */,
 				BF626B3A126A304A005D84F0 /* NSCursor+Custom.m in Sources */,
 				BF626E2C126A6065005D84F0 /* CHPreferences.m in Sources */,
 				BF626EAB126A65BB005D84F0 /* CHGlobals.m in Sources */,
+				9287E7B3127DC4B4000FCCB6 /* NSUserDefaults+Color.m in Sources */,
+				92CC56CD127E117400A7CEED /* MPLoginItems.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

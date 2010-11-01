@@ -8,22 +8,15 @@
 
 #import "NSCursor+Custom.h"
 
-
 @implementation NSCursor (Custom)
 
-//+ (NSCursor *)arrowCursor
-//{
-//	return [NSCursor crosshairsCursor];
-//}
-
-
 + (NSCursor *)crosshairsCursor 
-{ 
-	static NSCursor *crosshairsCursor = nil; 
-	
-	if (!crosshairsCursor)
+{
+  static NSCursor *crosshairsCursor = nil; 
+  
+	if (crosshairsCursor == nil)
 	{ 
-		crosshairsCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"crosshairs_cursor.png"] hotSpot:NSMakePoint(12, 12)]; 
+		crosshairsCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"crosshairs_cursor.png"] hotSpot:NSMakePoint(11, 11)]; 
 	}
 	
 	return crosshairsCursor; 

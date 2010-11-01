@@ -6,13 +6,14 @@
 //  Copyright 2010 zachwaugh.com. All rights reserved.
 //
 
+#import <Sparkle/Sparkle.h>
 #import "CHAppDelegate.h"
 #import "DDHotKeyCenter.h"
 #import "CHPreferencesController.h"
 #import "CHPreferences.h"
 #import "CHOverlayView.h"
 #import "CHGlobals.h"
-#import <Sparkle/Sparkle.h>
+#import "NSCursor+Custom.h"
 
 @interface CHAppDelegate ()
 
@@ -27,13 +28,15 @@
 
 @synthesize window, view, statusItem, statusMenu;
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+- (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
-	[CHPreferences registerDefaults];
-	[self checkForBetaExpiration];	
+	[self checkForBetaExpiration];
 	[self setupHotkeys];
 	[self createStatusItem];
-	[self activateApp:nil];
+  
+  [self activateApp:nil];
+  
+  [[SUUpdater sharedUpdater] setDelegate:self];
 }
 
 
@@ -50,12 +53,12 @@
 
 - (void)checkForBetaExpiration
 {
-	NSDate *expiration = [NSDate dateWithNaturalLanguageString:@"2010-11-10 23:59:00"];
+	NSDate *expiration = [NSDate dateWithNaturalLanguageString:@"2010-11-14 23:59:00"];
 	
 	if ([expiration earlierDate:[NSDate date]] == expiration)
 	{
 		NSLog(@"Beta has expired!");
-		NSAlert *alert = [NSAlert alertWithMessageText:@"I'm sorry, this beta version has expired. Please download a new version" defaultButton:@"Ok" alternateButton:nil otherButton:nil informativeTextWithFormat:@""];
+		NSAlert *alert = [NSAlert alertWithMessageText:@"I'm sorry, this beta version has expired. Please download a new version from http://zachwaugh.com/crosshairs" defaultButton:@"Ok" alternateButton:nil otherButton:nil informativeTextWithFormat:@""];
 		[alert runModal];
 		[NSApp terminate:nil];
 	}
@@ -84,8 +87,7 @@
 - (void)setupHotkeys
 {
 	DDHotKeyCenter *hotKeyCenter = [[[DDHotKeyCenter alloc] init] autorelease];
-	[hotKeyCenter registerHotKeyWithKeyCode:19 modifierFlags:(NSShiftKeyMask | NSCommandKeyMask) target:self action:@selector(hotkeyWithEvent:) object:nil];
-	[hotKeyCenter registerHotKeyWithKeyCode:84 modifierFlags:(NSShiftKeyMask | NSCommandKeyMask) target:self action:@selector(hotkeyWithEvent:) object:nil];
+	[hotKeyCenter registerHotKeyWithKeyCode:[CHPreferences globalHotKeyCode] modifierFlags:[CHPreferences globalHotKeyFlags] target:self action:@selector(hotkeyWithEvent:) object:nil];
 }
 
 
@@ -105,8 +107,15 @@
 
 - (void)copyDimensionsToClipboard
 {
+  int width = (int)self.view.overlayRect.size.width;
+  int height = (int)self.view.overlayRect.size.height;
+  NSString *format = [CHPreferences copyFormat];
+  
+  NSString *dimensions = [format stringByReplacingOccurrencesOfString:@"{w}" withString:[NSString stringWithFormat:@"%d", width]];
+  dimensions = [dimensions stringByReplacingOccurrencesOfString:@"{h}" withString:[NSString stringWithFormat:@"%d", height]];
+  
 	[[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:self];
-	[[NSPasteboard generalPasteboard] setString:[NSString stringWithFormat:@"%d %d", (int)self.view.overlayRect.size.width, (int)self.view.overlayRect.size.height] forType:NSStringPboardType];
+	[[NSPasteboard generalPasteboard] setString:dimensions forType:NSStringPboardType];
 }
 
 
@@ -136,28 +145,28 @@
 - (void)takeScreenshot
 {
 	CGRect captureRect = NSRectToCGRect(self.view.overlayRect);
-	captureRect.origin.y = NSMaxY([[self.window screen] frame]) - NSMaxY(self.view.overlayRect);
 
-	// adjust if there are multiple displays
-//	if ([[NSScreen screens] count] > 1)
-//	{
-//		float windowHeight = NSHeight([self.window frame]);
-//		float overlayHeight = NSHeight(captureRect);
-//		
-//		if (overlayHeight < windowHeight)
-//		{
-//			float adjustment = windowHeight - overlayHeight;
-//			NSLog(@"adjustment: %f, captureRect origin y: %f", adjustment, captureRect.origin.y);
-//			captureRect.origin.y -= adjustment + (adjustment + captureRect.origin.y);
-//		}
-//	}
-
-	
 	CGImageRef screenShot = CGWindowListCreateImage(captureRect, kCGWindowListOptionOnScreenBelowWindow, [self.window windowNumber], kCGWindowImageDefault);
 	NSBitmapImageRep *image = [[[NSBitmapImageRep alloc] initWithCGImage:screenShot] autorelease];
 	[[image representationUsingType:NSPNGFileType properties:nil] writeToFile:[NSString stringWithFormat:@"%@/Desktop/Screen shot %@.png", NSHomeDirectory(), [NSDate date]] atomically:NO];
 
 	CGImageRelease(screenShot);
 }
+
+
+#pragma mark -
+#pragma mark Sparkle delegate methods
+
+- (void)updater:(SUUpdater *)updater didFindValidUpdate:(SUAppcastItem *)update
+{
+  [self.window orderOut:nil];
+}
+
+
+- (void)updaterDidNotFindUpdate:(SUUpdater *)update
+{
+  [self.window orderOut:nil];
+}                                                                   
+                                                                      
 
 @end

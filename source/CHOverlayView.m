@@ -10,7 +10,9 @@
 #define HANDLE_CENTER (HANDLE_SIZE / 2.0)
 
 #import "CHOverlayView.h"
+#import "CHGlobals.h"
 #import "NSCursor+Custom.h"
+#import "CHPreferences.h"
 
 NSRect NSRectFromTwoPoints(NSPoint a, NSPoint b)
 {
@@ -65,6 +67,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 - (NSRect)drawingRect;
 
 - (void)drawHandleInRect:(NSRect)rect;
+- (void)drawDimensionsBox;
 
 @end
 
@@ -72,11 +75,15 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 @implementation CHOverlayView
 
 // retained
-@synthesize textAttrs, smallTextAttrs, fillColor;
+@synthesize textAttrs, smallTextAttrs, fillColor, primaryColor, alternateColor;
 
 // assigned
-@synthesize startPoint, lastPoint, lastPointInOverlay, overlayRect, dragging, drawing, resizing, shiftPressed, commandPressed, resizeDirection, alternateColor, fillOpacity;
+@synthesize startPoint, lastPoint, lastPointInOverlay, overlayRect, dragging, drawing, hovering, resizing, shiftPressed, commandPressed, resizeDirection, switchedColors, fillOpacity, showDimensionsOutside;
 
++ (void)initialize
+{
+  [CHPreferences registerDefaults];
+}
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -85,29 +92,36 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	if (self)
 	{
 		self.overlayRect = NSZeroRect;
-		self.fillOpacity = 0.25;
-		self.fillColor = [NSColor colorWithCalibratedWhite:0.0 alpha:self.fillOpacity];
-		self.alternateColor = NO;
+		self.fillColor = [CHPreferences lastOverlayColor];
+    self.primaryColor = [CHPreferences primaryOverlayColor];
+    self.alternateColor = [CHPreferences alternateOverlayColor];
+    self.fillOpacity = [self.fillColor alphaComponent];
+		self.switchedColors = [CHPreferences switchedColors];
 		self.dragging = NO;
+    self.hovering = NO;
 		self.drawing = NO;
 		self.resizing = NO;
 		self.shiftPressed = NO;
 		self.commandPressed = NO;
 		self.lastPointInOverlay = NO;
+    [self bind:@"showDimensionsOutside" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.showDimensionsOutside" options:nil];
 
 		// Setup text attributes
 		NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
-		[shadow setShadowColor:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]];
+		[shadow setShadowColor:[NSColor colorWithCalibratedWhite:self.switchedColors alpha:1.0]];
 		[shadow setShadowOffset:NSMakeSize(0, -1)];
 		
 		NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
-		[attrs setObject:[NSFont fontWithName:@"Helvetica Bold" size:36.0] forKey:NSFontAttributeName];
-		[attrs setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
+		[attrs setObject:[NSFont fontWithName:@"Helvetica Bold" size:20.0] forKey:NSFontAttributeName];
+		[attrs setObject:[NSColor colorWithCalibratedWhite:!self.switchedColors alpha:1.0] forKey:NSForegroundColorAttributeName];
 		[attrs setObject:shadow forKey:NSShadowAttributeName];
 		
 		self.textAttrs = attrs;
 		self.smallTextAttrs = [attrs mutableCopy];
-		[self.smallTextAttrs setObject:[NSFont fontWithName:@"Helvetica Bold" size:14.0] forKey:NSFontAttributeName];		
+		[self.smallTextAttrs setObject:[NSFont fontWithName:@"Helvetica Bold" size:14.0] forKey:NSFontAttributeName];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(colorsDidChange:) name:CHColorsDidChangeNotification object:nil];
 	}
 
 	return self;
@@ -119,8 +133,18 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	self.textAttrs = nil;
 	self.smallTextAttrs = nil;
 	self.fillColor = nil;
+  self.primaryColor = nil;
+  self.alternateColor = nil;
 	
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  
 	[super dealloc];
+}
+
+
+- (void)resetCursorRects
+{
+  [self addCursorRect:[self visibleRect] cursor:[NSCursor crosshairsCursor]];
 }
 
 
@@ -136,30 +160,35 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 }
 
 
-//- (void)resetCursorRects
-//{
-//	[self discardCursorRects];
-//	
-//	[self addCursorRect:[self visibleRect] cursor:[NSCursor crosshairsCursor]];
-//	
-//	if (!NSIsEmptyRect(self.overlayRect))
-//	{
-//		[self addCursorRect:self.overlayRect cursor:[NSCursor openHandCursor]];
-//		
-//		[self addCursorRect:[self leftCenter] cursor:[NSCursor resizeLeftRightCursor]];
-//		[self addCursorRect:[self rightCenter] cursor:[NSCursor resizeLeftRightCursor]];
-//		[self addCursorRect:[self topLeft] cursor:[NSCursor resizeLeftDiagonalCursor]];
-//		[self addCursorRect:[self topRight] cursor:[NSCursor resizeRightDiagonalCursor]];
-//		[self addCursorRect:[self bottomLeft] cursor:[NSCursor resizeRightDiagonalCursor]];
-//		[self addCursorRect:[self bottomRight] cursor:[NSCursor resizeLeftDiagonalCursor]];
-//		[self addCursorRect:[self topCenter] cursor:[NSCursor resizeUpDownCursor]];
-//		[self addCursorRect:[self bottomCenter] cursor:[NSCursor resizeUpDownCursor]];
-//	}
-//}
+- (void)colorsDidChange:(NSNotification *)notification
+{
+  NSDictionary *userInfo = [notification userInfo];
+  NSString *key = [[userInfo allKeys] objectAtIndex:0];
+  
+  if (key == CHPrimaryOverlayColorKey)
+  {
+    self.primaryColor = [userInfo objectForKey:key];
+    
+    if (!self.switchedColors)
+    {
+      self.fillColor = [self.primaryColor colorWithAlphaComponent:self.fillOpacity];
+    }
+  }
+  else
+  {
+    self.alternateColor = [userInfo objectForKey:key];
+    
+    if (self.switchedColors)
+    {
+      self.fillColor = [self.alternateColor colorWithAlphaComponent:self.fillOpacity];
+    }
+  }
+}
+
 
 
 #pragma mark -
-#pragma mark Move via keyboard arrows
+#pragma mark Keyboard handling
 
 - (BOOL)performKeyEquivalent:(NSEvent *)event
 {
@@ -179,36 +208,15 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 }
 
 
-- (void)clearOverlay
-{
-	self.overlayRect = NSZeroRect;
-	[self refresh];
-}
-
-
-- (void)toggleColors
-{
-	self.alternateColor = !self.alternateColor;
-	self.fillColor = [NSColor colorWithCalibratedWhite:self.isAlternateColor alpha:self.fillOpacity];
-	[self.textAttrs setObject:[NSColor colorWithCalibratedWhite:!self.isAlternateColor alpha:1.0] forKey:NSForegroundColorAttributeName];
-	
-	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
-	[shadow setShadowColor:[NSColor colorWithCalibratedWhite:self.isAlternateColor alpha:1.0]];
-	[shadow setShadowOffset:NSMakeSize(0, -1)];
-	[self.textAttrs setObject:shadow forKey:NSShadowAttributeName];
-	 
-	[self setNeedsDisplayInRect:[self drawingRect]];
-}
-
-
-		 
 - (void)moveUp:(id)sender
 {
 	if (self.isCommandPressed)
 	{
 		self.fillOpacity = (self.fillOpacity < 1) ? self.fillOpacity + 0.1 : 1.0;
-		self.fillColor = [NSColor colorWithCalibratedWhite:self.isAlternateColor alpha:self.fillOpacity];
-		[self setNeedsDisplayInRect:[self drawingRect]];
+		self.fillColor = [self.fillColor colorWithAlphaComponent:self.fillOpacity];
+    [CHPreferences setLastColor:self.fillColor];
+    
+		[self refresh];
 	}
 	else
 	{
@@ -222,9 +230,10 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	if (self.isCommandPressed)
 	{
 		self.fillOpacity = ((self.fillOpacity - 0.1) > 0.05) ? self.fillOpacity - 0.1 : 0.05;
-		self.fillColor = [NSColor colorWithCalibratedWhite:self.isAlternateColor alpha:self.fillOpacity];
-		
-		[self setNeedsDisplayInRect:[self drawingRect]];
+		self.fillColor = [self.fillColor colorWithAlphaComponent:self.fillOpacity];
+		[CHPreferences setLastColor:self.fillColor];
+    
+		[self refresh];
 	}
 	else
 	{
@@ -273,55 +282,47 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	{
 		self.resizing = YES;
 		self.resizeDirection = CHResizeRightCenter;
-		//[[self window] disableCursorRects];
 		[[NSCursor resizeLeftRightCursor] set];
 	}
 	else if (NSPointInRect(point, [self topCenter]))
 	{
 		self.resizing = YES;
 		self.resizeDirection = CHResizeTopCenter;
-		//[[self window] disableCursorRects];
 		[[NSCursor resizeUpDownCursor] set];
 	}
 	else if (NSPointInRect(point, [self bottomCenter]))
 	{
 		self.resizing = YES;
 		self.resizeDirection = CHResizeBottomCenter;
-		//[[self window] disableCursorRects];
 		[[NSCursor resizeUpDownCursor] set];
 	}
 	else if (NSPointInRect(point, [self topLeft]))
 	{
 		self.resizing = YES;
 		self.resizeDirection = CHResizeTopLeft;
-		//[[self window] disableCursorRects];
 		[[NSCursor resizeLeftDiagonalCursor] set];
 	}
 	else if (NSPointInRect(point, [self topRight]))
 	{
 		self.resizing = YES;
 		self.resizeDirection = CHResizeTopRight;
-		//[[self window] disableCursorRects];
 		[[NSCursor resizeRightDiagonalCursor] set];
 	}
 	else if (NSPointInRect(point, [self bottomLeft]))
 	{
 		self.resizing = YES;
 		self.resizeDirection = CHResizeBottomLeft;
-		//[[self window] disableCursorRects];
 		[[NSCursor resizeRightDiagonalCursor] set];
 	}
 	else if (NSPointInRect(point, [self bottomRight]))
 	{
 		self.resizing = YES;
 		self.resizeDirection = CHResizeBottomRight;
-		//[[self window] disableCursorRects];
 		[[NSCursor resizeLeftDiagonalCursor] set];
 	}
 	else if (NSPointInRect(point, self.overlayRect))
 	{
 		self.dragging = YES;
-		//[[self window] disableCursorRects];
 		[[NSCursor closedHandCursor] set];
 	}
 	else
@@ -335,7 +336,13 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 {
 	NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
 	
+  BOOL wasHovering = self.hovering;
 	[self updateCursorsForPoint:point];
+  
+  if (wasHovering != self.hovering)
+  {
+    [self refresh];
+  }
 }
 
 
@@ -373,14 +380,6 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
 	[self updateCursorsForPoint:point];
 	
-	if (self.isDragging || self.isResizing)
-	{
-		//[NSCursor pop];
-		//[[self window] enableCursorRects];
-	}
-	
-	
-	
 	self.dragging = NO;
 	self.drawing = NO;
 	self.resizing = NO;
@@ -388,6 +387,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 }
 
 
+// Cursor handling
 - (void)updateCursorsForPoint:(NSPoint)point
 {
 	if (NSPointInRect(point, [self leftCenter]))
@@ -430,19 +430,27 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	{
 		[[NSCursor crosshairsCursor] set];
 	}
+  
+  
+  // Only show handles if mouse is over overlay
+  self.hovering = (NSPointInRect(point, NSInsetRect([self drawingRect], -20, -20)));
 }
 
 
 #pragma mark  -
 #pragma mark Drawing
 
+- (void)clearOverlay
+{
+	self.overlayRect = NSZeroRect;
+  self.hovering = NO;
+  [[NSCursor crosshairsCursor] set];
+	[self refresh];
+}
+
+
 - (void)refresh
 {
-	if (!self.isDrawing)
-	{
-		[[self window] invalidateCursorRectsForView:self];
-	}
-	
 	[self setNeedsDisplayInRect:[self drawingRect]];
 }
 
@@ -450,11 +458,11 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 - (void)drawRect:(NSRect)dirtyRect
 {
 	if (!NSIsEmptyRect(self.overlayRect))
-	{
+	{    
 		[self.fillColor set];
 		NSRectFill(self.overlayRect);		
 		
-		if (!self.isDrawing && !self.isDragging && !self.isResizing)
+		if (!self.isDrawing && !self.isDragging && !self.isResizing && self.isHovering)
 		{
 			// draw handles
 			[self drawHandleInRect:[self topLeft]];			
@@ -467,37 +475,12 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 			[self drawHandleInRect:[self leftCenter]];
 		}
 		
-		NSString *dimensions = [NSString stringWithFormat:@"%d x %d", (int)round(self.overlayRect.size.width), (int)round(self.overlayRect.size.height)];
-		
-		NSSize textSize = [dimensions sizeWithAttributes:self.textAttrs];
-		NSRect textRect = NSMakeRect((self.overlayRect.size.width - textSize.width) / 2 + self.overlayRect.origin.x, (self.overlayRect.size.height - textSize.height) / 2 + self.overlayRect.origin.y, textSize.width, textSize.height);
-		
-		// Only draw text if it will fit in overlay
-		if (NSContainsRect(self.overlayRect, textRect))
-		{
-			[dimensions drawInRect:textRect withAttributes:self.textAttrs];
-		}
-		else
-		{
-
-		}
-		
-		textSize = [dimensions sizeWithAttributes:self.smallTextAttrs];
-		NSRect dimensionsBoxRect = NSMakeRect(NSMidX(self.overlayRect) - ((textSize.width + 20) / 2), NSMaxY(self.overlayRect) + 5, textSize.width + 20, textSize.height + 4);
-		
-		textRect = dimensionsBoxRect;
-		textRect.origin.x += (dimensionsBoxRect.size.width - textSize.width) / 2;
-		textRect.origin.y += (dimensionsBoxRect.size.height - textSize.height) / 2;
-		textRect.size.width = textSize.width;
-		
-		NSBezierPath *dimensionsBox = [NSBezierPath bezierPathWithRoundedRect:dimensionsBoxRect xRadius:10 yRadius:10];
-		[[NSColor colorWithCalibratedWhite:0.0 alpha:0.75] set];
-		[dimensionsBox fill];
-		[dimensions drawInRect:textRect withAttributes:self.smallTextAttrs];
+    [self drawDimensionsBox];		
 	}
 }
 
 
+// Draw a resize handle in the specified rect
 - (void)drawHandleInRect:(NSRect)rect
 {
 	NSBezierPath *circle = [NSBezierPath bezierPathWithOvalInRect:rect];
@@ -508,12 +491,76 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 }
 
 
+- (void)drawDimensionsBox
+{
+  NSString *dimensions = [NSString stringWithFormat:@"%d x %d", (int)round(self.overlayRect.size.width), (int)round(self.overlayRect.size.height)];
+  
+  NSSize textSize;
+  NSRect textRect;
+  
+  textSize = [dimensions sizeWithAttributes:self.textAttrs];
+  textRect = NSMakeRect((self.overlayRect.size.width - textSize.width) / 2 + self.overlayRect.origin.x, (self.overlayRect.size.height - textSize.height) / 2 + self.overlayRect.origin.y, textSize.width, textSize.height);
+
+  BOOL textFitsInRect = (NSContainsRect(self.overlayRect, textRect));
+  
+  // Only draw text if it will fit in overlay
+  if (textFitsInRect && !self.showDimensionsOutside)
+  {
+    [dimensions drawInRect:textRect withAttributes:self.textAttrs];
+  }
+  
+  if (!textFitsInRect || self.showDimensionsOutside)
+  {
+    // Draw dimensions bubble
+    textSize = [dimensions sizeWithAttributes:self.smallTextAttrs];
+    NSRect dimensionsBoxRect = NSMakeRect(NSMidX(self.overlayRect) - ((textSize.width + 20) / 2), NSMaxY(self.overlayRect) + 10, textSize.width + 20, textSize.height + 4);
+    
+    textRect = dimensionsBoxRect;
+    textRect.origin.x += (dimensionsBoxRect.size.width - textSize.width) / 2;
+    textRect.origin.y += (dimensionsBoxRect.size.height - textSize.height) / 2;
+    textRect.size.width = textSize.width;
+    
+    NSBezierPath *dimensionsBox = [NSBezierPath bezierPathWithRoundedRect:dimensionsBoxRect xRadius:10 yRadius:10];
+    
+    NSBezierPath *beak = [NSBezierPath bezierPath];
+    [beak	moveToPoint:NSMakePoint(NSMidX(dimensionsBoxRect) - 5, NSMinY(dimensionsBoxRect))];
+    [beak lineToPoint:NSMakePoint(NSMidX(dimensionsBoxRect), NSMinY(dimensionsBoxRect) - 5)];
+    [beak lineToPoint:NSMakePoint(NSMidX(dimensionsBoxRect) + 5, NSMinY(dimensionsBoxRect))];
+    [beak closePath];
+    
+    [[NSColor colorWithCalibratedWhite:0.0 alpha:0.75] set];
+    [dimensionsBox fill];
+    [beak fill];
+    [dimensions drawInRect:textRect withAttributes:self.smallTextAttrs];
+  }  
+}
+
+
+- (void)toggleColors
+{
+	self.switchedColors = !self.switchedColors;
+  self.fillColor = (!self.switchedColors) ? [self.primaryColor colorWithAlphaComponent:self.fillOpacity] : [self.alternateColor colorWithAlphaComponent:self.fillOpacity];
+  [CHPreferences setLastColor:self.fillColor];
+  [CHPreferences setSwitchedColors:self.switchedColors];  
+  
+	[self.textAttrs setObject:[NSColor colorWithCalibratedWhite:!self.switchedColors alpha:1.0] forKey:NSForegroundColorAttributeName];
+	
+	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
+	[shadow setShadowColor:[NSColor colorWithCalibratedWhite:self.switchedColors alpha:1.0]];
+	[shadow setShadowOffset:NSMakeSize(0, -1)];
+	[self.textAttrs setObject:shadow forKey:NSShadowAttributeName];
+  
+	[self refresh];
+}
+
+
 #pragma mark -
 #pragma mark Rectangle generation/adjustment methods
 
 // Override setter to refresh display
 - (void)setOverlayRect:(NSRect)newRect
 {
+	// clears old drawing
 	[self setNeedsDisplayInRect:[self drawingRect]];
 	
 	overlayRect = newRect;
@@ -527,13 +574,16 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 {
 	// overlay rect + padding for handles and dimensions
 	float handles = (HANDLE_SIZE + 1) / 2;
-	float xInset = -handles;
+	float xInset = -(handles);
 	float yInset = -(handles + 15);
 	
 	NSRect drawingRect = NSOffsetRect(NSInsetRect(self.overlayRect, xInset, yInset), 0, 15);
 	
-	if (drawingRect.size.width < 100) drawingRect.size.width = 100;
-	//if (drawingRect.size.height < 100) drawingRect.size.height = 100;
+	if (drawingRect.size.width < 80)
+	{
+    float deltaX = (80 - drawingRect.size.width) / 2;
+		drawingRect = NSInsetRect(drawingRect, -deltaX, 0);
+  }
 	
 	return drawingRect;
 }

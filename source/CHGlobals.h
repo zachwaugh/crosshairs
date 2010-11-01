@@ -3,9 +3,20 @@
 //  Dimensions
 //
 //  Created by Zach Waugh on 10/16/10.
-//  Copyright 2010 zachwaugh.com. All rights reserved.
+//  Copyright 2010 Giant Comet. All rights reserved.
 //
 
-extern NSString * const DMCopyFormatKey;
-extern NSString * const DMPrimaryOverlayColorKey;
-extern NSString * const DMAlternateOverlayColorKey;
+
+// User defaults keys
+extern NSString * const CHCopyFormatKey;
+extern NSString * const CHPrimaryOverlayColorKey;
+extern NSString * const CHAlternateOverlayColorKey;
+extern NSString * const CHLastOverlayColorKey;
+extern NSString * const CHSwitchedOverlayColorsKey;
+extern NSString * const CHShowDimensionsOutsideKey;
+extern NSString * const CHStartAtLoginKey;
+extern NSString * const CHGlobalHotKeyCode;
+extern NSString * const CHGlobalHotKeyFlags;
+
+// Notifications
+extern NSString * const CHColorsDidChangeNotification;

@@ -9,6 +9,16 @@
 #import "CHGlobals.h"
 
 
-NSString * const DMCopyFormatKey = @"copyFormat";
-NSString * const DMPrimaryOverlayColorKey = @"primaryOverlayColor";
-NSString * const DMAlternateOverlayColorKey = @"alternateOverlayColor";
+// User defaults keys
+NSString * const CHCopyFormatKey = @"copyFormat";
+NSString * const CHPrimaryOverlayColorKey = @"primaryOverlayColor";
+NSString * const CHAlternateOverlayColorKey = @"alternateOverlayColor";
+NSString * const CHLastOverlayColorKey = @"lastOverlayColor";
+NSString * const CHSwitchedOverlayColorsKey = @"switchedOverlayColors";
+NSString * const CHShowDimensionsOutsideKey = @"showDimensionsOutside";
+NSString * const CHStartAtLoginKey = @"startAtLogin";
+NSString * const CHGlobalHotKeyCode = @"globalHotKeyCode";
+NSString * const CHGlobalHotKeyFlags = @"globalHotKeyFlags";
+
+// Notifications
+NSString * const CHColorsDidChangeNotification = @"CHColorsDidChangeNotification";
