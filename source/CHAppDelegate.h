@@ -8,29 +8,24 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class CHOverlayWindow;
-@class CHOverlayView;
+@class CHOverlayWindowController;
 @class CHPreferencesController;
 
 @interface CHAppDelegate : NSObject <NSApplicationDelegate>
 {
-	CHOverlayWindow *window;
-	CHOverlayView *view;
-	NSStatusItem *statusItem;
 	IBOutlet NSMenu *statusMenu;
+	NSStatusItem *statusItem;
+	
+  CHOverlayWindowController *overlayController;
 	CHPreferencesController *preferencesController;
 }
 
-@property (assign) IBOutlet CHOverlayWindow *window;
-@property (assign) IBOutlet CHOverlayView *view;
 @property (retain) NSStatusItem *statusItem;
 @property (retain) NSMenu *statusMenu;
 
 - (void)activateApp:(id)sender;
 - (void)showPreferences:(id)sender;
 - (void)openWebsite:(id)sender;
-- (void)copyDimensionsToClipboard;
 - (void)checkForUpdates:(id)sender;
-- (void)takeScreenshot;
 
 @end

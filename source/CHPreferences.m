@@ -14,20 +14,21 @@
 
 + (void)registerDefaults
 {
-  NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
+  NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
 	
-	[defaultValues setObject:@"{w} {h}" forKey:CHCopyFormatKey];
-	[defaultValues setObject:[NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]] forKey:CHPrimaryOverlayColorKey];
-	[defaultValues setObject:[NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]] forKey:CHAlternateOverlayColorKey];
-  [defaultValues setObject:[NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:0.0 alpha:0.25]] forKey:CHLastOverlayColorKey];
-  [defaultValues setObject:[NSNumber numberWithBool:NO] forKey:CHSwitchedOverlayColorsKey];
-  [defaultValues setObject:[NSNumber numberWithBool:NO] forKey:CHShowDimensionsOutsideKey];
-  [defaultValues setObject:[NSNumber numberWithBool:NO] forKey:CHStartAtLoginKey];
-  [defaultValues setObject:[NSNumber numberWithInt:19] forKey:CHGlobalHotKeyCode];
-  [defaultValues setObject:[NSNumber numberWithInt:(NSShiftKeyMask | NSCommandKeyMask)] forKey:CHGlobalHotKeyFlags];
+	[defaults setObject:@"{w} {h}" forKey:CHCopyFormatKey];
+	[defaults setObject:[NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]] forKey:CHPrimaryOverlayColorKey];
+	[defaults setObject:[NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]] forKey:CHAlternateOverlayColorKey];
+  [defaults setObject:[NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:0.0 alpha:0.25]] forKey:CHLastOverlayColorKey];
+  [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHSwitchedOverlayColorsKey];
+  [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHShowDimensionsOutsideKey];
+  [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHStartAtLoginKey];
+  [defaults setObject:[NSNumber numberWithInt:19] forKey:CHGlobalHotKeyCode];
+  [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHShowInDockKey];
+  [defaults setObject:[NSNumber numberWithInt:(NSShiftKeyMask | NSCommandKeyMask)] forKey:CHGlobalHotKeyFlags];
   
   
-	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
+	[[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 }
 
 
@@ -102,5 +103,16 @@
   [[NSUserDefaults standardUserDefaults] setInteger:flags forKey:CHGlobalHotKeyFlags];
 }
 
+
++ (BOOL)showInDock
+{
+  return [[NSUserDefaults standardUserDefaults] boolForKey:CHShowInDockKey];
+}
+
+
++ (void)setShowInDock:(BOOL)show
+{
+  [[NSUserDefaults standardUserDefaults] setBool:show forKey:CHShowInDockKey];
+}
 
 @end

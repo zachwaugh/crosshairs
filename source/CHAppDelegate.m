@@ -9,14 +9,14 @@
 #import <Sparkle/Sparkle.h>
 #import "CHAppDelegate.h"
 #import "DDHotKeyCenter.h"
+#import "CHOverlayWindowController.h"
 #import "CHPreferencesController.h"
 #import "CHPreferences.h"
-#import "CHOverlayView.h"
 #import "CHGlobals.h"
-#import "NSCursor+Custom.h"
 
 @interface CHAppDelegate ()
 
+- (void)showOverlayWindow;
 - (void)checkForBetaExpiration;
 - (void)createStatusItem;
 - (void)setupHotkeys;
@@ -26,17 +26,49 @@
 
 @implementation CHAppDelegate
 
-@synthesize window, view, statusItem, statusMenu;
+@synthesize statusItem, statusMenu;
+
+
+// Transform process as early as possible
+- (void)applicationWillFinishLaunching:(NSNotification *)notification
+{
+  if ([CHPreferences showInDock])
+  {
+    [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+  }
+}
+
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
+  // Only show overlay if not launched at login
+  NSAppleEventDescriptor *currentEvent = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
+  
+  if ([[currentEvent paramDescriptorForKeyword:keyAEPropData] enumCodeValue] != keyAELaunchedAsLogInItem)
+  {
+    [self showOverlayWindow];
+    [NSApp activateIgnoringOtherApps:YES];
+  }
+  
 	[self checkForBetaExpiration];
 	[self setupHotkeys];
 	[self createStatusItem];
   
-  [self activateApp:nil];
-  
   [[SUUpdater sharedUpdater] setDelegate:self];
+}
+
+
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
+{
+  [overlayController showWindow:nil];
+  
+  return YES;
+}
+
+
+- (void)applicationWillUnhide:(NSNotification *)aNotification
+{
+  [overlayController showWindow:nil];
 }
 
 
@@ -45,6 +77,7 @@
 	[[NSStatusBar systemStatusBar] removeStatusItem:self.statusItem];
 	self.statusItem = nil;
 	self.statusMenu = nil;
+  [overlayController release];
 	[preferencesController release];
 	
 	[super dealloc];
@@ -79,7 +112,7 @@
 - (void)checkForUpdates:(id)sender
 {
 	[NSApp activateIgnoringOtherApps:YES];
-	[self.window orderOut:sender];
+	[overlayController hideWindow];
 	[[SUUpdater sharedUpdater] checkForUpdates:sender];
 }
 
@@ -93,29 +126,14 @@
 
 - (void)hotkeyWithEvent:(NSEvent *)event
 {
-	[NSApp activateIgnoringOtherApps:YES];
-	[self.window makeKeyAndOrderFront:nil];
+	[self activateApp:nil];
 }
 
 
 - (void)activateApp:(id)sender
 {
 	[NSApp activateIgnoringOtherApps:YES];
-	[self.window makeKeyAndOrderFront:nil];
-}
-
-
-- (void)copyDimensionsToClipboard
-{
-  int width = (int)self.view.overlayRect.size.width;
-  int height = (int)self.view.overlayRect.size.height;
-  NSString *format = [CHPreferences copyFormat];
-  
-  NSString *dimensions = [format stringByReplacingOccurrencesOfString:@"{w}" withString:[NSString stringWithFormat:@"%d", width]];
-  dimensions = [dimensions stringByReplacingOccurrencesOfString:@"{h}" withString:[NSString stringWithFormat:@"%d", height]];
-  
-	[[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:self];
-	[[NSPasteboard generalPasteboard] setString:dimensions forType:NSStringPboardType];
+	[self showOverlayWindow];
 }
 
 
@@ -125,10 +143,21 @@
 }
 
 
+- (void)showOverlayWindow
+{
+  if (overlayController == nil)
+  {
+    overlayController = [[CHOverlayWindowController alloc] initWithWindowNibName:@"CHOverlayWindowController"];
+  }
+  
+  [overlayController showWindow:self];
+}
+
+
 - (void)showPreferences:(id)sender
 {
 	[NSApp activateIgnoringOtherApps:YES];
-	[self.window orderOut:sender];
+	[overlayController hideWindow];
 	
 	if (preferencesController == nil)
 	{
@@ -140,41 +169,17 @@
 
 
 #pragma mark -
-#pragma mark Screenshot
-
-- (void)takeScreenshot
-{
-  // Capture screenshot
-	CGRect captureRect = NSRectToCGRect(self.view.overlayRect);
-	CGImageRef screenShot = CGWindowListCreateImage(captureRect, kCGWindowListOptionOnScreenBelowWindow, [self.window windowNumber], kCGWindowImageDefault);
-	NSBitmapImageRep *image = [[[NSBitmapImageRep alloc] initWithCGImage:screenShot] autorelease];
-  
-  // Build screenshot filename
-  int width = (int)self.view.overlayRect.size.width;
-  int height = (int)self.view.overlayRect.size.height;
-  NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-  [dateFormatter setDateFormat:@"yyyy-MM-dd 'at' h.mm.ss a"];
-  NSString *timestamp = [NSString stringWithFormat:@"%@ (%d x %d)", [dateFormatter stringFromDate:[NSDate date]], width, height];
-  
-  // Write out screenshot png
-  [[image representationUsingType:NSPNGFileType properties:nil] writeToFile:[NSString stringWithFormat:@"%@/Desktop/Screen shot %@.png", NSHomeDirectory(), timestamp] atomically:NO];
-
-	CGImageRelease(screenShot);
-}
-
-
-#pragma mark -
 #pragma mark Sparkle delegate methods
 
 - (void)updater:(SUUpdater *)updater didFindValidUpdate:(SUAppcastItem *)update
 {
-  [self.window orderOut:nil];
+  [overlayController hideWindow];
 }
 
 
 - (void)updaterDidNotFindUpdate:(SUUpdater *)update
 {
-  [self.window orderOut:nil];
+  [overlayController hideWindow];
 }                                                                   
                                                                       
 

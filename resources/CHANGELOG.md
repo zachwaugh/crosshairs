@@ -1,3 +1,9 @@
+1.0b2
+- Updated app icon
+- Now preventing crosshairs from appearing if app is set to launch at login
+- Added preference for showing dock icon and main menu in addition to menu bar icon (experimental)
+
+
 1.0b
 - Delete key now clears overlay
 - Spacebar now takes a screenshot

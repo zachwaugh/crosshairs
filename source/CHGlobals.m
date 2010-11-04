@@ -19,6 +19,7 @@ NSString * const CHShowDimensionsOutsideKey = @"showDimensionsOutside";
 NSString * const CHStartAtLoginKey = @"startAtLogin";
 NSString * const CHGlobalHotKeyCode = @"globalHotKeyCode";
 NSString * const CHGlobalHotKeyFlags = @"globalHotKeyFlags";
+NSString * const CHShowInDockKey = @"showInDock";
 
 // Notifications
 NSString * const CHColorsDidChangeNotification = @"CHColorsDidChangeNotification";

@@ -7,8 +7,8 @@
 //
 
 #import "CHOverlayWindow.h"
-#import "CHAppDelegate.h"
-#import "NSCursor+Custom.h"
+#import "CHOverlayWindowController.h"
+
 
 @implementation CHOverlayWindow
 
@@ -17,7 +17,7 @@
 	NSWindow *window = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
 	
 	[window setBackgroundColor:[NSColor clearColor]];
-	//[window setBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.5]];
+	//[window setBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.25]];
 	[window setLevel:NSStatusWindowLevel];
 	[window setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
 	[window setAlphaValue:1.0];
@@ -26,8 +26,6 @@
 	[window setMovableByWindowBackground:NO];
 	[window setIgnoresMouseEvents:NO];
 	[window setAcceptsMouseMovedEvents:YES];
-	[window setHidesOnDeactivate:YES];
-	//[window disableCursorRects];
 	
 	return window;
 }
@@ -49,8 +47,6 @@
 	}
 	
 	[self setFrame:windowRect display:YES animate:NO];
-	
-	[self makeKeyAndOrderFront:nil];
 }
 
 
@@ -58,12 +54,12 @@
 {
 	if ([event keyCode] == ESC_KEY)
 	{
-		[NSApp hide:nil];
+		[self orderOut:nil];
 		return;
 	}
 	else if ([event keyCode] == SPACE_KEY)
 	{
-		[(CHAppDelegate *)self.delegate takeScreenshot];
+		[(CHOverlayWindowController *)self.delegate takeScreenshot];
 		return;
 	}
 	else
@@ -77,31 +73,10 @@
 {
 	NSString *characters = [event charactersIgnoringModifiers];
 	
-	// cmd-q - quit the app
-	if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@"q"])
-	{
-		[NSApp terminate:nil];
-		return YES;
-	}
-	
-	// cmd-h - hide the app
-	if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@"h"])
-	{
-		[NSApp hide:nil];
-		return YES;
-	}
-	
 	// cmd-c - copy dimensions
 	if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@"c"])
 	{
-		[(CHAppDelegate *)self.delegate copyDimensionsToClipboard];
-		return YES;
-	}
-	
-	// cmd-, - Show Preferences
-	if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@","])
-	{
-		[(CHAppDelegate *)self.delegate showPreferences:nil];
+		[(CHOverlayWindowController *)self.delegate copyDimensionsToClipboard];
 		return YES;
 	}
 	

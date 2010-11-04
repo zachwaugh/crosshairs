@@ -24,5 +24,7 @@
 + (NSInteger)globalHotKeyFlags;
 + (void)setGlobalHotKeyCode:(NSInteger)keyCode;
 + (void)setGlobalHotKeyFlags:(NSInteger)flags;
++ (BOOL)showInDock;
++ (void)setShowInDock:(BOOL)show;
 
 @end
