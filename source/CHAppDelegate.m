@@ -44,13 +44,15 @@
   // Only show overlay if not launched at login
   NSAppleEventDescriptor *currentEvent = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
   
+  [self checkForBetaExpiration];
+  
   if ([[currentEvent paramDescriptorForKeyword:keyAEPropData] enumCodeValue] != keyAELaunchedAsLogInItem)
   {
     [self showOverlayWindow];
     [NSApp activateIgnoringOtherApps:YES];
   }
   
-	[self checkForBetaExpiration];
+	
 	[self setupHotkeys];
 	[self createStatusItem];
   
@@ -86,11 +88,10 @@
 
 - (void)checkForBetaExpiration
 {
-	NSDate *expiration = [NSDate dateWithNaturalLanguageString:@"2010-11-14 23:59:00"];
+	NSDate *expiration = [NSDate dateWithNaturalLanguageString:@"2011-01-15 23:59:00"];
 	
 	if ([expiration earlierDate:[NSDate date]] == expiration)
 	{
-		NSLog(@"Beta has expired!");
 		NSAlert *alert = [NSAlert alertWithMessageText:@"I'm sorry, this beta version has expired. Please download a new version from http://zachwaugh.com/crosshairs" defaultButton:@"Ok" alternateButton:nil otherButton:nil informativeTextWithFormat:@""];
 		[alert runModal];
 		[NSApp terminate:nil];
