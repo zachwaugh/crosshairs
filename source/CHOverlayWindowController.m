@@ -65,6 +65,7 @@
   // Build screenshot filename
   int width = (int)overlayRect.size.width;
   int height = (int)overlayRect.size.height;
+  
   NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
   [dateFormatter setDateFormat:@"yyyy-MM-dd 'at' h.mm.ss a"];
   NSString *timestamp = [NSString stringWithFormat:@"%@ (%d x %d)", [dateFormatter stringFromDate:[NSDate date]], width, height];

@@ -25,7 +25,5 @@
 
 - (void)activateApp:(id)sender;
 - (void)showPreferences:(id)sender;
-- (void)openWebsite:(id)sender;
-- (void)checkForUpdates:(id)sender;
 
 @end

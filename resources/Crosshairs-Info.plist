@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string>crosshairs_appicon</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.giantcomet.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>com.giantcomet.crosshairs</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -28,12 +28,6 @@
 	<string>CHMainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>SUFeedURL</key>
-	<string>http://zachwaugh.com/crosshairs/appcast.xml</string>
-	<key>SUPublicDSAKeyFile</key>
-	<string>dsa_pub.pem</string>
-	<key>SUEnableAutomaticChecks</key>
-	<true/>
 	<key>LSUIElement</key>
 	<true/>
 </dict>

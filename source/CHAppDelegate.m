@@ -6,7 +6,6 @@
 //  Copyright 2010 zachwaugh.com. All rights reserved.
 //
 
-#import <Sparkle/Sparkle.h>
 #import "CHAppDelegate.h"
 #import "DDHotKeyCenter.h"
 #import "CHOverlayWindowController.h"
@@ -17,7 +16,6 @@
 @interface CHAppDelegate ()
 
 - (void)showOverlayWindow;
-- (void)checkForBetaExpiration;
 - (void)createStatusItem;
 - (void)setupHotkeys;
 
@@ -44,8 +42,6 @@
   // Only show overlay if not launched at login
   NSAppleEventDescriptor *currentEvent = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
   
-  [self checkForBetaExpiration];
-  
   if ([[currentEvent paramDescriptorForKeyword:keyAEPropData] enumCodeValue] != keyAELaunchedAsLogInItem)
   {
     [self showOverlayWindow];
@@ -55,8 +51,6 @@
 	
 	[self setupHotkeys];
 	[self createStatusItem];
-  
-  [[SUUpdater sharedUpdater] setDelegate:self];
 }
 
 
@@ -86,19 +80,6 @@
 }
 
 
-- (void)checkForBetaExpiration
-{
-	NSDate *expiration = [NSDate dateWithNaturalLanguageString:@"2011-01-15 23:59:00"];
-	
-	if ([expiration earlierDate:[NSDate date]] == expiration)
-	{
-		NSAlert *alert = [NSAlert alertWithMessageText:@"I'm sorry, this beta version has expired. Please download a new version from http://zachwaugh.com/crosshairs" defaultButton:@"Ok" alternateButton:nil otherButton:nil informativeTextWithFormat:@""];
-		[alert runModal];
-		[NSApp terminate:nil];
-	}
-}
-
-
 - (void)createStatusItem
 {
 	// Build the statusbar menu
@@ -107,14 +88,6 @@
 	[self.statusItem setAlternateImage:[NSImage imageNamed:@"crosshairs_menu_on.png"]];
 	[self.statusItem setHighlightMode:YES];
 	[self.statusItem setMenu:self.statusMenu];
-}
-
-
-- (void)checkForUpdates:(id)sender
-{
-	[NSApp activateIgnoringOtherApps:YES];
-	[overlayController hideWindow];
-	[[SUUpdater sharedUpdater] checkForUpdates:sender];
 }
 
 
@@ -135,12 +108,6 @@
 {
 	[NSApp activateIgnoringOtherApps:YES];
 	[self showOverlayWindow];
-}
-
-
-- (void)openWebsite:(id)sender
-{
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://zachwaugh.com/crosshairs?ref=app"]];
 }
 
 
@@ -167,21 +134,6 @@
 
 	[preferencesController showWindow:sender];
 }
-
-
-#pragma mark -
-#pragma mark Sparkle delegate methods
-
-- (void)updater:(SUUpdater *)updater didFindValidUpdate:(SUAppcastItem *)update
-{
-  [overlayController hideWindow];
-}
-
-
-- (void)updaterDidNotFindUpdate:(SUUpdater *)update
-{
-  [overlayController hideWindow];
-}                                                                   
-                                                                      
+                                                                 
 
 @end

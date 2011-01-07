@@ -2,18 +2,18 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10H574</string>
+		<string key="IBDocument.SystemVersion">10J567</string>
 		<string key="IBDocument.InterfaceBuilderVersion">823</string>
 		<string key="IBDocument.AppKitVersion">1038.35</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<string key="IBDocument.HIToolboxVersion">462.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">823</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="296"/>
 			<integer value="813"/>
+			<integer value="57"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -72,14 +72,6 @@
 									<bool key="NSIsDisabled">YES</bool>
 									<bool key="NSIsSeparator">YES</bool>
 									<string key="NSTitle"/>
-									<string key="NSKeyEquiv"/>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="756751024"/>
-									<reference key="NSMixedImage" ref="908425081"/>
-								</object>
-								<object class="NSMenuItem" id="656855365">
-									<reference key="NSMenu" ref="110575045"/>
-									<string key="NSTitle">Check for Updates...</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="756751024"/>
@@ -212,24 +204,6 @@
 				<string key="NSTitle"/>
 				<object class="NSMutableArray" key="NSMenuItems">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="NSMenuItem" id="224305697">
-						<reference key="NSMenu" ref="769177616"/>
-						<string key="NSTitle">*Beta will expire on January 15, 2011*</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="756751024"/>
-						<reference key="NSMixedImage" ref="908425081"/>
-					</object>
-					<object class="NSMenuItem" id="379306448">
-						<reference key="NSMenu" ref="769177616"/>
-						<bool key="NSIsDisabled">YES</bool>
-						<bool key="NSIsSeparator">YES</bool>
-						<string key="NSTitle"/>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="756751024"/>
-						<reference key="NSMixedImage" ref="908425081"/>
-					</object>
 					<object class="NSMenuItem" id="74474124">
 						<reference key="NSMenu" ref="769177616"/>
 						<string key="NSTitle">Show</string>
@@ -243,14 +217,6 @@
 						<bool key="NSIsDisabled">YES</bool>
 						<bool key="NSIsSeparator">YES</bool>
 						<string key="NSTitle"/>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="756751024"/>
-						<reference key="NSMixedImage" ref="908425081"/>
-					</object>
-					<object class="NSMenuItem" id="365892082">
-						<reference key="NSMenu" ref="769177616"/>
-						<string key="NSTitle">Check for Updates...</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<reference key="NSOnImage" ref="756751024"/>
@@ -285,9 +251,6 @@
 						<reference key="NSMixedImage" ref="908425081"/>
 					</object>
 				</object>
-			</object>
-			<object class="NSCustomObject" id="517111423">
-				<string key="NSClassName">SUUpdater</string>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -351,27 +314,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">checkForUpdates:</string>
-						<reference key="source" ref="21367936"/>
-						<reference key="destination" ref="365892082"/>
-					</object>
-					<int key="connectionID">828</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">activateApp:</string>
 						<reference key="source" ref="21367936"/>
 						<reference key="destination" ref="74474124"/>
 					</object>
 					<int key="connectionID">829</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">openWebsite:</string>
-						<reference key="source" ref="21367936"/>
-						<reference key="destination" ref="224305697"/>
-					</object>
-					<int key="connectionID">833</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -404,14 +351,6 @@
 						<reference key="destination" ref="190579863"/>
 					</object>
 					<int key="connectionID">841</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">checkForUpdates:</string>
-						<reference key="source" ref="21367936"/>
-						<reference key="destination" ref="656855365"/>
-					</object>
-					<int key="connectionID">842</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -478,7 +417,6 @@
 							<reference ref="1046388886"/>
 							<reference ref="1056857174"/>
 							<reference ref="342932134"/>
-							<reference ref="656855365"/>
 						</object>
 						<reference key="parent" ref="694149608"/>
 					</object>
@@ -579,32 +517,14 @@
 						<reference key="object" ref="769177616"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="224305697"/>
-							<reference ref="379306448"/>
 							<reference ref="74474124"/>
 							<reference ref="586557508"/>
-							<reference ref="365892082"/>
 							<reference ref="817577361"/>
 							<reference ref="190579863"/>
 							<reference ref="783311755"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Status item menu</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">814</int>
-						<reference key="object" ref="517111423"/>
-						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">815</int>
-						<reference key="object" ref="224305697"/>
-						<reference key="parent" ref="769177616"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">816</int>
-						<reference key="object" ref="379306448"/>
-						<reference key="parent" ref="769177616"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">817</int>
@@ -614,11 +534,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">818</int>
 						<reference key="object" ref="586557508"/>
-						<reference key="parent" ref="769177616"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">819</int>
-						<reference key="object" ref="365892082"/>
 						<reference key="parent" ref="769177616"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -635,11 +550,6 @@
 						<int key="objectID">822</int>
 						<reference key="object" ref="783311755"/>
 						<reference key="parent" ref="769177616"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">836</int>
-						<reference key="object" ref="656855365"/>
-						<reference key="parent" ref="110575045"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">838</int>
@@ -696,16 +606,11 @@
 					<string>58.ImportedFromIB2</string>
 					<string>813.IBEditorWindowLastContentRect</string>
 					<string>813.IBPluginDependency</string>
-					<string>814.IBPluginDependency</string>
-					<string>815.IBPluginDependency</string>
-					<string>816.IBPluginDependency</string>
 					<string>817.IBPluginDependency</string>
 					<string>818.IBPluginDependency</string>
-					<string>819.IBPluginDependency</string>
 					<string>820.IBPluginDependency</string>
 					<string>821.IBPluginDependency</string>
 					<string>822.IBPluginDependency</string>
-					<string>836.IBPluginDependency</string>
 					<string>838.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
@@ -746,18 +651,13 @@
 					<string>{{475, 832}, {234, 43}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>{{361, 881}, {229, 203}}</string>
+					<string>{{361, 901}, {207, 183}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{{23, 794}, {245, 183}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>{{424, 810}, {336, 133}}</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>{{424, 860}, {155, 83}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -796,14 +696,10 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>activateApp:</string>
-							<string>checkForUpdates:</string>
-							<string>openWebsite:</string>
 							<string>showPreferences:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>
@@ -813,22 +709,12 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>activateApp:</string>
-							<string>checkForUpdates:</string>
-							<string>openWebsite:</string>
 							<string>showPreferences:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
 								<string key="name">activateApp:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">checkForUpdates:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">openWebsite:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -1196,20 +1082,6 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">Sparkle.framework/Headers/SUAppcast.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="577038545">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">Sparkle.framework/Headers/SUUpdater.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">NSResponder</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
@@ -1253,33 +1125,6 @@
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">BWToolkitFramework.framework/Headers/NSView+BWAdditions.h</string>
 					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">SUUpdater</string>
-					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">checkForUpdates:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">checkForUpdates:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">checkForUpdates:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">delegate</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">delegate</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">delegate</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<reference key="sourceIdentifier" ref="577038545"/>
 				</object>
 			</object>
 		</object>

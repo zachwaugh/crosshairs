@@ -32,8 +32,6 @@
 		BF9B1E28124EA86E00308205 /* crosshairs_cursor.png in Resources */ = {isa = PBXBuildFile; fileRef = BF9B1E27124EA86E00308205 /* crosshairs_cursor.png */; };
 		BFADE6C5124C296F0065F2E0 /* CHOverlayWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = BFADE6C4124C296F0065F2E0 /* CHOverlayWindow.m */; };
 		BFADE6F0124C2A290065F2E0 /* CHOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFADE6EF124C2A290065F2E0 /* CHOverlayView.m */; };
-		BFECB9ED125BFDC70001CB88 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFECB9EC125BFDC70001CB88 /* Sparkle.framework */; };
-		BFECB9FE125BFE770001CB88 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BFECB9EC125BFDC70001CB88 /* Sparkle.framework */; };
 		BFECBA09125BFF6E0001CB88 /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFECBA08125BFF6E0001CB88 /* BWToolkitFramework.framework */; };
 		BFECBA3A125BFF700001CB88 /* BWToolkitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BFECBA08125BFF6E0001CB88 /* BWToolkitFramework.framework */; };
 		BFECBA64125C03190001CB88 /* CHPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFECBA63125C03190001CB88 /* CHPreferencesController.m */; };
@@ -51,7 +49,6 @@
 			files = (
 				92CC5776127E1C6500A7CEED /* ShortcutRecorder.framework in CopyFiles */,
 				BFECBA3A125BFF700001CB88 /* BWToolkitFramework.framework in CopyFiles */,
-				BFECB9FE125BFE770001CB88 /* Sparkle.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +95,6 @@
 		BFADE6C4124C296F0065F2E0 /* CHOverlayWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHOverlayWindow.m; sourceTree = "<group>"; };
 		BFADE6EE124C2A290065F2E0 /* CHOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHOverlayView.h; sourceTree = "<group>"; };
 		BFADE6EF124C2A290065F2E0 /* CHOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHOverlayView.m; sourceTree = "<group>"; };
-		BFECB9EC125BFDC70001CB88 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		BFECBA08125BFF6E0001CB88 /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BWToolkitFramework.framework; sourceTree = "<group>"; };
 		BFECBA62125C03190001CB88 /* CHPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHPreferencesController.h; sourceTree = "<group>"; };
 		BFECBA63125C03190001CB88 /* CHPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHPreferencesController.m; sourceTree = "<group>"; };
@@ -114,7 +110,6 @@
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				BF957B091259310B0064B988 /* Carbon.framework in Frameworks */,
-				BFECB9ED125BFDC70001CB88 /* Sparkle.framework in Frameworks */,
 				BFECBA09125BFF6E0001CB88 /* BWToolkitFramework.framework in Frameworks */,
 				92CC576B127E1C6200A7CEED /* ShortcutRecorder.framework in Frameworks */,
 			);
@@ -212,7 +207,6 @@
 			children = (
 				92CC576A127E1C6200A7CEED /* ShortcutRecorder.framework */,
 				BFECBA08125BFF6E0001CB88 /* BWToolkitFramework.framework */,
-				BFECB9EC125BFDC70001CB88 /* Sparkle.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
@@ -413,6 +407,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Crosshairs;
 				SDKROOT = macosx;
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Debug;
 		};
@@ -432,6 +427,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Crosshairs;
 				SDKROOT = macosx;
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Release;
 		};
