@@ -17,6 +17,7 @@
   [self setObject:theData forKey:aKey];
 }
 
+
 - (NSColor *)colorForKey:(NSString *)aKey
 {
   NSColor *theColor = nil;

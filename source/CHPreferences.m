@@ -16,7 +16,7 @@
 {
   NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
 	
-	[defaults setObject:@"{w} {h}" forKey:CHCopyFormatKey];
+	[defaults setObject:@"{w}x{h}" forKey:CHClipboardFormatKey];
 	[defaults setObject:[NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]] forKey:CHPrimaryOverlayColorKey];
 	[defaults setObject:[NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]] forKey:CHAlternateOverlayColorKey];
   [defaults setObject:[NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:0.0 alpha:0.25]] forKey:CHLastOverlayColorKey];
@@ -32,9 +32,9 @@
 }
 
 
-+ (NSString *)copyFormat
++ (NSString *)clipboardFormat
 {
-  return [[NSUserDefaults standardUserDefaults] stringForKey:CHCopyFormatKey];
+  return [[NSUserDefaults standardUserDefaults] stringForKey:CHClipboardFormatKey];
 }
 
 

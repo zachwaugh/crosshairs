@@ -1,3 +1,6 @@
+1.0
+- Mac App Store release
+
 1.0b2
 - Updated beta expiration date to next year
 

@@ -10,7 +10,7 @@
 
 
 // User defaults keys
-NSString * const CHCopyFormatKey = @"copyFormat";
+NSString * const CHClipboardFormatKey = @"clipboardFormat";
 NSString * const CHPrimaryOverlayColorKey = @"primaryOverlayColor";
 NSString * const CHAlternateOverlayColorKey = @"alternateOverlayColor";
 NSString * const CHLastOverlayColorKey = @"lastOverlayColor";
@@ -23,3 +23,6 @@ NSString * const CHShowInDockKey = @"showInDock";
 
 // Notifications
 NSString * const CHColorsDidChangeNotification = @"CHColorsDidChangeNotification";
+
+// Growl
+NSString * const CHGrowlScreenshotSavedNotification = @"Screenshot Saved";

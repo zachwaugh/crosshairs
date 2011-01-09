@@ -14,21 +14,35 @@
 
 @implementation CHPreferencesController
 
-@synthesize primaryColorWell, alternateColorWell, shortcutRecorder;
+@synthesize toolbar, startAtLogin, primaryColorWell, alternateColorWell, shortcutRecorder;
 
 - (void)awakeFromNib
 {
   [self.shortcutRecorder setKeyCombo:SRMakeKeyCombo([CHPreferences globalHotKeyCode], [CHPreferences globalHotKeyFlags])];
+  [self.toolbar setSelectedItemIdentifier:@"general"];
+  
+  NSURL *appPath = [[NSBundle mainBundle] bundleURL];
+  BOOL loginItemExists = [MPLoginItems loginItemExists:appPath];
+  [self.startAtLogin setState:(loginItemExists) ? NSOnState : NSOffState];
 }
 
 
 - (void)dealloc
 {
+  self.toolbar = nil;
+  self.startAtLogin = nil;
   self.alternateColorWell = nil;
   self.primaryColorWell = nil;
   self.shortcutRecorder = nil;
   
   [super dealloc];
+}
+
+
+// Only one option, do nothing
+- (void)toolbarItemSelected:(id)sender
+{
+  
 }
 
 
@@ -61,15 +75,15 @@
 - (void)toggleStartAtLogin:(id)sender
 {
   NSURL *appPath = [[NSBundle mainBundle] bundleURL];
-  BOOL startAtLogin = [sender state];
+  BOOL wantsToStartAtLogin = [sender state];
   BOOL loginItemEnabled = [MPLoginItems loginItemExists:appPath];
   
-  if (startAtLogin && !loginItemEnabled)
+  if (wantsToStartAtLogin && !loginItemEnabled)
   {
     [MPLoginItems addLoginItemWithURL:appPath];
   }
   
-  if (!startAtLogin && loginItemEnabled)
+  if (!wantsToStartAtLogin && loginItemEnabled)
   {
     [MPLoginItems removeLoginItemWithURL:appPath];
   }

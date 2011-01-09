@@ -14,13 +14,14 @@
 		9245E4A5128263BF00D3853E /* CHMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9245E4A4128263BF00D3853E /* CHMainMenu.xib */; };
 		9245E50C12826B0000D3853E /* CHOverlayWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9245E50B12826B0000D3853E /* CHOverlayWindowController.m */; };
 		9245E50E12826B1300D3853E /* CHOverlayWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9245E50D12826B1300D3853E /* CHOverlayWindowController.xib */; };
+		927316D512DA5CDC00D55A46 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 927316D412DA5CDC00D55A46 /* Growl.framework */; };
+		927316F512DA611E00D55A46 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 927316D412DA5CDC00D55A46 /* Growl.framework */; };
 		9287E7B3127DC4B4000FCCB6 /* NSUserDefaults+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 9287E7B2127DC4B4000FCCB6 /* NSUserDefaults+Color.m */; };
-		9294587B1281150600ABF139 /* crosshairs_appicon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 9294587A1281150600ABF139 /* crosshairs_appicon.icns */; };
+		9294587B1281150600ABF139 /* Crosshairs.icns in Resources */ = {isa = PBXBuildFile; fileRef = 9294587A1281150600ABF139 /* Crosshairs.icns */; };
 		92CC56CD127E117400A7CEED /* MPLoginItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 92CC56CC127E117400A7CEED /* MPLoginItems.m */; };
 		92CC576B127E1C6200A7CEED /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92CC576A127E1C6200A7CEED /* ShortcutRecorder.framework */; };
 		92CC5776127E1C6500A7CEED /* ShortcutRecorder.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 92CC576A127E1C6200A7CEED /* ShortcutRecorder.framework */; };
 		BF0AA0CF125D68BA00EB9C85 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = BF0AA0CE125D68BA00EB9C85 /* CHANGELOG.md */; };
-		BF216B1C125C304400C63D4B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = BF216B1B125C304400C63D4B /* dsa_pub.pem */; };
 		BF492AEB1259385800641851 /* resize_cursor_diagonal_right.tiff in Resources */ = {isa = PBXBuildFile; fileRef = BF492AE91259385800641851 /* resize_cursor_diagonal_right.tiff */; };
 		BF492AEC1259385800641851 /* resize_cursor_diagonal_left.tiff in Resources */ = {isa = PBXBuildFile; fileRef = BF492AEA1259385800641851 /* resize_cursor_diagonal_left.tiff */; };
 		BF61A8A71258EB59001E5D63 /* crosshairs_menu_off.png in Resources */ = {isa = PBXBuildFile; fileRef = BF61A8A61258EB59001E5D63 /* crosshairs_menu_off.png */; };
@@ -32,12 +33,9 @@
 		BF9B1E28124EA86E00308205 /* crosshairs_cursor.png in Resources */ = {isa = PBXBuildFile; fileRef = BF9B1E27124EA86E00308205 /* crosshairs_cursor.png */; };
 		BFADE6C5124C296F0065F2E0 /* CHOverlayWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = BFADE6C4124C296F0065F2E0 /* CHOverlayWindow.m */; };
 		BFADE6F0124C2A290065F2E0 /* CHOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFADE6EF124C2A290065F2E0 /* CHOverlayView.m */; };
-		BFECBA09125BFF6E0001CB88 /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFECBA08125BFF6E0001CB88 /* BWToolkitFramework.framework */; };
-		BFECBA3A125BFF700001CB88 /* BWToolkitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BFECBA08125BFF6E0001CB88 /* BWToolkitFramework.framework */; };
 		BFECBA64125C03190001CB88 /* CHPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFECBA63125C03190001CB88 /* CHPreferencesController.m */; };
 		BFECBA66125C032D0001CB88 /* CHPreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BFECBA65125C032D0001CB88 /* CHPreferencesController.xib */; };
 		BFECBAD6125C0BCA0001CB88 /* crosshairs_menu_on.png in Resources */ = {isa = PBXBuildFile; fileRef = BFECBAD5125C0BCA0001CB88 /* crosshairs_menu_on.png */; };
-		BFECBB3F125C13770001CB88 /* beta_warning.png in Resources */ = {isa = PBXBuildFile; fileRef = BFECBB3E125C13770001CB88 /* beta_warning.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -47,8 +45,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				927316F512DA611E00D55A46 /* Growl.framework in CopyFiles */,
 				92CC5776127E1C6500A7CEED /* ShortcutRecorder.framework in CopyFiles */,
-				BFECBA3A125BFF700001CB88 /* BWToolkitFramework.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,14 +68,14 @@
 		9245E50A12826B0000D3853E /* CHOverlayWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHOverlayWindowController.h; sourceTree = "<group>"; };
 		9245E50B12826B0000D3853E /* CHOverlayWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHOverlayWindowController.m; sourceTree = "<group>"; };
 		9245E50D12826B1300D3853E /* CHOverlayWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CHOverlayWindowController.xib; sourceTree = "<group>"; };
+		927316D412DA5CDC00D55A46 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
 		9287E7B1127DC4B4000FCCB6 /* NSUserDefaults+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Color.h"; sourceTree = "<group>"; };
 		9287E7B2127DC4B4000FCCB6 /* NSUserDefaults+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Color.m"; sourceTree = "<group>"; };
-		9294587A1281150600ABF139 /* crosshairs_appicon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = crosshairs_appicon.icns; sourceTree = "<group>"; };
+		9294587A1281150600ABF139 /* Crosshairs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Crosshairs.icns; sourceTree = "<group>"; };
 		92CC56CB127E117400A7CEED /* MPLoginItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPLoginItems.h; sourceTree = "<group>"; };
 		92CC56CC127E117400A7CEED /* MPLoginItems.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPLoginItems.m; sourceTree = "<group>"; };
 		92CC576A127E1C6200A7CEED /* ShortcutRecorder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShortcutRecorder.framework; sourceTree = "<group>"; };
 		BF0AA0CE125D68BA00EB9C85 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG.md; sourceTree = "<group>"; };
-		BF216B1B125C304400C63D4B /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		BF492AE91259385800641851 /* resize_cursor_diagonal_right.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = resize_cursor_diagonal_right.tiff; sourceTree = "<group>"; };
 		BF492AEA1259385800641851 /* resize_cursor_diagonal_left.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = resize_cursor_diagonal_left.tiff; sourceTree = "<group>"; };
 		BF61A8A61258EB59001E5D63 /* crosshairs_menu_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crosshairs_menu_off.png; sourceTree = "<group>"; };
@@ -95,12 +93,10 @@
 		BFADE6C4124C296F0065F2E0 /* CHOverlayWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHOverlayWindow.m; sourceTree = "<group>"; };
 		BFADE6EE124C2A290065F2E0 /* CHOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHOverlayView.h; sourceTree = "<group>"; };
 		BFADE6EF124C2A290065F2E0 /* CHOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHOverlayView.m; sourceTree = "<group>"; };
-		BFECBA08125BFF6E0001CB88 /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BWToolkitFramework.framework; sourceTree = "<group>"; };
 		BFECBA62125C03190001CB88 /* CHPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHPreferencesController.h; sourceTree = "<group>"; };
 		BFECBA63125C03190001CB88 /* CHPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHPreferencesController.m; sourceTree = "<group>"; };
 		BFECBA65125C032D0001CB88 /* CHPreferencesController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CHPreferencesController.xib; sourceTree = "<group>"; };
 		BFECBAD5125C0BCA0001CB88 /* crosshairs_menu_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crosshairs_menu_on.png; sourceTree = "<group>"; };
-		BFECBB3E125C13770001CB88 /* beta_warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beta_warning.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,8 +106,8 @@
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				BF957B091259310B0064B988 /* Carbon.framework in Frameworks */,
-				BFECBA09125BFF6E0001CB88 /* BWToolkitFramework.framework in Frameworks */,
 				92CC576B127E1C6200A7CEED /* ShortcutRecorder.framework in Frameworks */,
+				927316D512DA5CDC00D55A46 /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,9 +187,7 @@
 				BF9B1E27124EA86E00308205 /* crosshairs_cursor.png */,
 				BF61A8A61258EB59001E5D63 /* crosshairs_menu_off.png */,
 				BFECBAD5125C0BCA0001CB88 /* crosshairs_menu_on.png */,
-				BFECBB3E125C13770001CB88 /* beta_warning.png */,
-				BF216B1B125C304400C63D4B /* dsa_pub.pem */,
-				9294587A1281150600ABF139 /* crosshairs_appicon.icns */,
+				9294587A1281150600ABF139 /* Crosshairs.icns */,
 				8D1107310486CEB800E47090 /* Crosshairs-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				BF0AA0CE125D68BA00EB9C85 /* CHANGELOG.md */,
@@ -205,8 +199,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				927316D412DA5CDC00D55A46 /* Growl.framework */,
 				92CC576A127E1C6200A7CEED /* ShortcutRecorder.framework */,
-				BFECBA08125BFF6E0001CB88 /* BWToolkitFramework.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
@@ -343,10 +337,8 @@
 				BF492AEC1259385800641851 /* resize_cursor_diagonal_left.tiff in Resources */,
 				BFECBA66125C032D0001CB88 /* CHPreferencesController.xib in Resources */,
 				BFECBAD6125C0BCA0001CB88 /* crosshairs_menu_on.png in Resources */,
-				BFECBB3F125C13770001CB88 /* beta_warning.png in Resources */,
-				BF216B1C125C304400C63D4B /* dsa_pub.pem in Resources */,
 				BF0AA0CF125D68BA00EB9C85 /* CHANGELOG.md in Resources */,
-				9294587B1281150600ABF139 /* crosshairs_appicon.icns in Resources */,
+				9294587B1281150600ABF139 /* Crosshairs.icns in Resources */,
 				9245E4A5128263BF00D3853E /* CHMainMenu.xib in Resources */,
 				9245E50E12826B1300D3853E /* CHOverlayWindowController.xib in Resources */,
 			);
@@ -388,6 +380,39 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		9273174B12DA642900D55A46 /* App Store */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx;
+			};
+			name = "App Store";
+		};
+		9273174C12DA642900D55A46 /* App Store */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Giant Comet";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = source/Crosshairs_Prefix.pch;
+				INFOPLIST_FILE = "resources/Crosshairs-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = Crosshairs;
+				SDKROOT = macosx;
+				VALID_ARCHS = "i386 x86_64";
+			};
+			name = "App Store";
+		};
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -465,6 +490,7 @@
 			buildConfigurations = (
 				C01FCF4B08A954540054247B /* Debug */,
 				C01FCF4C08A954540054247B /* Release */,
+				9273174C12DA642900D55A46 /* App Store */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -474,6 +500,7 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+				9273174B12DA642900D55A46 /* App Store */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -8,7 +8,7 @@
 
 
 // User defaults keys
-extern NSString * const CHCopyFormatKey;
+extern NSString * const CHClipboardFormatKey;
 extern NSString * const CHPrimaryOverlayColorKey;
 extern NSString * const CHAlternateOverlayColorKey;
 extern NSString * const CHLastOverlayColorKey;
@@ -21,3 +21,6 @@ extern NSString * const CHShowInDockKey;
 
 // Notifications
 extern NSString * const CHColorsDidChangeNotification;
+
+// Growl
+extern NSString * const CHGrowlScreenshotSavedNotification;

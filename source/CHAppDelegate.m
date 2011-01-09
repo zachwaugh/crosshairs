@@ -3,7 +3,7 @@
 //  Crosshairs
 //
 //  Created by Zach Waugh on 9/23/10.
-//  Copyright 2010 zachwaugh.com. All rights reserved.
+//  Copyright 2010 Giant Comet. All rights reserved.
 //
 
 #import "CHAppDelegate.h"
@@ -26,8 +26,19 @@
 
 @synthesize statusItem, statusMenu;
 
+- (void)dealloc
+{
+	[[NSStatusBar systemStatusBar] removeStatusItem:self.statusItem];
+	self.statusItem = nil;
+	self.statusMenu = nil;
+  [overlayController release];
+	[preferencesController release];
+	
+	[super dealloc];
+}
 
-// Transform process as early as possible
+
+// Transform process as early as possible if needed
 - (void)applicationWillFinishLaunching:(NSNotification *)notification
 {
   if ([CHPreferences showInDock])
@@ -48,7 +59,6 @@
     [NSApp activateIgnoringOtherApps:YES];
   }
   
-	
 	[self setupHotkeys];
 	[self createStatusItem];
 }
@@ -65,18 +75,6 @@
 - (void)applicationWillUnhide:(NSNotification *)aNotification
 {
   [overlayController showWindow:nil];
-}
-
-
-- (void)dealloc
-{
-	[[NSStatusBar systemStatusBar] removeStatusItem:self.statusItem];
-	self.statusItem = nil;
-	self.statusMenu = nil;
-  [overlayController release];
-	[preferencesController release];
-	
-	[super dealloc];
 }
 
 

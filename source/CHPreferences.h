@@ -12,7 +12,7 @@
 @interface CHPreferences : NSObject
 
 + (void)registerDefaults;
-+ (NSString *)copyFormat;
++ (NSString *)clipboardFormat;
 + (NSColor *)primaryOverlayColor;
 + (NSColor *)alternateOverlayColor;
 + (void)setLastColor:(NSColor *)color;
