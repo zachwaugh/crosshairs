@@ -13,11 +13,21 @@
 #import "CHPreferences.h"
 #import "CHGlobals.h"
 
+
+#define TRIAL_INTERVAL (7 * 86400)
+#define APP_STORE_URL @"http://itunes.apple.com/us/app/crosshairs/id402446112?mt=12"
+
+
 @interface CHAppDelegate ()
 
 - (void)showOverlayWindow;
 - (void)createStatusItem;
 - (void)setupHotkeys;
+
+// trial
+- (void)openAppStore:(id)sender;
+- (BOOL)hasTrialExpired;
+- (int)daysLeftInTrial;
 
 @end
 
@@ -38,6 +48,10 @@
 }
 
 
+#pragma mark -
+#pragma mark App life cycle
+
+
 // Transform process as early as possible if needed
 - (void)applicationWillFinishLaunching:(NSNotification *)notification
 {
@@ -50,6 +64,37 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
+  #ifdef TRIAL
+  
+    // First launch
+    if ([CHPreferences numberOfLaunches] == 0)
+    {
+      [CHPreferences setFirstLaunchDate:[NSDate date]];
+    }
+    
+    if ([self hasTrialExpired])
+    {
+      NSAlert *alert = [NSAlert alertWithMessageText:@"I'm sorry, your trial has expired. You can purchase Crosshairs on the Mac App Store by clicking the Buy Now button." defaultButton:@"Buy Now" alternateButton:@"Quit" otherButton:nil informativeTextWithFormat:@""];
+      NSInteger button = [alert runModal];
+      
+      if (button == NSAlertDefaultReturn)
+      {
+        [self openAppStore:nil];
+      }
+      
+      [NSApp terminate:nil];           
+    }
+    
+    int days = [self daysLeftInTrial];
+    NSString *message = [NSString stringWithFormat:@"%d day%@ left in trial. Buy now!", days, (days > 1) ? @"s" : @""];
+    
+    NSMenuItem *trial = [[[NSMenuItem alloc] initWithTitle:message action:@selector(openAppStore:) keyEquivalent:@""] autorelease];
+    [trial setTarget:self];
+    [self.statusMenu insertItem:trial atIndex:0];
+    [self.statusMenu insertItem:[NSMenuItem separatorItem] atIndex:1];
+  #endif
+  
+  
   // Only show overlay if not launched at login
   NSAppleEventDescriptor *currentEvent = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
   
@@ -61,6 +106,7 @@
   
 	[self setupHotkeys];
 	[self createStatusItem];
+  [CHPreferences incrementNumberOfLaunches];
 }
 
 
@@ -77,6 +123,14 @@
   [overlayController showWindow:nil];
 }
 
+
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
+  [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+
+#pragma mark -
 
 - (void)createStatusItem
 {
@@ -132,6 +186,35 @@
 
 	[preferencesController showWindow:sender];
 }
-                                                                 
+
+
+#pragma mark -
+#pragma mark Trial support
+
+- (void)openAppStore:(id)sender
+{
+  [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:APP_STORE_URL]];
+}
+
+
+- (int)daysLeftInTrial
+{
+  NSDate *firstLaunch = [CHPreferences firstLaunchDate];
+  //firstLaunch = [NSDate dateWithTimeIntervalSinceNow:(86400 * 7) - 3600];
+  
+  int delta = [[NSDate date] timeIntervalSinceDate:firstLaunch];
+  
+  float days = (TRIAL_INTERVAL - delta) / 86400.0;
+  NSLog(@"delta: %d, days: %f", delta, days);
+  
+  return ceil(days);
+}
+
+
+- (BOOL)hasTrialExpired
+{
+  return ([self daysLeftInTrial] > 0) ? NO : YES;
+}
+
 
 @end

@@ -18,6 +18,9 @@ extern NSString * const CHStartAtLoginKey;
 extern NSString * const CHGlobalHotKeyCode;
 extern NSString * const CHGlobalHotKeyFlags;
 extern NSString * const CHShowInDockKey;
+extern NSString * const CHNumberOfLaunchesKey;
+extern NSString * const CHFirstLaunchDateKey;
+extern NSString * const CHTrialHashKey;
 
 // Notifications
 extern NSString * const CHColorsDidChangeNotification;

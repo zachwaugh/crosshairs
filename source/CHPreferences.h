@@ -12,6 +12,10 @@
 @interface CHPreferences : NSObject
 
 + (void)registerDefaults;
++ (int)numberOfLaunches;
++ (void)incrementNumberOfLaunches;
++ (NSDate *)firstLaunchDate;
++ (void)setFirstLaunchDate:(NSDate *)date;
 + (NSString *)clipboardFormat;
 + (NSColor *)primaryOverlayColor;
 + (NSColor *)alternateOverlayColor;

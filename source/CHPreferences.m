@@ -20,6 +20,7 @@
 	[defaults setObject:[NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]] forKey:CHPrimaryOverlayColorKey];
 	[defaults setObject:[NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]] forKey:CHAlternateOverlayColorKey];
   [defaults setObject:[NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:0.0 alpha:0.25]] forKey:CHLastOverlayColorKey];
+  [defaults setObject:[NSNumber numberWithInt:0] forKey:CHNumberOfLaunchesKey];
   [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHSwitchedOverlayColorsKey];
   [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHShowDimensionsOutsideKey];
   [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHStartAtLoginKey];
@@ -29,6 +30,32 @@
   
   
 	[[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+}
+
+
++ (int)numberOfLaunches
+{
+  return [[NSUserDefaults standardUserDefaults] integerForKey:CHNumberOfLaunchesKey];
+}
+
+
++ (void)incrementNumberOfLaunches
+{
+  NSInteger launches = [CHPreferences numberOfLaunches] + 1;
+  
+  [[NSUserDefaults standardUserDefaults] setInteger:launches forKey:CHNumberOfLaunchesKey];
+}
+
+
++ (NSDate *)firstLaunchDate
+{
+  return [[NSUserDefaults standardUserDefaults] objectForKey:CHFirstLaunchDateKey];
+}
+
+
++ (void)setFirstLaunchDate:(NSDate *)date
+{
+  [[NSUserDefaults standardUserDefaults] setObject:date forKey:CHFirstLaunchDateKey];
 }
 
 

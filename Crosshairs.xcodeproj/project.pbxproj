@@ -11,16 +11,16 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		9221086712EFB13A000FE12C /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9221086512EFB13A000FE12C /* Growl.framework */; };
+		9221086812EFB13A000FE12C /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9221086612EFB13A000FE12C /* ShortcutRecorder.framework */; };
+		9221087A12EFB13F000FE12C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9221086512EFB13A000FE12C /* Growl.framework */; };
+		9221087B12EFB13F000FE12C /* ShortcutRecorder.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9221086612EFB13A000FE12C /* ShortcutRecorder.framework */; };
 		9245E4A5128263BF00D3853E /* CHMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9245E4A4128263BF00D3853E /* CHMainMenu.xib */; };
 		9245E50C12826B0000D3853E /* CHOverlayWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9245E50B12826B0000D3853E /* CHOverlayWindowController.m */; };
 		9245E50E12826B1300D3853E /* CHOverlayWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9245E50D12826B1300D3853E /* CHOverlayWindowController.xib */; };
-		927316D512DA5CDC00D55A46 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 927316D412DA5CDC00D55A46 /* Growl.framework */; };
-		927316F512DA611E00D55A46 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 927316D412DA5CDC00D55A46 /* Growl.framework */; };
 		9287E7B3127DC4B4000FCCB6 /* NSUserDefaults+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 9287E7B2127DC4B4000FCCB6 /* NSUserDefaults+Color.m */; };
 		9294587B1281150600ABF139 /* Crosshairs.icns in Resources */ = {isa = PBXBuildFile; fileRef = 9294587A1281150600ABF139 /* Crosshairs.icns */; };
 		92CC56CD127E117400A7CEED /* MPLoginItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 92CC56CC127E117400A7CEED /* MPLoginItems.m */; };
-		92CC576B127E1C6200A7CEED /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92CC576A127E1C6200A7CEED /* ShortcutRecorder.framework */; };
-		92CC5776127E1C6500A7CEED /* ShortcutRecorder.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 92CC576A127E1C6200A7CEED /* ShortcutRecorder.framework */; };
 		BF0AA0CF125D68BA00EB9C85 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = BF0AA0CE125D68BA00EB9C85 /* CHANGELOG.md */; };
 		BF492AEB1259385800641851 /* resize_cursor_diagonal_right.tiff in Resources */ = {isa = PBXBuildFile; fileRef = BF492AE91259385800641851 /* resize_cursor_diagonal_right.tiff */; };
 		BF492AEC1259385800641851 /* resize_cursor_diagonal_left.tiff in Resources */ = {isa = PBXBuildFile; fileRef = BF492AEA1259385800641851 /* resize_cursor_diagonal_left.tiff */; };
@@ -45,8 +45,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				927316F512DA611E00D55A46 /* Growl.framework in CopyFiles */,
-				92CC5776127E1C6500A7CEED /* ShortcutRecorder.framework in CopyFiles */,
+				9221087A12EFB13F000FE12C /* Growl.framework in CopyFiles */,
+				9221087B12EFB13F000FE12C /* ShortcutRecorder.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,17 +64,17 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* Crosshairs-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Crosshairs-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Crosshairs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Crosshairs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9221086512EFB13A000FE12C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = frameworks/Growl.framework; sourceTree = "<group>"; };
+		9221086612EFB13A000FE12C /* ShortcutRecorder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShortcutRecorder.framework; path = frameworks/ShortcutRecorder.framework; sourceTree = "<group>"; };
 		9245E4A4128263BF00D3853E /* CHMainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CHMainMenu.xib; sourceTree = "<group>"; };
 		9245E50A12826B0000D3853E /* CHOverlayWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHOverlayWindowController.h; sourceTree = "<group>"; };
 		9245E50B12826B0000D3853E /* CHOverlayWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHOverlayWindowController.m; sourceTree = "<group>"; };
 		9245E50D12826B1300D3853E /* CHOverlayWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CHOverlayWindowController.xib; sourceTree = "<group>"; };
-		927316D412DA5CDC00D55A46 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
 		9287E7B1127DC4B4000FCCB6 /* NSUserDefaults+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Color.h"; sourceTree = "<group>"; };
 		9287E7B2127DC4B4000FCCB6 /* NSUserDefaults+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Color.m"; sourceTree = "<group>"; };
 		9294587A1281150600ABF139 /* Crosshairs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Crosshairs.icns; sourceTree = "<group>"; };
 		92CC56CB127E117400A7CEED /* MPLoginItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPLoginItems.h; sourceTree = "<group>"; };
 		92CC56CC127E117400A7CEED /* MPLoginItems.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPLoginItems.m; sourceTree = "<group>"; };
-		92CC576A127E1C6200A7CEED /* ShortcutRecorder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShortcutRecorder.framework; sourceTree = "<group>"; };
 		BF0AA0CE125D68BA00EB9C85 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG.md; sourceTree = "<group>"; };
 		BF492AE91259385800641851 /* resize_cursor_diagonal_right.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = resize_cursor_diagonal_right.tiff; sourceTree = "<group>"; };
 		BF492AEA1259385800641851 /* resize_cursor_diagonal_left.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = resize_cursor_diagonal_left.tiff; sourceTree = "<group>"; };
@@ -106,8 +106,8 @@
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				BF957B091259310B0064B988 /* Carbon.framework in Frameworks */,
-				92CC576B127E1C6200A7CEED /* ShortcutRecorder.framework in Frameworks */,
-				927316D512DA5CDC00D55A46 /* Growl.framework in Frameworks */,
+				9221086712EFB13A000FE12C /* Growl.framework in Frameworks */,
+				9221086812EFB13A000FE12C /* ShortcutRecorder.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +133,8 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9221086512EFB13A000FE12C /* Growl.framework */,
+				9221086612EFB13A000FE12C /* ShortcutRecorder.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				BF957B081259310B0064B988 /* Carbon.framework */,
 			);
@@ -199,8 +201,6 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				927316D412DA5CDC00D55A46 /* Growl.framework */,
-				92CC576A127E1C6200A7CEED /* ShortcutRecorder.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
@@ -380,11 +380,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		9221088C12EFB72D000FE12C /* Trial */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx;
+			};
+			name = Trial;
+		};
+		9221088D12EFB72D000FE12C /* Trial */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/frameworks\"",
+				);
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = source/Crosshairs_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = TRIAL;
+				INFOPLIST_FILE = "resources/Crosshairs-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = Crosshairs;
+				SDKROOT = macosx;
+				VALID_ARCHS = "i386 x86_64";
+			};
+			name = Trial;
+		};
 		9273174B12DA642900D55A46 /* App Store */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = TRIAL;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
@@ -401,10 +436,12 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/frameworks\"",
 				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = source/Crosshairs_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
 				INFOPLIST_FILE = "resources/Crosshairs-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Crosshairs;
@@ -421,6 +458,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/frameworks\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -444,6 +482,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/frameworks\"",
 				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -490,6 +529,7 @@
 			buildConfigurations = (
 				C01FCF4B08A954540054247B /* Debug */,
 				C01FCF4C08A954540054247B /* Release */,
+				9221088D12EFB72D000FE12C /* Trial */,
 				9273174C12DA642900D55A46 /* App Store */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -500,6 +540,7 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+				9221088C12EFB72D000FE12C /* Trial */,
 				9273174B12DA642900D55A46 /* App Store */,
 			);
 			defaultConfigurationIsVisible = 0;
