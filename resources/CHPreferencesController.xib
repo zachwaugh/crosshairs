@@ -417,9 +417,6 @@
 				<string key="NSFrameAutosaveName"/>
 			</object>
 			<object class="NSUserDefaultsController" id="793193493">
-				<array class="NSMutableArray" key="NSDeclaredKeys">
-					<string>clipboardFormat</string>
-				</array>
 				<bool key="NSSharedInstance">YES</bool>
 			</object>
 		</array>
@@ -604,6 +601,22 @@
 						</object>
 					</object>
 					<int key="connectionID">125</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">alternateColorWell</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="864840671"/>
+					</object>
+					<int key="connectionID">126</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">primaryColorWell</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="880446548"/>
+					</object>
+					<int key="connectionID">127</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -956,7 +969,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">125</int>
+			<int key="maxID">127</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
