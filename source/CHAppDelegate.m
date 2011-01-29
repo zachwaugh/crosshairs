@@ -203,6 +203,9 @@
 - (void)openAppStore:(id)sender
 {
   [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:APP_STORE_URL]];
+  
+  // track purchase
+  //[[[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:4567/trialbuy"]] delegate:nil startImmediately:YES] autorelease];
 }
 
 
