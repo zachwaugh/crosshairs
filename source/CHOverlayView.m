@@ -163,32 +163,6 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 }
 
 
-- (void)colorsDidChange:(NSNotification *)notification
-{
-  NSDictionary *userInfo = [notification userInfo];
-  NSString *key = [[userInfo allKeys] objectAtIndex:0];
-  
-  if (key == CHPrimaryOverlayColorKey)
-  {
-    self.primaryColor = [userInfo objectForKey:key];
-    
-    if (!self.switchedColors)
-    {
-      self.fillColor = [self.primaryColor colorWithAlphaComponent:self.fillOpacity];
-    }
-  }
-  else
-  {
-    self.alternateColor = [userInfo objectForKey:key];
-    
-    if (self.switchedColors)
-    {
-      self.fillColor = [self.alternateColor colorWithAlphaComponent:self.fillOpacity];
-    }
-  }
-}
-
-
 
 #pragma mark -
 #pragma mark Keyboard handling
@@ -554,6 +528,35 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	[self.textAttrs setObject:shadow forKey:NSShadowAttributeName];
   
 	[self refresh];
+}
+
+
+// Overlay colors were changed in perferences
+- (void)colorsDidChange:(NSNotification *)notification
+{
+  NSDictionary *userInfo = [notification userInfo];
+  NSString *key = [[userInfo allKeys] objectAtIndex:0];
+  
+  if (key == CHPrimaryOverlayColorKey)
+  {
+    self.primaryColor = [userInfo objectForKey:key];
+    
+    if (!self.switchedColors)
+    {
+      self.fillColor = [self.primaryColor colorWithAlphaComponent:self.fillOpacity];
+      [CHPreferences setLastColor:self.fillColor];
+    }
+  }
+  else
+  {
+    self.alternateColor = [userInfo objectForKey:key];
+    
+    if (self.switchedColors)
+    {
+      self.fillColor = [self.alternateColor colorWithAlphaComponent:self.fillOpacity];
+      [CHPreferences setLastColor:self.fillColor];
+    }
+  }
 }
 
 
