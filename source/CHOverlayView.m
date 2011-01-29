@@ -80,10 +80,6 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 // assigned
 @synthesize startPoint, lastPoint, lastPointInOverlay, overlayRect, dragging, drawing, hovering, resizing, shiftPressed, commandPressed, resizeDirection, switchedColors, fillOpacity, showDimensionsOutside;
 
-+ (void)initialize
-{
-  [CHPreferences registerDefaults];
-}
 
 - (id)initWithFrame:(NSRect)frame
 {

@@ -56,6 +56,8 @@
 // Transform process as early as possible if needed
 - (void)applicationWillFinishLaunching:(NSNotification *)notification
 {
+  [CHPreferences registerDefaults];
+  
   if ([CHPreferences showInDock])
   {
     [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
