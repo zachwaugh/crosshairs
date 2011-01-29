@@ -6,7 +6,7 @@
 //  Copyright 2010 zachwaugh.com. All rights reserved.
 //
 
-#define HANDLE_SIZE 9
+#define HANDLE_SIZE 13
 #define HANDLE_CENTER (HANDLE_SIZE / 2.0)
 
 #import "CHOverlayView.h"
@@ -434,14 +434,28 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 
 - (void)drawRect:(NSRect)dirtyRect
 {
+  NSLog(@"overlay rect: %@", NSStringFromRect(self.overlayRect));
+  
 	if (!NSIsEmptyRect(self.overlayRect))
 	{    
-		[self.fillColor set];
-		NSRectFill(self.overlayRect);		
+    CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
+    CGContextSetAllowsAntialiasing(context, NO);
+    CGContextSetRGBFillColor(context, [self.fillColor redComponent], [self.fillColor greenComponent], [self.fillColor redComponent], [self.fillColor alphaComponent]);
+    CGContextFillRect(context, NSRectToCGRect(self.overlayRect));
+    CGContextSetAllowsAntialiasing(context, YES);
+
+//		[self.fillColor set];
+//		NSRectFill(self.overlayRect);		
 		
 		if (!self.isDrawing && !self.isDragging && !self.isResizing && self.isHovering)
 		{
 			// draw handles
+//      NSShadow *shadow = [[NSShadow alloc] init];
+//      [shadow setShadowColor:[NSColor colorWithCalibratedWhite:0 alpha:0.75]];
+//      [shadow setShadowBlurRadius:1.0];
+//      [shadow setShadowOffset:NSMakeSize(0, -1)];
+//      [shadow set];
+      
 			[self drawHandleInRect:[self topLeft]];			
 			[self drawHandleInRect:[self topCenter]];	
 			[self drawHandleInRect:[self topRight]];	
@@ -450,6 +464,8 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 			[self drawHandleInRect:[self bottomCenter]];	
 			[self drawHandleInRect:[self bottomLeft]];	
 			[self drawHandleInRect:[self leftCenter]];
+      
+      //[shadow release];
 		}
 		
     [self drawDimensionsBox];		
@@ -460,8 +476,12 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 // Draw a resize handle in the specified rect
 - (void)drawHandleInRect:(NSRect)rect
 {
-	NSBezierPath *circle = [NSBezierPath bezierPathWithOvalInRect:rect];
-	[[NSColor grayColor] set];
+  //NSImage *handle = [NSImage imageNamed:@"handle.png"];
+  //NSLog(@"handle: %@, rect: %@", handle, NSStringFromRect(rect));
+  //[handle drawInRect:NSIntegralRect(rect) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	
+  NSBezierPath *circle = [NSBezierPath bezierPathWithOvalInRect:rect];
+	[[NSColor colorWithCalibratedRed:0.129 green:0.384 blue:0.812 alpha:1.000] set];
 	[circle fill];
 	[[NSColor whiteColor] set];
 	[circle stroke];
