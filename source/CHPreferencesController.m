@@ -8,6 +8,7 @@
 
 #import "CHPreferencesController.h"
 #import "CHPreferences.h"
+#import "CHAppDelegate.h"
 #import "CHGlobals.h"
 #import "MPLoginItems.h"
 #import "DDHotKeyCenter.h"
@@ -89,5 +90,14 @@
   }
 }
 
+
+#pragma mark -
+#pragma mark NSWindowDelegate
+
+- (void)windowWillClose:(id)sender
+{
+  [(CHAppDelegate *)[NSApp delegate] activateApp:sender];
+  NSLog(@"preferences window will close");
+}
 
 @end

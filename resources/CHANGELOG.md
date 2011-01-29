@@ -1,3 +1,7 @@
+1.1
+- Fixed color preferences bug
+- Made hotkey toggle whether app is active
+
 1.0
 - Mac App Store release
 

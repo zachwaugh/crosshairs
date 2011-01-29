@@ -127,7 +127,14 @@
 
 - (void)hotkeyWithEvent:(NSEvent *)event
 {
-	[self activateApp:nil];
+  if ([NSApp isActive])
+  {
+    [NSApp hide:nil];
+  }
+  else
+  {
+    [self activateApp:nil];  
+  }	
 }
 
 
