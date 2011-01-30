@@ -76,4 +76,7 @@ typedef enum
 @property(assign) BOOL lastPointInOverlay;
 @property(assign) BOOL showDimensionsOutside;
 
+- (void)clearOverlay;
+- (void)toggleColors;
+
 @end

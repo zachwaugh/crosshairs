@@ -12,10 +12,11 @@
 #import "CHOverlayView.h"
 #import "CHGlobals.h"
 
+#define SPACE_KEY 49
+
 @implementation CHOverlayWindowController
 
 @synthesize view;
-
 
 - (void)dealloc
 {
@@ -24,9 +25,42 @@
   [super dealloc];
 }
 
+
 - (void)awakeFromNib
 {
   [GrowlApplicationBridge setGrowlDelegate:self];
+}
+
+
+- (BOOL)performKeyEquivalent:(NSEvent *)event
+{
+	NSLog(@"(CHOverlayWindowController) performKeyEquivalent: %@, %c", [event characters], [event keyCode]);
+	return [super performKeyEquivalent:event];
+}
+
+
+- (void)keyDown:(NSEvent *)event
+{
+	NSLog(@"(CHOverlayWindowController) keyDown: %@", event);
+	NSString *characters = [event charactersIgnoringModifiers];
+
+	if ([event keyCode] == SPACE_KEY)
+	{
+		[self takeScreenshot];
+		return;
+	}
+	else
+	{
+		[super keyDown:event];
+	}
+}
+
+
+- (void)cancel:(id)sender
+{
+	NSLog(@"cancel");
+	[[self window] orderOut:nil];
+	[NSApp hide:nil];
 }
 
 
@@ -85,6 +119,7 @@
   
   [GrowlApplicationBridge notifyWithTitle:@"Screenshot Saved" description:filename notificationName:CHGrowlScreenshotSavedNotification iconData:nil priority:0 isSticky:NO clickContext:nil];
 }
+
 
 #pragma mark -
 #pragma mark Growl Delegate

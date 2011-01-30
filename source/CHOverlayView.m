@@ -61,8 +61,6 @@ NSPoint CHIntegralPoint(NSPoint p)
 
 - (void)updateCursorsForPoint:(NSPoint)point;
 - (void)refresh;
-- (void)clearOverlay;
-- (void)toggleColors;
 
 - (NSRect)resizedRectForPoint:(NSPoint)point;
 - (NSRect)topLeft;
@@ -92,6 +90,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 
 - (id)initWithFrame:(NSRect)frame
 {
+	NSLog(@"initWithFrame");
 	self = [super initWithFrame:frame];
 
 	if (self)
@@ -173,20 +172,23 @@ NSPoint CHIntegralPoint(NSPoint p)
 }
 
 
-
 #pragma mark -
 #pragma mark Keyboard handling
 
 - (BOOL)performKeyEquivalent:(NSEvent *)event
 {
-	// Handle tab key switching colors
-	if ([[event charactersIgnoringModifiers] characterAtIndex:0] == NSTabCharacter)
+	NSLog(@"(CHOverlayView) performKeyEquivalent: %@, %c", [event characters], [event keyCode]);
+	NSString *characters = [event charactersIgnoringModifiers];
+	
+	if ([characters characterAtIndex:0] == NSTabCharacter) 
 	{
+		// Handle tab key switching colors
 		[self toggleColors];
 		return YES;
 	}
-	else if ([[event charactersIgnoringModifiers] characterAtIndex:0] == NSDeleteCharacter || [[event charactersIgnoringModifiers] characterAtIndex:0] == NSDeleteFunctionKey)
+	else if ([characters characterAtIndex:0] == NSDeleteCharacter || [characters characterAtIndex:0] == NSDeleteFunctionKey)
 	{
+		// Delete overlay
 		[self clearOverlay];
 		return YES;
 	}
@@ -444,7 +446,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-  NSLog(@"overlay rect: %@", NSStringFromRect(self.overlayRect));
+  //NSLog(@"overlay rect: %@", NSStringFromRect(self.overlayRect));
   
 	if (!NSIsEmptyRect(self.overlayRect))
 	{    

@@ -8,9 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-#define ESC_KEY 53
-#define SPACE_KEY 49
-
 @interface CHOverlayWindow : NSWindow
 {
 

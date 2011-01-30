@@ -9,6 +9,7 @@
 #import "CHOverlayWindow.h"
 #import "CHOverlayWindowController.h"
 
+#define ESC_KEY 53
 
 @implementation CHOverlayWindow
 
@@ -50,37 +51,21 @@
 }
 
 
-- (void)keyDown:(NSEvent *)event
+- (BOOL)performKeyEquivalent:(NSEvent *)event
 {
-	if ([event keyCode] == ESC_KEY)
+	NSLog(@"(CHOverlayWindow) performKeyEquivalent: %@, %c", [event characters], [event keyCode]);
+	NSString *characters = [event charactersIgnoringModifiers];
+
+	if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@"c"])
 	{
-		[self orderOut:nil];
-		return;
-	}
-	else if ([event keyCode] == SPACE_KEY)
-	{
-		[(CHOverlayWindowController *)self.delegate takeScreenshot];
-		return;
+		[(CHOverlayWindowController *)[self delegate] copyDimensionsToClipboard];
+		return YES;
 	}
 	else
 	{
-		[super keyDown:event];
+		return [super performKeyEquivalent:event];
 	}
 }
 
-
-- (BOOL)performKeyEquivalent:(NSEvent *)event
-{
-	NSString *characters = [event charactersIgnoringModifiers];
-	
-	// cmd-c - copy dimensions
-	if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@"c"])
-	{
-		[(CHOverlayWindowController *)self.delegate copyDimensionsToClipboard];
-		return YES;
-	}
-	
-	return [super performKeyEquivalent:event];
-}
 
 @end
