@@ -40,7 +40,6 @@
 
 - (void)dealloc
 {
-	[[NSStatusBar systemStatusBar] removeStatusItem:self.statusItem];
 	self.statusItem = nil;
 	self.statusMenu = nil;
   [overlayController release];
@@ -104,6 +103,7 @@
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
   [[NSUserDefaults standardUserDefaults] synchronize];
+	[[NSStatusBar systemStatusBar] removeStatusItem:self.statusItem];
 }
 
 
