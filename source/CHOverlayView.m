@@ -6,7 +6,7 @@
 //  Copyright 2010 zachwaugh.com. All rights reserved.
 //
 
-#define HANDLE_SIZE 13
+#define HANDLE_SIZE 12
 #define HANDLE_CENTER (HANDLE_SIZE / 2.0)
 
 #import "CHOverlayView.h"
@@ -14,7 +14,7 @@
 #import "NSCursor+Custom.h"
 #import "CHPreferences.h"
 
-NSRect NSRectFromTwoPoints(NSPoint a, NSPoint b)
+NSRect CHRectFromTwoPoints(NSPoint a, NSPoint b)
 {
 	NSRect r;
 	
@@ -28,7 +28,7 @@ NSRect NSRectFromTwoPoints(NSPoint a, NSPoint b)
 }
 
 
-NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
+NSRect CHRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 {
 	NSRect r;
 	
@@ -45,6 +45,15 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	r.size.height = MIN(width, height);
 	
 	return r;
+}
+
+
+NSPoint CHIntegralPoint(NSPoint p)
+{
+	p.x = round(p.x);
+	p.y = round(p.y);
+	
+	return p;
 }
 
 
@@ -75,7 +84,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 @implementation CHOverlayView
 
 // retained
-@synthesize textAttrs, smallTextAttrs, fillColor, primaryColor, alternateColor;
+@synthesize textAttrs, smallTextAttrs, fillColor, primaryColor, alternateColor, handle;
 
 // assigned
 @synthesize startPoint, lastPoint, lastPointInOverlay, overlayRect, dragging, drawing, hovering, resizing, shiftPressed, commandPressed, resizeDirection, switchedColors, fillOpacity, showDimensionsOutside;
@@ -92,6 +101,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
     self.primaryColor = [CHPreferences primaryOverlayColor];
     self.alternateColor = [CHPreferences alternateOverlayColor];
     self.fillOpacity = [self.fillColor alphaComponent];
+		self.handle = [NSImage imageNamed:@"handle.png"];
 		self.switchedColors = [CHPreferences switchedColors];
 		self.dragging = NO;
     self.hovering = NO;
@@ -244,7 +254,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 
 - (void)mouseDown:(NSEvent *)event
 {
-	NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
+	NSPoint point = CHIntegralPoint([self convertPoint:[event locationInWindow] fromView:nil]);
 	self.startPoint = point;
 	self.lastPoint = point;
 	
@@ -325,8 +335,8 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 
 - (void)mouseDragged:(NSEvent *)event
 {
-	NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
-	
+	NSPoint point = CHIntegralPoint([self convertPoint:[event locationInWindow] fromView:nil]);
+
 	if (self.isResizing)
 	{
 		self.overlayRect = [self resizedRectForPoint:point];
@@ -340,11 +350,11 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	{
 		if ([event modifierFlags] & NSShiftKeyMask)
 		{
-			self.overlayRect = NSRectSquareFromTwoPoints(self.startPoint, point);
+			self.overlayRect = CHRectSquareFromTwoPoints(self.startPoint, point);
 		}
 		else
 		{
-			self.overlayRect = NSRectFromTwoPoints(self.startPoint, point);
+			self.overlayRect = CHRectFromTwoPoints(self.startPoint, point);
 		}
 	}
 	
@@ -438,24 +448,12 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
   
 	if (!NSIsEmptyRect(self.overlayRect))
 	{    
-    CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-    CGContextSetAllowsAntialiasing(context, NO);
-    CGContextSetRGBFillColor(context, [self.fillColor redComponent], [self.fillColor greenComponent], [self.fillColor redComponent], [self.fillColor alphaComponent]);
-    CGContextFillRect(context, NSRectToCGRect(self.overlayRect));
-    CGContextSetAllowsAntialiasing(context, YES);
-
-//		[self.fillColor set];
-//		NSRectFill(self.overlayRect);		
+		[self.fillColor set];
+		NSRectFill(self.overlayRect);		
 		
 		if (!self.isDrawing && !self.isDragging && !self.isResizing && self.isHovering)
 		{
 			// draw handles
-//      NSShadow *shadow = [[NSShadow alloc] init];
-//      [shadow setShadowColor:[NSColor colorWithCalibratedWhite:0 alpha:0.75]];
-//      [shadow setShadowBlurRadius:1.0];
-//      [shadow setShadowOffset:NSMakeSize(0, -1)];
-//      [shadow set];
-      
 			[self drawHandleInRect:[self topLeft]];			
 			[self drawHandleInRect:[self topCenter]];	
 			[self drawHandleInRect:[self topRight]];	
@@ -464,8 +462,6 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 			[self drawHandleInRect:[self bottomCenter]];	
 			[self drawHandleInRect:[self bottomLeft]];	
 			[self drawHandleInRect:[self leftCenter]];
-      
-      //[shadow release];
 		}
 		
     [self drawDimensionsBox];		
@@ -476,15 +472,14 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 // Draw a resize handle in the specified rect
 - (void)drawHandleInRect:(NSRect)rect
 {
-  //NSImage *handle = [NSImage imageNamed:@"handle.png"];
-  //NSLog(@"handle: %@, rect: %@", handle, NSStringFromRect(rect));
-  //[handle drawInRect:NSIntegralRect(rect) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+  rect = NSIntegralRect(rect);
+  [self.handle drawInRect:NSMakeRect(rect.origin.x, rect.origin.y, HANDLE_SIZE, HANDLE_SIZE) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	
-  NSBezierPath *circle = [NSBezierPath bezierPathWithOvalInRect:rect];
-	[[NSColor colorWithCalibratedRed:0.129 green:0.384 blue:0.812 alpha:1.000] set];
-	[circle fill];
-	[[NSColor whiteColor] set];
-	[circle stroke];
+//  NSBezierPath *circle = [NSBezierPath bezierPathWithOvalInRect:rect];
+//	[[NSColor colorWithCalibratedRed:0.129 green:0.384 blue:0.812 alpha:1.000] set];
+//	[circle fill];
+//	[[NSColor whiteColor] set];
+//	[circle stroke];
 }
 
 
@@ -510,7 +505,7 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
   {
     // Draw dimensions bubble
     textSize = [dimensions sizeWithAttributes:self.smallTextAttrs];
-    NSRect dimensionsBoxRect = NSMakeRect(NSMidX(self.overlayRect) - ((textSize.width + 20) / 2), NSMaxY(self.overlayRect) + 10, textSize.width + 20, textSize.height + 4);
+    NSRect dimensionsBoxRect = NSMakeRect(NSMidX(self.overlayRect) - ((textSize.width + 20) / 2), NSMaxY(self.overlayRect) + 11, textSize.width + 20, textSize.height + 4);
     
     textRect = dimensionsBoxRect;
     textRect.origin.x += (dimensionsBoxRect.size.width - textSize.width) / 2;
@@ -635,7 +630,6 @@ NSRect NSRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	else if (self.resizeDirection == CHResizeBottomCenter)
 	{
 		float delta = point.y - self.lastPoint.y;
-		
 		newRect.size.height += delta;
 	}
 	else if (self.resizeDirection == CHResizeTopCenter)
