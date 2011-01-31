@@ -22,7 +22,6 @@
   [defaults setObject:[NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:0.0 alpha:0.25]] forKey:CHLastOverlayColorKey];
   [defaults setObject:[NSNumber numberWithInt:0] forKey:CHNumberOfLaunchesKey];
   [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHSwitchedOverlayColorsKey];
-  [defaults setObject:[NSNumber numberWithBool:YES] forKey:CHShowDimensionsOutsideKey];
   [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHStartAtLoginKey];
   [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHShowInDockKey];
   [defaults setObject:[NSNumber numberWithInt:19] forKey:CHGlobalHotKeyCode];
@@ -117,12 +116,6 @@
 + (void)setSwitchedColors:(BOOL)switched
 {
   [[NSUserDefaults standardUserDefaults] setBool:switched forKey:CHSwitchedOverlayColorsKey];
-}
-
-
-+ (BOOL)showDimensionsOutside
-{
-  return [[NSUserDefaults standardUserDefaults] boolForKey:CHShowDimensionsOutsideKey];
 }
 
 

@@ -42,7 +42,6 @@
 - (void)keyDown:(NSEvent *)event
 {
 	NSLog(@"(CHOverlayWindowController) keyDown: %@", event);
-	NSString *characters = [event charactersIgnoringModifiers];
 
 	if ([event keyCode] == SPACE_KEY)
 	{

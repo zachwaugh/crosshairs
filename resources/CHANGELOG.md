@@ -1,6 +1,9 @@
 1.1
 - Fixed color preferences bug
 - Made hotkey toggle whether app is active
+- Removed option to show dimensions inside box
+- Ensured overlay always snaps to whole pixels for sharper lines
+- Updated UI (handles and dimensions bubble)
 
 1.0
 - Mac App Store release

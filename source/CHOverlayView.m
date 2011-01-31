@@ -6,8 +6,9 @@
 //  Copyright 2010 zachwaugh.com. All rights reserved.
 //
 
-#define HANDLE_SIZE 12
-#define HANDLE_CENTER (HANDLE_SIZE / 2.0)
+#define HANDLE_SIZE 17
+#define HANDLE_CENTER 8
+#define DIMENSIONS_HEIGHT 44
 
 #import "CHOverlayView.h"
 #import "CHGlobals.h"
@@ -82,7 +83,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 @implementation CHOverlayView
 
 // retained
-@synthesize textAttrs, smallTextAttrs, fillColor, primaryColor, alternateColor, handle;
+@synthesize smallTextAttrs, fillColor, primaryColor, alternateColor, handle;
 
 // assigned
 @synthesize startPoint, lastPoint, lastPointInOverlay, overlayRect, dragging, drawing, hovering, resizing, shiftPressed, commandPressed, resizeDirection, switchedColors, fillOpacity, showDimensionsOutside;
@@ -109,29 +110,16 @@ NSPoint CHIntegralPoint(NSPoint p)
 		self.shiftPressed = NO;
 		self.commandPressed = NO;
 		self.lastPointInOverlay = NO;
-    [self bind:@"showDimensionsOutside" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.showDimensionsOutside" options:nil];
 
-		// Setup overlay text attributes
-		NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
-		[shadow setShadowColor:[NSColor colorWithCalibratedWhite:self.switchedColors alpha:1.0]];
-		[shadow setShadowOffset:NSMakeSize(0, -1)];
-		
-		self.textAttrs = [NSMutableDictionary dictionary];
-		[self.textAttrs setObject:[NSFont fontWithName:@"Helvetica Bold" size:20.0] forKey:NSFontAttributeName];
-		[self.textAttrs setObject:[NSColor colorWithCalibratedWhite:!self.switchedColors alpha:1.0] forKey:NSForegroundColorAttributeName];
-		[self.textAttrs setObject:shadow forKey:NSShadowAttributeName];
-		
-    
     // setup dimensions bubble text attrs
-    shadow = [[[NSShadow alloc] init] autorelease];
+		NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
 		[shadow setShadowColor:[NSColor blackColor]];
-		[shadow setShadowOffset:NSMakeSize(0, -1)];
+		[shadow setShadowOffset:NSMakeSize(0, 1)];
     
 		self.smallTextAttrs = [NSMutableDictionary dictionary];
     [self.smallTextAttrs setObject:shadow forKey:NSShadowAttributeName];
     [self.smallTextAttrs setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
-		[self.smallTextAttrs setObject:[NSFont fontWithName:@"Helvetica Bold" size:14.0] forKey:NSFontAttributeName];
-    
+		[self.smallTextAttrs setObject:[NSFont fontWithName:@"Helvetica Bold" size:16.0] forKey:NSFontAttributeName];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(colorsDidChange:) name:CHColorsDidChangeNotification object:nil];
 	}
@@ -142,7 +130,6 @@ NSPoint CHIntegralPoint(NSPoint p)
 
 - (void)dealloc
 {
-	self.textAttrs = nil;
 	self.smallTextAttrs = nil;
 	self.fillColor = nil;
   self.primaryColor = nil;
@@ -446,7 +433,8 @@ NSPoint CHIntegralPoint(NSPoint p)
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-  //NSLog(@"overlay rect: %@", NSStringFromRect(self.overlayRect));
+//  [[NSColor redColor] set];
+//  NSRectFill([self drawingRect]);
   
 	if (!NSIsEmptyRect(self.overlayRect))
 	{    
@@ -476,73 +464,47 @@ NSPoint CHIntegralPoint(NSPoint p)
 {
   rect = NSIntegralRect(rect);
   [self.handle drawInRect:NSMakeRect(rect.origin.x, rect.origin.y, HANDLE_SIZE, HANDLE_SIZE) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
-	
-//  NSBezierPath *circle = [NSBezierPath bezierPathWithOvalInRect:rect];
-//	[[NSColor colorWithCalibratedRed:0.129 green:0.384 blue:0.812 alpha:1.000] set];
-//	[circle fill];
-//	[[NSColor whiteColor] set];
-//	[circle stroke];
 }
 
 
+// bubble that shows dimensions
 - (void)drawDimensionsBox
 {
-  NSString *dimensions = [NSString stringWithFormat:@"%d x %d", (int)round(self.overlayRect.size.width), (int)round(self.overlayRect.size.height)];
+  NSString *width = [NSString stringWithFormat:@"%d", (int)round(self.overlayRect.size.width)];
+  NSString *height = [NSString stringWithFormat:@"%d", (int)round(self.overlayRect.size.height)];
+  NSString *x = @"x";
   
-  NSSize textSize;
-  NSRect textRect;
+  NSSize widthSize = [width sizeWithAttributes:self.smallTextAttrs];
+  NSSize heightSize = [height sizeWithAttributes:self.smallTextAttrs];
+  NSSize xSize = [x sizeWithAttributes:self.smallTextAttrs];
   
-  textSize = [dimensions sizeWithAttributes:self.textAttrs];
-  textRect = NSMakeRect((self.overlayRect.size.width - textSize.width) / 2 + self.overlayRect.origin.x, (self.overlayRect.size.height - textSize.height) / 2 + self.overlayRect.origin.y, textSize.width, textSize.height);
-
-  BOOL textFitsInRect = (NSContainsRect(self.overlayRect, textRect));
+  NSRect bubbleRect = NSMakeRect(NSMidX(self.overlayRect) - 53, NSMaxY(self.overlayRect) + 10, 106, 38);
+  float textY = bubbleRect.origin.y + 10;
   
-  // Only draw text if it will fit in overlay
-  if (textFitsInRect && !self.showDimensionsOutside)
-  {
-    [dimensions drawInRect:textRect withAttributes:self.textAttrs];
-  }
+  NSRect widthRect = NSMakeRect(bubbleRect.origin.x + 5 + (40 - widthSize.width), textY, widthSize.width, widthSize.height);
+  NSRect heightRect = NSMakeRect(NSMaxX(bubbleRect) - 5 - 40, textY, heightSize.width, heightSize.height);
+  NSRect xRect = NSMakeRect(NSMidX(bubbleRect) - (xSize.width / 2), textY, xSize.width, xSize.height);
   
-  if (!textFitsInRect || self.showDimensionsOutside)
-  {
-    // Draw dimensions bubble
-    textSize = [dimensions sizeWithAttributes:self.smallTextAttrs];
-    NSRect dimensionsBoxRect = NSMakeRect(NSMidX(self.overlayRect) - ((textSize.width + 20) / 2), NSMaxY(self.overlayRect) + 11, textSize.width + 20, textSize.height + 4);
-    
-    textRect = dimensionsBoxRect;
-    textRect.origin.x += (dimensionsBoxRect.size.width - textSize.width) / 2;
-    textRect.origin.y += (dimensionsBoxRect.size.height - textSize.height) / 2;
-    textRect.size.width = textSize.width;
-    
-    NSBezierPath *dimensionsBox = [NSBezierPath bezierPathWithRoundedRect:dimensionsBoxRect xRadius:10 yRadius:10];
-    
-    NSBezierPath *beak = [NSBezierPath bezierPath];
-    [beak	moveToPoint:NSMakePoint(NSMidX(dimensionsBoxRect) - 5, NSMinY(dimensionsBoxRect))];
-    [beak lineToPoint:NSMakePoint(NSMidX(dimensionsBoxRect), NSMinY(dimensionsBoxRect) - 5)];
-    [beak lineToPoint:NSMakePoint(NSMidX(dimensionsBoxRect) + 5, NSMinY(dimensionsBoxRect))];
-    [beak closePath];
-    
-    [[NSColor colorWithCalibratedWhite:0.0 alpha:0.75] set];
-    [dimensionsBox fill];
-    [beak fill];
-    [dimensions drawInRect:textRect withAttributes:self.smallTextAttrs];
-  }  
+  NSImage *bubble = [NSImage imageNamed:@"bubble.png"];
+  
+  NSLog(@"bubbleRect: %@, xRect: %@", NSStringFromRect(bubbleRect), NSStringFromRect(xRect));
+  
+  [bubble drawInRect:bubbleRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+  
+  [x drawInRect:xRect withAttributes:self.smallTextAttrs];
+  [width drawInRect:widthRect withAttributes:self.smallTextAttrs];
+  [height drawInRect:heightRect withAttributes:self.smallTextAttrs];
+  //[dimensions drawInRect:textRect withAttributes:self.smallTextAttrs];
 }
 
 
+// TAB between primary and alternate colors
 - (void)toggleColors
 {
 	self.switchedColors = !self.switchedColors;
   self.fillColor = (!self.switchedColors) ? [self.primaryColor colorWithAlphaComponent:self.fillOpacity] : [self.alternateColor colorWithAlphaComponent:self.fillOpacity];
   [CHPreferences setLastColor:self.fillColor];
-  [CHPreferences setSwitchedColors:self.switchedColors];  
-  
-	[self.textAttrs setObject:[NSColor colorWithCalibratedWhite:!self.switchedColors alpha:1.0] forKey:NSForegroundColorAttributeName];
-	
-	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
-	[shadow setShadowColor:[NSColor colorWithCalibratedWhite:self.switchedColors alpha:1.0]];
-	[shadow setShadowOffset:NSMakeSize(0, -1)];
-	[self.textAttrs setObject:shadow forKey:NSShadowAttributeName];
+  [CHPreferences setSwitchedColors:self.switchedColors];
   
 	[self refresh];
 }
@@ -597,14 +559,15 @@ NSPoint CHIntegralPoint(NSPoint p)
 {
 	// overlay rect + padding for handles and dimensions
 	float handles = (HANDLE_SIZE + 1) / 2;
-	float xInset = -(handles);
-	float yInset = -(handles + 15);
+	float xInset = -handles;
+	float yInset = -(handles + (DIMENSIONS_HEIGHT / 2));
 	
-	NSRect drawingRect = NSOffsetRect(NSInsetRect(self.overlayRect, xInset, yInset), 0, 15);
+	NSRect drawingRect = NSOffsetRect(NSInsetRect(self.overlayRect, xInset, yInset), 0, 20);
 	
-	if (drawingRect.size.width < 80)
+  // Leave enough space for bubble to be bigger than overlay
+	if (drawingRect.size.width < 120)
 	{
-    float deltaX = (80 - drawingRect.size.width) / 2;
+    float deltaX = (120 - drawingRect.size.width) / 2;
 		drawingRect = NSInsetRect(drawingRect, -deltaX, 0);
   }
 	

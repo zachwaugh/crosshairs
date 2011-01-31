@@ -23,6 +23,10 @@
 		92B088E812F4BBFB0097CA56 /* handle.png in Resources */ = {isa = PBXBuildFile; fileRef = 92B088E712F4BBFB0097CA56 /* handle.png */; };
 		92C8969B12F103ED00E0F386 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C8969A12F103ED00E0F386 /* NSString+MD5.m */; };
 		92CC56CD127E117400A7CEED /* MPLoginItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 92CC56CC127E117400A7CEED /* MPLoginItems.m */; };
+		92E8C9C012F5FA9400A4FA67 /* dimensions_bubble_center.png in Resources */ = {isa = PBXBuildFile; fileRef = 92E8C9BD12F5FA9400A4FA67 /* dimensions_bubble_center.png */; };
+		92E8C9C112F5FA9400A4FA67 /* dimensions_bubble_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 92E8C9BE12F5FA9400A4FA67 /* dimensions_bubble_left.png */; };
+		92E8C9C212F5FA9400A4FA67 /* dimensions_bubble_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 92E8C9BF12F5FA9400A4FA67 /* dimensions_bubble_right.png */; };
+		92E8CB9512F62ED900A4FA67 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 92E8CB9412F62ED900A4FA67 /* bubble.png */; };
 		BF0AA0CF125D68BA00EB9C85 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = BF0AA0CE125D68BA00EB9C85 /* CHANGELOG.md */; };
 		BF492AEB1259385800641851 /* resize_cursor_diagonal_right.tiff in Resources */ = {isa = PBXBuildFile; fileRef = BF492AE91259385800641851 /* resize_cursor_diagonal_right.tiff */; };
 		BF492AEC1259385800641851 /* resize_cursor_diagonal_left.tiff in Resources */ = {isa = PBXBuildFile; fileRef = BF492AEA1259385800641851 /* resize_cursor_diagonal_left.tiff */; };
@@ -80,6 +84,10 @@
 		92C8969A12F103ED00E0F386 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 		92CC56CB127E117400A7CEED /* MPLoginItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPLoginItems.h; sourceTree = "<group>"; };
 		92CC56CC127E117400A7CEED /* MPLoginItems.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPLoginItems.m; sourceTree = "<group>"; };
+		92E8C9BD12F5FA9400A4FA67 /* dimensions_bubble_center.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dimensions_bubble_center.png; sourceTree = "<group>"; };
+		92E8C9BE12F5FA9400A4FA67 /* dimensions_bubble_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dimensions_bubble_left.png; sourceTree = "<group>"; };
+		92E8C9BF12F5FA9400A4FA67 /* dimensions_bubble_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dimensions_bubble_right.png; sourceTree = "<group>"; };
+		92E8CB9412F62ED900A4FA67 /* bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble.png; sourceTree = "<group>"; };
 		BF0AA0CE125D68BA00EB9C85 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG.md; sourceTree = "<group>"; };
 		BF492AE91259385800641851 /* resize_cursor_diagonal_right.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = resize_cursor_diagonal_right.tiff; sourceTree = "<group>"; };
 		BF492AEA1259385800641851 /* resize_cursor_diagonal_left.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = resize_cursor_diagonal_left.tiff; sourceTree = "<group>"; };
@@ -191,6 +199,10 @@
 				9287E795127DC226000FCCB6 /* xibs */,
 				BF492AE91259385800641851 /* resize_cursor_diagonal_right.tiff */,
 				92B088E712F4BBFB0097CA56 /* handle.png */,
+				92E8CB9412F62ED900A4FA67 /* bubble.png */,
+				92E8C9BD12F5FA9400A4FA67 /* dimensions_bubble_center.png */,
+				92E8C9BE12F5FA9400A4FA67 /* dimensions_bubble_left.png */,
+				92E8C9BF12F5FA9400A4FA67 /* dimensions_bubble_right.png */,
 				BF492AEA1259385800641851 /* resize_cursor_diagonal_left.tiff */,
 				BF9B1E27124EA86E00308205 /* crosshairs_cursor.png */,
 				BF61A8A61258EB59001E5D63 /* crosshairs_menu_off.png */,
@@ -350,6 +362,10 @@
 				9245E4A5128263BF00D3853E /* CHMainMenu.xib in Resources */,
 				9245E50E12826B1300D3853E /* CHOverlayWindowController.xib in Resources */,
 				92B088E812F4BBFB0097CA56 /* handle.png in Resources */,
+				92E8C9C012F5FA9400A4FA67 /* dimensions_bubble_center.png in Resources */,
+				92E8C9C112F5FA9400A4FA67 /* dimensions_bubble_left.png in Resources */,
+				92E8C9C212F5FA9400A4FA67 /* dimensions_bubble_right.png in Resources */,
+				92E8CB9512F62ED900A4FA67 /* bubble.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +415,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				SDKROOT = macosx;
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Trial;
 		};
@@ -434,6 +451,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				SDKROOT = macosx;
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = "App Store";
 		};
@@ -516,6 +534,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				SDKROOT = macosx;
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Debug;
 		};
@@ -528,6 +547,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				SDKROOT = macosx;
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Release;
 		};

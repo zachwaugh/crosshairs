@@ -29,7 +29,6 @@
 + (NSColor *)lastOverlayColor;
 + (BOOL)switchedColors;
 + (void)setSwitchedColors:(BOOL)switched;
-+ (BOOL)showDimensionsOutside;
 + (NSInteger)globalHotKeyCode;
 + (NSInteger)globalHotKeyFlags;
 + (void)setGlobalHotKeyCode:(NSInteger)keyCode;

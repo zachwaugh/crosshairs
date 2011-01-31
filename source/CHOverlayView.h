@@ -31,7 +31,6 @@ typedef enum
 	NSPoint lastPoint;
 	NSRect overlayRect;
 
-	NSMutableDictionary *textAttrs;
 	NSMutableDictionary *smallTextAttrs;
 	
   NSColor *fillColor;
@@ -62,7 +61,6 @@ typedef enum
 @property(retain) NSColor *primaryColor;
 @property(retain) NSColor *alternateColor;
 @property(assign) NSImage *handle;
-@property(retain) NSMutableDictionary *textAttrs;
 @property(retain) NSMutableDictionary *smallTextAttrs;
 @property(assign) CHResizeDirection resizeDirection;
 @property(assign) float fillOpacity;
