@@ -472,29 +472,45 @@ NSPoint CHIntegralPoint(NSPoint p)
 {
   NSString *width = [NSString stringWithFormat:@"%d", (int)round(self.overlayRect.size.width)];
   NSString *height = [NSString stringWithFormat:@"%d", (int)round(self.overlayRect.size.height)];
-  NSString *x = @"x";
+  NSString *separator = @"x";
   
   NSSize widthSize = [width sizeWithAttributes:self.smallTextAttrs];
   NSSize heightSize = [height sizeWithAttributes:self.smallTextAttrs];
-  NSSize xSize = [x sizeWithAttributes:self.smallTextAttrs];
-  
-  NSRect bubbleRect = NSMakeRect(NSMidX(self.overlayRect) - 53, NSMaxY(self.overlayRect) + 10, 106, 38);
+  NSSize separatorSize = [separator sizeWithAttributes:self.smallTextAttrs];
+  float totalWidth = widthSize.width + heightSize.width + 20 + 21; // padding + beak
+	
+	int startX = round(NSMidX(self.overlayRect) - (totalWidth / 2));
+	int startY = round(NSMaxY(self.overlayRect) + 12);
+	
+  NSRect bubbleRect = NSMakeRect(startX, startY, totalWidth, 38);
   float textY = bubbleRect.origin.y + 10;
   
-  NSRect widthRect = NSMakeRect(bubbleRect.origin.x + 5 + (40 - widthSize.width), textY, widthSize.width, widthSize.height);
-  NSRect heightRect = NSMakeRect(NSMaxX(bubbleRect) - 5 - 40, textY, heightSize.width, heightSize.height);
-  NSRect xRect = NSMakeRect(NSMidX(bubbleRect) - (xSize.width / 2), textY, xSize.width, xSize.height);
+  NSRect widthRect = NSMakeRect(startX + 10, textY, widthSize.width, widthSize.height);
+  NSRect heightRect = NSMakeRect(startX + 10 + widthSize.width + 21, textY, heightSize.width, heightSize.height);
+  NSRect separatorRect = NSMakeRect(startX + 10 + widthSize.width + ((22 - separatorSize.width) / 2), textY, separatorSize.width, separatorSize.height);
   
   NSImage *bubble = [NSImage imageNamed:@"bubble.png"];
+	
+	// left cap
+  [bubble drawInRect:NSMakeRect(startX, startY, 10, 38) fromRect:NSMakeRect(0, 0, 10, 38) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
   
-  NSLog(@"bubbleRect: %@, xRect: %@", NSStringFromRect(bubbleRect), NSStringFromRect(xRect));
-  
-  [bubble drawInRect:bubbleRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
-  
-  [x drawInRect:xRect withAttributes:self.smallTextAttrs];
+	// width
+	[bubble drawInRect:NSMakeRect(widthRect.origin.x, startY, widthSize.width, 38) fromRect:NSMakeRect(10, 0, 1, 38) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	
+	// beak
+	[bubble drawInRect:NSMakeRect(widthRect.origin.x + widthSize.width, startY, 21, 38) fromRect:NSMakeRect(42, 0, 21, 38) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	
+	// height
+	[bubble drawInRect:NSMakeRect(heightRect.origin.x, startY, heightSize.width, 38) fromRect:NSMakeRect(10, 0, 1, 38) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	
+	// right cap
+	[bubble drawInRect:NSMakeRect(startX + totalWidth - 10, startY, 10, 38) fromRect:NSMakeRect(96, 0, 10, 38) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+
+	//[bubble drawInRect:bubbleRect fromRect:NSMakeRect((106 - totalWidth) / 2, 0, totalWidth, 38) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+
+  [separator drawInRect:separatorRect withAttributes:self.smallTextAttrs];
   [width drawInRect:widthRect withAttributes:self.smallTextAttrs];
   [height drawInRect:heightRect withAttributes:self.smallTextAttrs];
-  //[dimensions drawInRect:textRect withAttributes:self.smallTextAttrs];
 }
 
 
