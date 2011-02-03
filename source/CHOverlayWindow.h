@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface CHOverlayWindow : NSWindow
+@interface CHOverlayWindow : NSPanel
 {
 
 }

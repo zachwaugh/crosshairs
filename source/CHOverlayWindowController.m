@@ -32,6 +32,14 @@
 }
 
 
+- (void)showWindow:(id)sender
+{
+  [[self window] makeKeyAndOrderFront:sender];
+  //[NSApp activateIgnoringOtherApps:YES];
+  [self.view updateTrackingAreas];
+}
+
+
 - (BOOL)performKeyEquivalent:(NSEvent *)event
 {
 	NSLog(@"(CHOverlayWindowController) performKeyEquivalent: %@, %c", [event characters], [event keyCode]);
@@ -58,8 +66,7 @@
 - (void)cancel:(id)sender
 {
 	NSLog(@"cancel");
-	[[self window] orderOut:nil];
-	[NSApp hide:nil];
+	[self hideWindow];
 }
 
 

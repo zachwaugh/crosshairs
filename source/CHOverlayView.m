@@ -91,10 +91,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 
 - (id)initWithFrame:(NSRect)frame
 {
-	NSLog(@"initWithFrame");
-	self = [super initWithFrame:frame];
-
-	if (self)
+	if (self = [super initWithFrame:frame])
 	{
 		self.overlayRect = NSZeroRect;
 		self.fillColor = [CHPreferences lastOverlayColor];
@@ -141,10 +138,10 @@ NSPoint CHIntegralPoint(NSPoint p)
 }
 
 
-- (void)resetCursorRects
-{
-  [self addCursorRect:[self visibleRect] cursor:[NSCursor crosshairsCursor]];
-}
+//- (void)resetCursorRects
+//{
+//  [self addCursorRect:[self visibleRect] cursor:[NSCursor crosshairsCursor]];
+//}
 
 
 - (BOOL)acceptsFirstResponder
@@ -153,9 +150,25 @@ NSPoint CHIntegralPoint(NSPoint p)
 }
 
 
+- (BOOL)needsPanelToBecomeKey
+{
+  return YES;
+}
+
+
 - (BOOL)isFlipped
 {
 	return YES;
+}
+
+
+- (void)updateTrackingAreas
+{
+	[super updateTrackingAreas];
+	
+  NSTrackingArea *area = [[[NSTrackingArea alloc] initWithRect:[self bounds] options:(NSTrackingMouseMoved | NSTrackingActiveAlways) owner:self userInfo:nil] autorelease];
+  [self addTrackingArea:area];
+  NSLog(@"updateTrackingAreas");
 }
 
 
@@ -251,7 +264,6 @@ NSPoint CHIntegralPoint(NSPoint p)
 	{
 		self.resizing = YES;
 		self.resizeDirection = CHResizeLeftCenter;
-		//[[self window] disableCursorRects];
 		[[NSCursor resizeLeftRightCursor] set];
 	}
 	else if (NSPointInRect(point, [self rightCenter]))
@@ -363,6 +375,13 @@ NSPoint CHIntegralPoint(NSPoint p)
 }
 
 
+-(void)cursorUpdate:(NSEvent *)event
+{
+	NSLog(@"cursorUpdate:");
+	[[NSCursor crosshairsCursor] set];
+}
+
+
 // Cursor handling
 - (void)updateCursorsForPoint:(NSPoint)point
 {
@@ -470,47 +489,36 @@ NSPoint CHIntegralPoint(NSPoint p)
 // bubble that shows dimensions
 - (void)drawDimensionsBox
 {
-  NSString *width = [NSString stringWithFormat:@"%d", (int)round(self.overlayRect.size.width)];
-  NSString *height = [NSString stringWithFormat:@"%d", (int)round(self.overlayRect.size.height)];
-  NSString *separator = @"x";
+  NSString *dimensions = [NSString stringWithFormat:@"%d x %d", (int)round(self.overlayRect.size.width), (int)round(self.overlayRect.size.height)];
   
-  NSSize widthSize = [width sizeWithAttributes:self.smallTextAttrs];
-  NSSize heightSize = [height sizeWithAttributes:self.smallTextAttrs];
-  NSSize separatorSize = [separator sizeWithAttributes:self.smallTextAttrs];
-  float totalWidth = widthSize.width + heightSize.width + 20 + 21; // padding + beak
+  NSSize dimensionsSize = [dimensions sizeWithAttributes:self.smallTextAttrs];
 	
+  float totalWidth = dimensionsSize.width + 18;
+  float bodyWidth = round((dimensionsSize.width - 18) / 2);
+  
 	int startX = round(NSMidX(self.overlayRect) - (totalWidth / 2));
-	int startY = round(NSMaxY(self.overlayRect) + 12);
+	int startY = round(NSMaxY(self.overlayRect) + 8);
 	
-  NSRect bubbleRect = NSMakeRect(startX, startY, totalWidth, 38);
-  float textY = bubbleRect.origin.y + 10;
-  
-  NSRect widthRect = NSMakeRect(startX + 10, textY, widthSize.width, widthSize.height);
-  NSRect heightRect = NSMakeRect(startX + 10 + widthSize.width + 21, textY, heightSize.width, heightSize.height);
-  NSRect separatorRect = NSMakeRect(startX + 10 + widthSize.width + ((22 - separatorSize.width) / 2), textY, separatorSize.width, separatorSize.height);
-  
+  NSRect bubbleRect = NSMakeRect(startX + 9, startY + 12, dimensionsSize.width, 40);
+    
   NSImage *bubble = [NSImage imageNamed:@"bubble.png"];
 	
 	// left cap
-  [bubble drawInRect:NSMakeRect(startX, startY, 10, 38) fromRect:NSMakeRect(0, 0, 10, 38) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+  [bubble drawInRect:NSMakeRect(startX, startY, 9, 40) fromRect:NSMakeRect(0, 0, 9, 40) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
   
 	// width
-	[bubble drawInRect:NSMakeRect(widthRect.origin.x, startY, widthSize.width, 38) fromRect:NSMakeRect(10, 0, 1, 38) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	[bubble drawInRect:NSMakeRect(startX + 9, startY, bodyWidth, 40) fromRect:NSMakeRect(12, 0, 1, 40) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	
 	// beak
-	[bubble drawInRect:NSMakeRect(widthRect.origin.x + widthSize.width, startY, 21, 38) fromRect:NSMakeRect(42, 0, 21, 38) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	[bubble drawInRect:NSMakeRect(startX + 9 + bodyWidth, startY, 18, 40) fromRect:NSMakeRect(46, 0, 18, 40) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	
 	// height
-	[bubble drawInRect:NSMakeRect(heightRect.origin.x, startY, heightSize.width, 38) fromRect:NSMakeRect(10, 0, 1, 38) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	[bubble drawInRect:NSMakeRect(startX + 9 + bodyWidth + 18, startY, bodyWidth, 40) fromRect:NSMakeRect(12, 0, 1, 40) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	
 	// right cap
-	[bubble drawInRect:NSMakeRect(startX + totalWidth - 10, startY, 10, 38) fromRect:NSMakeRect(96, 0, 10, 38) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	[bubble drawInRect:NSMakeRect(startX + 9 + bodyWidth + 18 + bodyWidth, startY, 9, 40) fromRect:NSMakeRect(101, 0, 9, 40) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 
-	//[bubble drawInRect:bubbleRect fromRect:NSMakeRect((106 - totalWidth) / 2, 0, totalWidth, 38) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
-
-  [separator drawInRect:separatorRect withAttributes:self.smallTextAttrs];
-  [width drawInRect:widthRect withAttributes:self.smallTextAttrs];
-  [height drawInRect:heightRect withAttributes:self.smallTextAttrs];
+  [dimensions drawInRect:bubbleRect withAttributes:self.smallTextAttrs];
 }
 
 

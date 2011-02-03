@@ -15,7 +15,7 @@
 
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag 
 {	
-	NSWindow *window = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
+	NSPanel *window = [super initWithContentRect:contentRect styleMask:(NSBorderlessWindowMask | NSNonactivatingPanelMask) backing:NSBackingStoreBuffered defer:NO];
 	
 	[window setBackgroundColor:[NSColor clearColor]];
 	//[window setBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.25]];
@@ -25,8 +25,9 @@
 	[window setOpaque:NO];
 	[window setHasShadow:NO];
 	[window setMovableByWindowBackground:NO];
+  //[window setBecomesKeyOnlyIfNeeded:NO];
 	[window setIgnoresMouseEvents:NO];
-	[window setAcceptsMouseMovedEvents:YES];
+	//[window setAcceptsMouseMovedEvents:YES];
 	
 	return window;
 }
@@ -36,6 +37,19 @@
 {
 	return YES;
 }
+
+
+//- (BOOL)canBecomeMainWindow
+//{
+//  return YES;
+//}
+
+
+//- (void)sendEvent:(NSEvent *)event
+//{
+//  NSLog(@"sendEvent: %@", event);
+//  [super sendEvent:event];
+//}
 
 
 - (void)awakeFromNib

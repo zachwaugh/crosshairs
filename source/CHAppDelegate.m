@@ -18,7 +18,6 @@
 #define TRIAL_SALT @"02818f30cf5036e78eab4ed03bab41afb8b8e323"
 #define APP_STORE_URL @"http://itunes.apple.com/us/app/crosshairs/id402446112?mt=12"
 
-
 @interface CHAppDelegate ()
 
 - (void)showOverlayWindow;
@@ -70,14 +69,12 @@
     [self validateTrial];
   #endif
   
-  
   // Only show overlay if not launched at login
   NSAppleEventDescriptor *currentEvent = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
   
   if ([[currentEvent paramDescriptorForKeyword:keyAEPropData] enumCodeValue] != keyAELaunchedAsLogInItem)
   {
-    [self showOverlayWindow];
-    [NSApp activateIgnoringOtherApps:YES];
+    [self activateApp:nil];
   }
   
 	[self setupHotkeys];
@@ -142,7 +139,7 @@
 
 - (void)activateApp:(id)sender
 {
-	[NSApp activateIgnoringOtherApps:YES];
+	//[NSApp activateIgnoringOtherApps:YES];
 	[self showOverlayWindow];
 }
 
