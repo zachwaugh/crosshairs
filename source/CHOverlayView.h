@@ -40,7 +40,10 @@ typedef enum
 	CHResizeDirection resizeDirection;
 	
 	NSImage *handleImage;
-	
+	NSImage *bubbleImage;
+  
+  NSTrackingArea *trackingArea;
+  
 	float fillOpacity;
 	
 	BOOL switchedColors;
@@ -60,7 +63,9 @@ typedef enum
 @property(retain) NSColor *fillColor;
 @property(retain) NSColor *primaryColor;
 @property(retain) NSColor *alternateColor;
-@property(assign) NSImage *handle;
+@property(retain) NSImage *handle;
+@property(retain) NSImage *bubble;
+@property(retain) NSTrackingArea *trackingArea;
 @property(retain) NSMutableDictionary *smallTextAttrs;
 @property(assign) CHResizeDirection resizeDirection;
 @property(assign) float fillOpacity;

@@ -83,7 +83,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 @implementation CHOverlayView
 
 // retained
-@synthesize smallTextAttrs, fillColor, primaryColor, alternateColor, handle;
+@synthesize smallTextAttrs, fillColor, primaryColor, alternateColor, handle, bubble, trackingArea;
 
 // assigned
 @synthesize startPoint, lastPoint, lastPointInOverlay, overlayRect, dragging, drawing, hovering, resizing, shiftPressed, commandPressed, resizeDirection, switchedColors, fillOpacity, showDimensionsOutside;
@@ -99,6 +99,7 @@ NSPoint CHIntegralPoint(NSPoint p)
     self.alternateColor = [CHPreferences alternateOverlayColor];
     self.fillOpacity = [self.fillColor alphaComponent];
 		self.handle = [NSImage imageNamed:@"handle.png"];
+    self.bubble = [NSImage imageNamed:@"bubble.png"];
 		self.switchedColors = [CHPreferences switchedColors];
 		self.dragging = NO;
     self.hovering = NO;
@@ -131,17 +132,15 @@ NSPoint CHIntegralPoint(NSPoint p)
 	self.fillColor = nil;
   self.primaryColor = nil;
   self.alternateColor = nil;
+  self.handle = nil;
+  self.bubble = nil;
+  [self removeTrackingArea:self.trackingArea];
+  self.trackingArea = nil;
 	
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   
 	[super dealloc];
 }
-
-
-//- (void)resetCursorRects
-//{
-//  [self addCursorRect:[self visibleRect] cursor:[NSCursor crosshairsCursor]];
-//}
 
 
 - (BOOL)acceptsFirstResponder
@@ -168,7 +167,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 	
   NSTrackingArea *area = [[[NSTrackingArea alloc] initWithRect:[self bounds] options:(NSTrackingMouseMoved | NSTrackingActiveAlways) owner:self userInfo:nil] autorelease];
   [self addTrackingArea:area];
-  NSLog(@"updateTrackingAreas");
+  //NSLog(@"updateTrackingAreas");
 }
 
 
@@ -177,7 +176,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 
 - (BOOL)performKeyEquivalent:(NSEvent *)event
 {
-	NSLog(@"(CHOverlayView) performKeyEquivalent: %@, %c", [event characters], [event keyCode]);
+	//NSLog(@"(CHOverlayView) performKeyEquivalent: %@, %c", [event characters], [event keyCode]);
 	NSString *characters = [event charactersIgnoringModifiers];
 	
 	if ([characters characterAtIndex:0] == NSTabCharacter) 
@@ -375,60 +374,66 @@ NSPoint CHIntegralPoint(NSPoint p)
 }
 
 
--(void)cursorUpdate:(NSEvent *)event
+- (void)cursorUpdate:(NSEvent *)event
 {
-	NSLog(@"cursorUpdate:");
-	[[NSCursor crosshairsCursor] set];
+	//NSLog(@"cursorUpdate:");
+	//[[NSCursor crosshairsCursor] set];
 }
 
 
 // Cursor handling
 - (void)updateCursorsForPoint:(NSPoint)point
 {
-	if (NSPointInRect(point, [self leftCenter]))
-	{
-		[[NSCursor resizeLeftRightCursor] set];
-	}
-	else if (NSPointInRect(point, [self rightCenter]))
-	{
-		[[NSCursor resizeLeftRightCursor] set];
-	}
-	else if (NSPointInRect(point, [self topCenter]))
-	{
-		[[NSCursor resizeUpDownCursor] set];
-	}
-	else if (NSPointInRect(point, [self bottomCenter]))
-	{
-		[[NSCursor resizeUpDownCursor] set];
-	}
-	else if (NSPointInRect(point, [self topLeft]))
-	{
-		[[NSCursor resizeLeftDiagonalCursor] set];
-	}
-	else if (NSPointInRect(point, [self topRight]))
-	{
-		[[NSCursor resizeRightDiagonalCursor] set];
-	}
-	else if (NSPointInRect(point, [self bottomLeft]))
-	{
-		[[NSCursor resizeRightDiagonalCursor] set];
-	}
-	else if (NSPointInRect(point, [self bottomRight]))
-	{
-		[[NSCursor resizeLeftDiagonalCursor] set];
-	}
-	else if (NSPointInRect(point, self.overlayRect))
-	{
-		[[NSCursor openHandCursor] set];
-	}
-	else
-	{
-		[[NSCursor crosshairsCursor] set];
-	}
-  
-  
-  // Only show handles if mouse is over overlay
-  self.hovering = (NSPointInRect(point, NSInsetRect([self drawingRect], -20, -20)));
+  if (NSIsEmptyRect(self.overlayRect))
+  {
+    [[NSCursor crosshairsCursor] set];
+  }
+  else
+  {
+    if (NSPointInRect(point, [self leftCenter]))
+    {
+      [[NSCursor resizeLeftRightCursor] set];
+    }
+    else if (NSPointInRect(point, [self rightCenter]))
+    {
+      [[NSCursor resizeLeftRightCursor] set];
+    }
+    else if (NSPointInRect(point, [self topCenter]))
+    {
+      [[NSCursor resizeUpDownCursor] set];
+    }
+    else if (NSPointInRect(point, [self bottomCenter]))
+    {
+      [[NSCursor resizeUpDownCursor] set];
+    }
+    else if (NSPointInRect(point, [self topLeft]))
+    {
+      [[NSCursor resizeLeftDiagonalCursor] set];
+    }
+    else if (NSPointInRect(point, [self topRight]))
+    {
+      [[NSCursor resizeRightDiagonalCursor] set];
+    }
+    else if (NSPointInRect(point, [self bottomLeft]))
+    {
+      [[NSCursor resizeRightDiagonalCursor] set];
+    }
+    else if (NSPointInRect(point, [self bottomRight]))
+    {
+      [[NSCursor resizeLeftDiagonalCursor] set];
+    }
+    else if (NSPointInRect(point, self.overlayRect))
+    {
+      [[NSCursor openHandCursor] set];
+    }
+    else
+    {
+      [[NSCursor crosshairsCursor] set];
+    }
+   
+    // Only show handles if mouse is over overlay
+    self.hovering = (NSPointInRect(point, NSInsetRect([self drawingRect], -20, -20)));
+  }
 }
 
 
@@ -462,15 +467,28 @@ NSPoint CHIntegralPoint(NSPoint p)
 		
 		if (!self.isDrawing && !self.isDragging && !self.isResizing && self.isHovering)
 		{
-			// draw handles
-			[self drawHandleInRect:[self topLeft]];			
-			[self drawHandleInRect:[self topCenter]];	
-			[self drawHandleInRect:[self topRight]];	
-			[self drawHandleInRect:[self rightCenter]];	
-			[self drawHandleInRect:[self bottomRight]];	
-			[self drawHandleInRect:[self bottomCenter]];	
-			[self drawHandleInRect:[self bottomLeft]];	
-			[self drawHandleInRect:[self leftCenter]];
+			// draw handles if enough room
+      if (self.overlayRect.size.height > HANDLE_SIZE && self.overlayRect.size.width > HANDLE_SIZE)
+      {
+        [self drawHandleInRect:[self topLeft]];	
+        [self drawHandleInRect:[self topRight]];
+        [self drawHandleInRect:[self bottomRight]];	
+        [self drawHandleInRect:[self bottomLeft]]; 
+      }
+			
+      // don't draw middle handles if not enough vertical room
+      if (self.overlayRect.size.height > (HANDLE_SIZE * 2))
+      {
+        [self drawHandleInRect:[self rightCenter]];
+        [self drawHandleInRect:[self leftCenter]];
+      }
+      
+      // Don't draw middle handles if not enough horizontal room
+      if (self.overlayRect.size.width > (HANDLE_SIZE * 2))
+      {
+        [self drawHandleInRect:[self topCenter]];
+        [self drawHandleInRect:[self bottomCenter]];	
+      }
 		}
 		
     [self drawDimensionsBox];		
@@ -496,27 +514,25 @@ NSPoint CHIntegralPoint(NSPoint p)
   float totalWidth = dimensionsSize.width + 18;
   float bodyWidth = round((dimensionsSize.width - 18) / 2);
   
-	int startX = round(NSMidX(self.overlayRect) - (totalWidth / 2));
-	int startY = round(NSMaxY(self.overlayRect) + 8);
+	int startX = round(NSMidX(self.overlayRect) - (totalWidth / 2)) - 1;
+	int startY = round(NSMaxY(self.overlayRect) + 6);
 	
-  NSRect bubbleRect = NSMakeRect(startX + 9, startY + 12, dimensionsSize.width, 40);
-    
-  NSImage *bubble = [NSImage imageNamed:@"bubble.png"];
-	
+  NSRect bubbleRect = NSMakeRect(startX + 9, startY + 13, dimensionsSize.width, 41);
+    	
 	// left cap
-  [bubble drawInRect:NSMakeRect(startX, startY, 9, 40) fromRect:NSMakeRect(0, 0, 9, 40) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+  [self.bubble drawInRect:NSMakeRect(startX, startY, 9, 41) fromRect:NSMakeRect(0, 0, 9, 41) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
   
 	// width
-	[bubble drawInRect:NSMakeRect(startX + 9, startY, bodyWidth, 40) fromRect:NSMakeRect(12, 0, 1, 40) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	[self.bubble drawInRect:NSMakeRect(startX + 9, startY, bodyWidth, 41) fromRect:NSMakeRect(12, 0, 1, 41) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	
 	// beak
-	[bubble drawInRect:NSMakeRect(startX + 9 + bodyWidth, startY, 18, 40) fromRect:NSMakeRect(46, 0, 18, 40) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	[self.bubble drawInRect:NSMakeRect(startX + 9 + bodyWidth, startY, 18, 41) fromRect:NSMakeRect(46, 0, 18, 41) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	
 	// height
-	[bubble drawInRect:NSMakeRect(startX + 9 + bodyWidth + 18, startY, bodyWidth, 40) fromRect:NSMakeRect(12, 0, 1, 40) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	[self.bubble drawInRect:NSMakeRect(startX + 9 + bodyWidth + 18, startY, bodyWidth, 41) fromRect:NSMakeRect(12, 0, 1, 41) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	
 	// right cap
-	[bubble drawInRect:NSMakeRect(startX + 9 + bodyWidth + 18 + bodyWidth, startY, 9, 40) fromRect:NSMakeRect(101, 0, 9, 40) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	[self.bubble drawInRect:NSMakeRect(startX + 9 + bodyWidth + 18 + bodyWidth, startY, 9, 41) fromRect:NSMakeRect(101, 0, 9, 41) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 
   [dimensions drawInRect:bubbleRect withAttributes:self.smallTextAttrs];
 }

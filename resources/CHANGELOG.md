@@ -1,9 +1,13 @@
 1.1
-- Fixed color preferences bug
+- Fixed bugs with color preference settings not taking effect right away
+- Fixed bug with taking screenshots on computers with multiple screens
 - Made hotkey toggle whether app is active
-- Removed option to show dimensions inside box
-- Ensured overlay always snaps to whole pixels for sharper lines
+- Ensured overlay always snaps to whole pixels, even during screen zoom, for sharpest possible lines
 - Updated UI (handles and dimensions bubble)
+- Added highlight to menu bar icon to show when app is active
+- Added quick in-app help screen with keyboard shortcuts
+- Now always showing dimensions outside box and removed option
+
 
 1.0
 - Mac App Store release

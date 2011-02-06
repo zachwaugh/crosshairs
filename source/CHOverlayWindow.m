@@ -8,6 +8,7 @@
 
 #import "CHOverlayWindow.h"
 #import "CHOverlayWindowController.h"
+#import "NSCursor+Custom.h"
 
 #define ESC_KEY 53
 
@@ -18,7 +19,7 @@
 	NSPanel *window = [super initWithContentRect:contentRect styleMask:(NSBorderlessWindowMask | NSNonactivatingPanelMask) backing:NSBackingStoreBuffered defer:NO];
 	
 	[window setBackgroundColor:[NSColor clearColor]];
-	//[window setBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.25]];
+	//[window setBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.5]];
 	[window setLevel:NSStatusWindowLevel];
 	[window setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
 	[window setAlphaValue:1.0];
@@ -28,6 +29,8 @@
   //[window setBecomesKeyOnlyIfNeeded:NO];
 	[window setIgnoresMouseEvents:NO];
 	//[window setAcceptsMouseMovedEvents:YES];
+  
+  [window disableCursorRects];
 	
 	return window;
 }
@@ -39,27 +42,17 @@
 }
 
 
-//- (BOOL)canBecomeMainWindow
-//{
-//  return YES;
-//}
-
-
-//- (void)sendEvent:(NSEvent *)event
-//{
-//  NSLog(@"sendEvent: %@", event);
-//  [super sendEvent:event];
-//}
-
-
 - (void)awakeFromNib
 {
 	NSRect windowRect = NSZeroRect;
 	
 	for (NSScreen *screen in [NSScreen screens])
 	{
+    NSLog(@"screen: %@", NSStringFromRect([screen frame]));
 		windowRect = NSUnionRect([screen frame], windowRect);
 	}
+  
+  NSLog(@"windowRect: %@", NSStringFromRect(windowRect));
 	
 	[self setFrame:windowRect display:YES animate:NO];
 }
@@ -67,7 +60,7 @@
 
 - (BOOL)performKeyEquivalent:(NSEvent *)event
 {
-	NSLog(@"(CHOverlayWindow) performKeyEquivalent: %@, %c", [event characters], [event keyCode]);
+	//NSLog(@"(CHOverlayWindow) performKeyEquivalent: %@, %c", [event characters], [event keyCode]);
 	NSString *characters = [event charactersIgnoringModifiers];
 
 	if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@"c"])

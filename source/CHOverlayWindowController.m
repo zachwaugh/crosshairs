@@ -7,6 +7,7 @@
 //
 
 #import "CHOverlayWindowController.h"
+#import "CHAppDelegate.h"
 #import "CHPreferences.h"
 #import "CHOverlayWindow.h"
 #import "CHOverlayView.h"
@@ -42,14 +43,14 @@
 
 - (BOOL)performKeyEquivalent:(NSEvent *)event
 {
-	NSLog(@"(CHOverlayWindowController) performKeyEquivalent: %@, %c", [event characters], [event keyCode]);
+	//NSLog(@"(CHOverlayWindowController) performKeyEquivalent: %@, %c", [event characters], [event keyCode]);
 	return [super performKeyEquivalent:event];
 }
 
 
 - (void)keyDown:(NSEvent *)event
 {
-	NSLog(@"(CHOverlayWindowController) keyDown: %@", event);
+	//NSLog(@"(CHOverlayWindowController) keyDown: %@", event);
 
 	if ([event keyCode] == SPACE_KEY)
 	{
@@ -65,8 +66,7 @@
 
 - (void)cancel:(id)sender
 {
-	NSLog(@"cancel");
-	[self hideWindow];
+	[(CHAppDelegate *)[NSApp delegate] deactivateApp];
 }
 
 
@@ -101,11 +101,13 @@
 #pragma mark Screenshot
 
 - (void)takeScreenshot
-{
+{  
   // Capture screenshot
-  NSRect overlayRect = [self overlayDimensions];
-	CGRect captureRect = NSRectToCGRect(overlayRect);
-	CGImageRef screenShot = CGWindowListCreateImage(captureRect, kCGWindowListOptionOnScreenBelowWindow, [[self window] windowNumber], kCGWindowImageDefault);
+  NSRect overlayRect = [self.view convertRectToBase:[self overlayDimensions]];
+  overlayRect.origin = [[self window] convertBaseToScreen:overlayRect.origin];
+  overlayRect.origin.y = NSMaxY([[[NSScreen screens] objectAtIndex:0] frame]) - NSMaxY(overlayRect);
+
+	CGImageRef screenShot = CGWindowListCreateImage(NSRectToCGRect(overlayRect), kCGWindowListOptionOnScreenBelowWindow, [[self window] windowNumber], kCGWindowImageDefault);
 	NSBitmapImageRep *image = [[[NSBitmapImageRep alloc] initWithCGImage:screenShot] autorelease];
   
   // Build screenshot filename

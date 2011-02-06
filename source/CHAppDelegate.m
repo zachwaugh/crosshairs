@@ -10,6 +10,7 @@
 #import "DDHotKeyCenter.h"
 #import "CHOverlayWindowController.h"
 #import "CHPreferencesController.h"
+#import "CHHelpController.h"
 #import "CHPreferences.h"
 #import "CHGlobals.h"
 #import "NSString+MD5.h"
@@ -43,6 +44,7 @@
 	self.statusMenu = nil;
   [overlayController release];
 	[preferencesController release];
+  [helpController release];
 	
 	[super dealloc];
 }
@@ -72,13 +74,14 @@
   // Only show overlay if not launched at login
   NSAppleEventDescriptor *currentEvent = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
   
+  [self createStatusItem];
+  
   if ([[currentEvent paramDescriptorForKeyword:keyAEPropData] enumCodeValue] != keyAELaunchedAsLogInItem)
   {
     [self activateApp:nil];
   }
   
 	[self setupHotkeys];
-	[self createStatusItem];
   [CHPreferences incrementNumberOfLaunches];
 }
 
@@ -110,8 +113,11 @@
 {
 	// Build the statusbar menu
 	self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
-	[self.statusItem setImage:[NSImage imageNamed:@"crosshairs_menu_off.png"]];
-	[self.statusItem setAlternateImage:[NSImage imageNamed:@"crosshairs_menu_on.png"]];
+  [self.statusItem setTarget:self];
+  [self.statusItem setAction:@selector(activateApp:)];
+  [self.statusItem sendActionOn:NSLeftMouseUp];
+	[self.statusItem setImage:[NSImage imageNamed:@"crosshairs_menu_inactive.png"]];
+	[self.statusItem setAlternateImage:[NSImage imageNamed:@"crosshairs_menu_highlight.png"]];
 	[self.statusItem setHighlightMode:YES];
 	[self.statusItem setMenu:self.statusMenu];
 }
@@ -126,9 +132,9 @@
 
 - (void)hotkeyWithEvent:(NSEvent *)event
 {
-  if ([NSApp isActive])
+  if ([[overlayController window] isVisible])
   {
-    [NSApp hide:nil];
+    [self deactivateApp];
   }
   else
   {
@@ -139,8 +145,16 @@
 
 - (void)activateApp:(id)sender
 {
-	//[NSApp activateIgnoringOtherApps:YES];
+	[NSApp activateIgnoringOtherApps:YES];
 	[self showOverlayWindow];
+  [self.statusItem setImage:[NSImage imageNamed:@"crosshairs_menu_active.png"]];
+}
+
+
+- (void)deactivateApp
+{
+  [self.statusItem setImage:[NSImage imageNamed:@"crosshairs_menu_inactive.png"]];
+  [NSApp hide:nil];
 }
 
 
@@ -166,6 +180,20 @@
 	}
 
 	[preferencesController showWindow:sender];
+}
+
+
+- (void)showHelp:(id)sender
+{
+	[NSApp activateIgnoringOtherApps:YES];
+	[overlayController hideWindow];
+	
+	if (helpController == nil)
+	{
+		helpController = [[CHHelpController alloc] initWithWindowNibName:@"CHHelpController"];
+	}
+  
+	[helpController showWindow:sender];
 }
 
 

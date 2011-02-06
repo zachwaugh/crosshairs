@@ -10,6 +10,7 @@
 
 @class CHOverlayWindowController;
 @class CHPreferencesController;
+@class CHHelpController;
 
 @interface CHAppDelegate : NSObject <NSApplicationDelegate>
 {
@@ -18,12 +19,15 @@
 	
   CHOverlayWindowController *overlayController;
 	CHPreferencesController *preferencesController;
+  CHHelpController *helpController;
 }
 
 @property (retain) NSStatusItem *statusItem;
 @property (retain) NSMenu *statusMenu;
 
 - (void)activateApp:(id)sender;
+- (void)deactivateApp;
 - (void)showPreferences:(id)sender;
+- (void)showHelp:(id)sender;
 
 @end

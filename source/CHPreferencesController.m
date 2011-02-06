@@ -94,10 +94,10 @@
 #pragma mark -
 #pragma mark NSWindowDelegate
 
-- (void)windowWillClose:(id)sender
-{
-  [(CHAppDelegate *)[NSApp delegate] activateApp:sender];
-  NSLog(@"preferences window will close");
-}
+//- (void)windowWillClose:(id)sender
+//{
+//  [(CHAppDelegate *)[NSApp delegate] activateApp:sender];
+//  NSLog(@"preferences window will close");
+//}
 
 @end
