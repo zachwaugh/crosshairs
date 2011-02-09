@@ -18,6 +18,7 @@
 		922391D112FDF0CA00187E83 /* crosshairs_menu_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 922391D012FDF0CA00187E83 /* crosshairs_menu_active.png */; };
 		922393EF12FE5E2100187E83 /* CHHelpController.m in Sources */ = {isa = PBXBuildFile; fileRef = 922393EE12FE5E2100187E83 /* CHHelpController.m */; };
 		922393F112FE5E3100187E83 /* CHHelpController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 922393F012FE5E3100187E83 /* CHHelpController.xib */; };
+		92365A4E1302276F00A144A4 /* CHStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92365A4D1302276F00A144A4 /* CHStatusView.m */; };
 		9245E4A5128263BF00D3853E /* CHMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9245E4A4128263BF00D3853E /* CHMainMenu.xib */; };
 		9245E50C12826B0000D3853E /* CHOverlayWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9245E50B12826B0000D3853E /* CHOverlayWindowController.m */; };
 		9245E50E12826B1300D3853E /* CHOverlayWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9245E50D12826B1300D3853E /* CHOverlayWindowController.xib */; };
@@ -81,6 +82,8 @@
 		922393ED12FE5E2100187E83 /* CHHelpController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHHelpController.h; sourceTree = "<group>"; };
 		922393EE12FE5E2100187E83 /* CHHelpController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHHelpController.m; sourceTree = "<group>"; };
 		922393F012FE5E3100187E83 /* CHHelpController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CHHelpController.xib; sourceTree = "<group>"; };
+		92365A4C1302276F00A144A4 /* CHStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHStatusView.h; sourceTree = "<group>"; };
+		92365A4D1302276F00A144A4 /* CHStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHStatusView.m; sourceTree = "<group>"; };
 		9245E4A4128263BF00D3853E /* CHMainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CHMainMenu.xib; sourceTree = "<group>"; };
 		9245E50A12826B0000D3853E /* CHOverlayWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHOverlayWindowController.h; sourceTree = "<group>"; };
 		9245E50B12826B0000D3853E /* CHOverlayWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHOverlayWindowController.m; sourceTree = "<group>"; };
@@ -282,6 +285,8 @@
 				BFADE6C4124C296F0065F2E0 /* CHOverlayWindow.m */,
 				BFADE6EE124C2A290065F2E0 /* CHOverlayView.h */,
 				BFADE6EF124C2A290065F2E0 /* CHOverlayView.m */,
+				92365A4C1302276F00A144A4 /* CHStatusView.h */,
+				92365A4D1302276F00A144A4 /* CHStatusView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -411,6 +416,7 @@
 				9245E50C12826B0000D3853E /* CHOverlayWindowController.m in Sources */,
 				92C8969B12F103ED00E0F386 /* NSString+MD5.m in Sources */,
 				922393EF12FE5E2100187E83 /* CHHelpController.m in Sources */,
+				92365A4E1302276F00A144A4 /* CHStatusView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

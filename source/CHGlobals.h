@@ -18,6 +18,7 @@ extern NSString * const CHStartAtLoginKey;
 extern NSString * const CHGlobalHotKeyCode;
 extern NSString * const CHGlobalHotKeyFlags;
 extern NSString * const CHShowInDockKey;
+extern NSString * const CHActivateAppKey;
 extern NSString * const CHNumberOfLaunchesKey;
 extern NSString * const CHFirstLaunchDateKey;
 extern NSString * const CHTrialHashKey;
@@ -27,3 +28,10 @@ extern NSString * const CHColorsDidChangeNotification;
 
 // Growl
 extern NSString * const CHGrowlScreenshotSavedNotification;
+
+
+typedef enum {
+  CHStatusItemInactive,
+  CHStatusItemHighlighted,
+  CHStatusItemActive
+} CHStatusItemState;

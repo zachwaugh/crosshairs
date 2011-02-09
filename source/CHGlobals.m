@@ -20,6 +20,7 @@ NSString * const CHStartAtLoginKey = @"startAtLogin";
 NSString * const CHGlobalHotKeyCode = @"globalHotKeyCode";
 NSString * const CHGlobalHotKeyFlags = @"globalHotKeyFlags";
 NSString * const CHShowInDockKey = @"showInDock";
+NSString * const CHActivateAppKey = @"activateApp";
 NSString * const CHNumberOfLaunchesKey = @"numberOfLaunches";
 NSString * const CHFirstLaunchDateKey = @"firstLaunchDate";
 NSString * const CHTrialHashKey = @"trialHash";

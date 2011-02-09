@@ -24,6 +24,7 @@
   [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHSwitchedOverlayColorsKey];
   [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHStartAtLoginKey];
   [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHShowInDockKey];
+  [defaults setObject:[NSNumber numberWithBool:YES] forKey:CHActivateAppKey];
   [defaults setObject:[NSNumber numberWithInt:19] forKey:CHGlobalHotKeyCode];
   [defaults setObject:[NSNumber numberWithInt:(NSShiftKeyMask | NSCommandKeyMask)] forKey:CHGlobalHotKeyFlags];
   
@@ -152,6 +153,12 @@
 + (void)setShowInDock:(BOOL)show
 {
   [[NSUserDefaults standardUserDefaults] setBool:show forKey:CHShowInDockKey];
+}
+
+
++ (BOOL)activateApp
+{
+  return [[NSUserDefaults standardUserDefaults] boolForKey:CHActivateAppKey];
 }
 
 @end

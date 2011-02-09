@@ -117,7 +117,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 		self.smallTextAttrs = [NSMutableDictionary dictionary];
     [self.smallTextAttrs setObject:shadow forKey:NSShadowAttributeName];
     [self.smallTextAttrs setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
-		[self.smallTextAttrs setObject:[NSFont fontWithName:@"Helvetica Bold" size:16.0] forKey:NSFontAttributeName];
+		[self.smallTextAttrs setObject:[NSFont fontWithName:@"Helvetica Bold" size:14.0] forKey:NSFontAttributeName];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(colorsDidChange:) name:CHColorsDidChangeNotification object:nil];
 	}
@@ -161,13 +161,20 @@ NSPoint CHIntegralPoint(NSPoint p)
 }
 
 
+- (void)resetCursorRects
+{
+	[self addCursorRect:[self bounds] cursor:[NSCursor crosshairsCursor]];
+}
+
+
 - (void)updateTrackingAreas
 {
 	[super updateTrackingAreas];
+	[self removeTrackingArea:self.trackingArea];
+	self.trackingArea = nil;
 	
-  NSTrackingArea *area = [[[NSTrackingArea alloc] initWithRect:[self bounds] options:(NSTrackingMouseMoved | NSTrackingActiveAlways) owner:self userInfo:nil] autorelease];
-  [self addTrackingArea:area];
-  //NSLog(@"updateTrackingAreas");
+  self.trackingArea = [[[NSTrackingArea alloc] initWithRect:[self bounds] options:(NSTrackingMouseMoved | NSTrackingActiveAlways) owner:self userInfo:nil] autorelease];
+  [self addTrackingArea:self.trackingArea];
 }
 
 
@@ -377,7 +384,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 - (void)cursorUpdate:(NSEvent *)event
 {
 	//NSLog(@"cursorUpdate:");
-	//[[NSCursor crosshairsCursor] set];
+	[[NSCursor crosshairsCursor] set];
 }
 
 
@@ -517,7 +524,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 	int startX = round(NSMidX(self.overlayRect) - (totalWidth / 2)) - 1;
 	int startY = round(NSMaxY(self.overlayRect) + 6);
 	
-  NSRect bubbleRect = NSMakeRect(startX + 9, startY + 13, dimensionsSize.width, 41);
+  NSRect dimensionsRect = NSMakeRect(startX + 9, startY + 15, dimensionsSize.width, 41);
     	
 	// left cap
   [self.bubble drawInRect:NSMakeRect(startX, startY, 9, 41) fromRect:NSMakeRect(0, 0, 9, 41) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
@@ -534,7 +541,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 	// right cap
 	[self.bubble drawInRect:NSMakeRect(startX + 9 + bodyWidth + 18 + bodyWidth, startY, 9, 41) fromRect:NSMakeRect(101, 0, 9, 41) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 
-  [dimensions drawInRect:bubbleRect withAttributes:self.smallTextAttrs];
+  [dimensions drawInRect:dimensionsRect withAttributes:self.smallTextAttrs];
 }
 
 

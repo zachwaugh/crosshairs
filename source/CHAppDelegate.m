@@ -12,6 +12,7 @@
 #import "CHPreferencesController.h"
 #import "CHHelpController.h"
 #import "CHPreferences.h"
+#import "CHStatusView.h"
 #import "CHGlobals.h"
 #import "NSString+MD5.h"
 
@@ -111,15 +112,17 @@
 
 - (void)createStatusItem
 {
+  // Create an NSStatusItem.
+  float width = 29.0;
+  float height = [[NSStatusBar systemStatusBar] thickness];
+
 	// Build the statusbar menu
-	self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
-  [self.statusItem setTarget:self];
-  [self.statusItem setAction:@selector(activateApp:)];
-  [self.statusItem sendActionOn:NSLeftMouseUp];
-	[self.statusItem setImage:[NSImage imageNamed:@"crosshairs_menu_inactive.png"]];
-	[self.statusItem setAlternateImage:[NSImage imageNamed:@"crosshairs_menu_highlight.png"]];
-	[self.statusItem setHighlightMode:YES];
-	[self.statusItem setMenu:self.statusMenu];
+	self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:width];
+  CHStatusView *statusView = [[[CHStatusView alloc] initWithFrame:NSMakeRect(0, 0, width, height)] autorelease];
+  statusView.statusMenu = self.statusMenu;
+  [self.statusMenu setDelegate:statusView];
+  [self.statusItem setView:statusView];
+  statusView.statusItem = self.statusItem;
 }
 
 
@@ -145,15 +148,19 @@
 
 - (void)activateApp:(id)sender
 {
-	[NSApp activateIgnoringOtherApps:YES];
+  if ([CHPreferences activateApp])
+  {
+    [NSApp activateIgnoringOtherApps:YES];
+  }
+	
 	[self showOverlayWindow];
-  [self.statusItem setImage:[NSImage imageNamed:@"crosshairs_menu_active.png"]];
+  [(CHStatusView *)[self.statusItem view] setState:CHStatusItemActive];
 }
 
 
 - (void)deactivateApp
 {
-  [self.statusItem setImage:[NSImage imageNamed:@"crosshairs_menu_inactive.png"]];
+  [(CHStatusView *)[self.statusItem view] setState:CHStatusItemInactive];
   [NSApp hide:nil];
 }
 

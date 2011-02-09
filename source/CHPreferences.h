@@ -35,5 +35,6 @@
 + (void)setGlobalHotKeyFlags:(NSInteger)flags;
 + (BOOL)showInDock;
 + (void)setShowInDock:(BOOL)show;
++ (BOOL)activateApp;
 
 @end

@@ -29,8 +29,7 @@
   //[window setBecomesKeyOnlyIfNeeded:NO];
 	[window setIgnoresMouseEvents:NO];
 	//[window setAcceptsMouseMovedEvents:YES];
-  
-  [window disableCursorRects];
+  //[window disableCursorRects];
 	
 	return window;
 }
@@ -48,12 +47,9 @@
 	
 	for (NSScreen *screen in [NSScreen screens])
 	{
-    NSLog(@"screen: %@", NSStringFromRect([screen frame]));
-		windowRect = NSUnionRect([screen frame], windowRect);
+    windowRect = NSUnionRect([screen frame], windowRect);
 	}
-  
-  NSLog(@"windowRect: %@", NSStringFromRect(windowRect));
-	
+  	
 	[self setFrame:windowRect display:YES animate:NO];
 }
 
