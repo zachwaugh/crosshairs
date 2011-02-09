@@ -9,10 +9,5 @@
 #import <Cocoa/Cocoa.h>
 
 @interface CHOverlayWindow : NSPanel
-{
-
-}
-
-
 
 @end

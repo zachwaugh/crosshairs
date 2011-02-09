@@ -63,8 +63,8 @@ typedef enum
 @property(retain) NSColor *fillColor;
 @property(retain) NSColor *primaryColor;
 @property(retain) NSColor *alternateColor;
-@property(retain) NSImage *handle;
-@property(retain) NSImage *bubble;
+@property(retain) NSImage *handleImage;
+@property(retain) NSImage *bubbleImage;
 @property(retain) NSTrackingArea *trackingArea;
 @property(retain) NSMutableDictionary *smallTextAttrs;
 @property(assign) CHResizeDirection resizeDirection;

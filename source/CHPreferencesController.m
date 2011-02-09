@@ -28,18 +28,6 @@
 }
 
 
-- (void)dealloc
-{
-  self.toolbar = nil;
-  self.startAtLogin = nil;
-  self.alternateColorWell = nil;
-  self.primaryColorWell = nil;
-  self.shortcutRecorder = nil;
-  
-  [super dealloc];
-}
-
-
 // Only one option, do nothing
 - (void)toolbarItemSelected:(id)sender
 {
@@ -94,10 +82,9 @@
 #pragma mark -
 #pragma mark NSWindowDelegate
 
-//- (void)windowWillClose:(id)sender
-//{
-//  [(CHAppDelegate *)[NSApp delegate] activateApp:sender];
-//  NSLog(@"preferences window will close");
-//}
+- (void)windowWillClose:(id)sender
+{
+  [NSApp hide:sender];
+}
 
 @end

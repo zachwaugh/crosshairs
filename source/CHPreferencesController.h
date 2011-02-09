@@ -18,11 +18,11 @@
   IBOutlet NSToolbar *toolbar;
 }
 
-@property (retain) NSToolbar *toolbar;
-@property (retain) NSButton *startAtLogin;
-@property (retain) NSColorWell *primaryColorWell;
-@property (retain) NSColorWell *alternateColorWell;
-@property (retain) SRRecorderControl *shortcutRecorder;
+@property (assign) NSToolbar *toolbar;
+@property (assign) NSButton *startAtLogin;
+@property (assign) NSColorWell *primaryColorWell;
+@property (assign) NSColorWell *alternateColorWell;
+@property (assign) SRRecorderControl *shortcutRecorder;
 
 - (void)toolbarItemSelected:(id)sender;
 - (void)colorUpdated:(id)sender;

@@ -201,13 +201,13 @@
 						<object class="NSButton" id="1027351456">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{139, 59}, {319, 18}}</string>
+							<string key="NSFrame">{{139, 59}, {339, 18}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="225316633">
 								<int key="NSCellFlags">-2080244224</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Deactivate other apps when showing overlay</string>
+								<string key="NSContents">Don't deactivate other apps when showing overlay</string>
 								<reference key="NSSupport" ref="215954087"/>
 								<reference key="NSControlView" ref="1027351456"/>
 								<int key="NSButtonFlags">1211912703</int>
@@ -415,9 +415,6 @@
 				<string key="NSFrameAutosaveName"/>
 			</object>
 			<object class="NSUserDefaultsController" id="793193493">
-				<array class="NSMutableArray" key="NSDeclaredKeys">
-					<string>activateApp</string>
-				</array>
 				<bool key="NSSharedInstance">YES</bool>
 			</object>
 		</array>
@@ -630,10 +627,14 @@
 							<string key="NSLabel">value: values.activateApp</string>
 							<string key="NSBinding">value</string>
 							<string key="NSKeyPath">values.activateApp</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">133</int>
+					<int key="connectionID">136</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -986,7 +987,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">135</int>
+			<int key="maxID">136</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

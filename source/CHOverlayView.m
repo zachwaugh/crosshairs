@@ -83,7 +83,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 @implementation CHOverlayView
 
 // retained
-@synthesize smallTextAttrs, fillColor, primaryColor, alternateColor, handle, bubble, trackingArea;
+@synthesize smallTextAttrs, fillColor, primaryColor, alternateColor, handleImage, bubbleImage, trackingArea;
 
 // assigned
 @synthesize startPoint, lastPoint, lastPointInOverlay, overlayRect, dragging, drawing, hovering, resizing, shiftPressed, commandPressed, resizeDirection, switchedColors, fillOpacity, showDimensionsOutside;
@@ -98,8 +98,8 @@ NSPoint CHIntegralPoint(NSPoint p)
     self.primaryColor = [CHPreferences primaryOverlayColor];
     self.alternateColor = [CHPreferences alternateOverlayColor];
     self.fillOpacity = [self.fillColor alphaComponent];
-		self.handle = [NSImage imageNamed:@"handle.png"];
-    self.bubble = [NSImage imageNamed:@"bubble.png"];
+		self.handleImage = [NSImage imageNamed:@"handle.png"];
+    self.bubbleImage = [NSImage imageNamed:@"bubble.png"];
 		self.switchedColors = [CHPreferences switchedColors];
 		self.dragging = NO;
     self.hovering = NO;
@@ -132,8 +132,8 @@ NSPoint CHIntegralPoint(NSPoint p)
 	self.fillColor = nil;
   self.primaryColor = nil;
   self.alternateColor = nil;
-  self.handle = nil;
-  self.bubble = nil;
+  self.handleImage = nil;
+  self.bubbleImage = nil;
   [self removeTrackingArea:self.trackingArea];
   self.trackingArea = nil;
 	
@@ -146,6 +146,12 @@ NSPoint CHIntegralPoint(NSPoint p)
 - (BOOL)acceptsFirstResponder
 {
 	return YES;
+}
+
+
+- (BOOL)acceptsFirstMouse:(NSEvent *)theEvent
+{
+  return YES;
 }
 
 
@@ -183,7 +189,6 @@ NSPoint CHIntegralPoint(NSPoint p)
 
 - (BOOL)performKeyEquivalent:(NSEvent *)event
 {
-	//NSLog(@"(CHOverlayView) performKeyEquivalent: %@, %c", [event characters], [event keyCode]);
 	NSString *characters = [event charactersIgnoringModifiers];
 	
 	if ([characters characterAtIndex:0] == NSTabCharacter) 
@@ -507,7 +512,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 - (void)drawHandleInRect:(NSRect)rect
 {
   rect = NSIntegralRect(rect);
-  [self.handle drawInRect:NSMakeRect(rect.origin.x, rect.origin.y, HANDLE_SIZE, HANDLE_SIZE) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+  [self.handleImage drawInRect:NSMakeRect(rect.origin.x, rect.origin.y, HANDLE_SIZE, HANDLE_SIZE) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 }
 
 
@@ -522,24 +527,30 @@ NSPoint CHIntegralPoint(NSPoint p)
   float bodyWidth = round((dimensionsSize.width - 18) / 2);
   
 	int startX = round(NSMidX(self.overlayRect) - (totalWidth / 2)) - 1;
+  
+  if ((int)self.overlayRect.size.width % 2 == 0)
+  {
+    startX += 1;
+  }
+  
 	int startY = round(NSMaxY(self.overlayRect) + 6);
 	
   NSRect dimensionsRect = NSMakeRect(startX + 9, startY + 15, dimensionsSize.width, 41);
     	
 	// left cap
-  [self.bubble drawInRect:NSMakeRect(startX, startY, 9, 41) fromRect:NSMakeRect(0, 0, 9, 41) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+  [self.bubbleImage drawInRect:NSMakeRect(startX, startY, 9, 41) fromRect:NSMakeRect(0, 0, 9, 41) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
   
 	// width
-	[self.bubble drawInRect:NSMakeRect(startX + 9, startY, bodyWidth, 41) fromRect:NSMakeRect(12, 0, 1, 41) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	[self.bubbleImage drawInRect:NSMakeRect(startX + 9, startY, bodyWidth, 41) fromRect:NSMakeRect(12, 0, 1, 41) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	
 	// beak
-	[self.bubble drawInRect:NSMakeRect(startX + 9 + bodyWidth, startY, 18, 41) fromRect:NSMakeRect(46, 0, 18, 41) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	[self.bubbleImage drawInRect:NSMakeRect(startX + 9 + bodyWidth, startY, 18, 41) fromRect:NSMakeRect(46, 0, 18, 41) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	
 	// height
-	[self.bubble drawInRect:NSMakeRect(startX + 9 + bodyWidth + 18, startY, bodyWidth, 41) fromRect:NSMakeRect(12, 0, 1, 41) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	[self.bubbleImage drawInRect:NSMakeRect(startX + 9 + bodyWidth + 18, startY, bodyWidth, 41) fromRect:NSMakeRect(12, 0, 1, 41) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	
 	// right cap
-	[self.bubble drawInRect:NSMakeRect(startX + 9 + bodyWidth + 18 + bodyWidth, startY, 9, 41) fromRect:NSMakeRect(101, 0, 9, 41) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	[self.bubbleImage drawInRect:NSMakeRect(startX + 9 + bodyWidth + 18 + bodyWidth, startY, 9, 41) fromRect:NSMakeRect(101, 0, 9, 41) operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 
   [dimensions drawInRect:dimensionsRect withAttributes:self.smallTextAttrs];
 }

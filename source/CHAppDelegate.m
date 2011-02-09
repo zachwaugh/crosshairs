@@ -180,7 +180,8 @@
 {
 	[NSApp activateIgnoringOtherApps:YES];
 	[overlayController hideWindow];
-	
+	[(CHStatusView *)[self.statusItem view] setState:CHStatusItemInactive];
+  
 	if (preferencesController == nil)
 	{
 		preferencesController = [[CHPreferencesController alloc] initWithWindowNibName:@"CHPreferencesController"];
@@ -194,6 +195,7 @@
 {
 	[NSApp activateIgnoringOtherApps:YES];
 	[overlayController hideWindow];
+  [(CHStatusView *)[self.statusItem view] setState:CHStatusItemInactive];
 	
 	if (helpController == nil)
 	{

@@ -7,10 +7,7 @@
 //
 
 #import "CHOverlayWindow.h"
-#import "CHOverlayWindowController.h"
-#import "NSCursor+Custom.h"
-
-#define ESC_KEY 53
+#import "CHAppDelegate.h"
 
 @implementation CHOverlayWindow
 
@@ -26,10 +23,8 @@
 	[window setOpaque:NO];
 	[window setHasShadow:NO];
 	[window setMovableByWindowBackground:NO];
-  //[window setBecomesKeyOnlyIfNeeded:NO];
 	[window setIgnoresMouseEvents:NO];
 	//[window setAcceptsMouseMovedEvents:YES];
-  //[window disableCursorRects];
 	
 	return window;
 }
@@ -59,9 +54,9 @@
 	//NSLog(@"(CHOverlayWindow) performKeyEquivalent: %@, %c", [event characters], [event keyCode]);
 	NSString *characters = [event charactersIgnoringModifiers];
 
-	if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@"c"])
+	if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@"h"])
 	{
-		[(CHOverlayWindowController *)[self delegate] copyDimensionsToClipboard];
+		[(CHAppDelegate *)[NSApp delegate] deactivateApp];
 		return YES;
 	}
 	else

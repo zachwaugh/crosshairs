@@ -21,13 +21,12 @@
   [[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:helpFileURL]];
 }
 
+#pragma mark -
+#pragma mark NSWindowDelegate
 
-- (void)dealloc
+- (void)windowWillClose:(id)sender
 {
-  self.webView = nil;
-  
-  [super dealloc];
+  [NSApp hide:sender];
 }
-
 
 @end

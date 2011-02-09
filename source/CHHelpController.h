@@ -14,6 +14,6 @@
   IBOutlet WebView *webView;
 }
 
-@property (retain) WebView *webView;
+@property (assign) WebView *webView;
 
 @end

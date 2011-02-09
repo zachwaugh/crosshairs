@@ -36,26 +36,28 @@
 - (void)showWindow:(id)sender
 {
   [[self window] makeKeyAndOrderFront:sender];
-  //[NSApp activateIgnoringOtherApps:YES];
   [self.view updateTrackingAreas];
 }
 
 
-- (BOOL)performKeyEquivalent:(NSEvent *)event
+- (void)hideWindow
 {
-	//NSLog(@"(CHOverlayWindowController) performKeyEquivalent: %@, %c", [event characters], [event keyCode]);
-	return [super performKeyEquivalent:event];
+  [[self window] orderOut:nil];
 }
 
 
 - (void)keyDown:(NSEvent *)event
 {
 	//NSLog(@"(CHOverlayWindowController) keyDown: %@", event);
-
-	if ([event keyCode] == SPACE_KEY)
+  NSString *characters = [event charactersIgnoringModifiers];
+  
+  if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@"c"])
+  {
+    [self copyDimensionsToClipboard];
+  }
+	else if ([event keyCode] == SPACE_KEY)
 	{
 		[self takeScreenshot];
-		return;
 	}
 	else
 	{
@@ -67,12 +69,6 @@
 - (void)cancel:(id)sender
 {
 	[(CHAppDelegate *)[NSApp delegate] deactivateApp];
-}
-
-
-- (void)hideWindow
-{
-  [[self window] orderOut:nil];
 }
 
 
