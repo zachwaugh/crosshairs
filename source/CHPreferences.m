@@ -23,6 +23,7 @@
   [defaults setObject:[NSNumber numberWithInt:0] forKey:CHNumberOfLaunchesKey];
   [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHSwitchedOverlayColorsKey];
   [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHStartAtLoginKey];
+  [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHInvertedOverlayModeKey];
   [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHShowInDockKey];
   [defaults setObject:[NSNumber numberWithBool:YES] forKey:CHActivateAppKey];
   [defaults setObject:[NSNumber numberWithInt:19] forKey:CHGlobalHotKeyCode];
@@ -117,6 +118,18 @@
 + (void)setSwitchedColors:(BOOL)switched
 {
   [[NSUserDefaults standardUserDefaults] setBool:switched forKey:CHSwitchedOverlayColorsKey];
+}
+
+
++ (BOOL)invertedOverlayMode
+{
+  return [[NSUserDefaults standardUserDefaults] boolForKey:CHInvertedOverlayModeKey];
+}
+
+
++ (void)setInvertedOverlayMode:(BOOL)inverted
+{
+  [[NSUserDefaults standardUserDefaults] setBool:inverted forKey:CHInvertedOverlayModeKey];
 }
 
 

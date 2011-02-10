@@ -16,6 +16,7 @@ NSString * const CHAlternateOverlayColorKey = @"alternateOverlayColor";
 NSString * const CHLastOverlayColorKey = @"lastOverlayColor";
 NSString * const CHSwitchedOverlayColorsKey = @"switchedOverlayColors";
 NSString * const CHShowDimensionsOutsideKey = @"showDimensionsOutside";
+NSString * const CHInvertedOverlayModeKey = @"invertedOverlayMode";
 NSString * const CHStartAtLoginKey = @"startAtLogin";
 NSString * const CHGlobalHotKeyCode = @"globalHotKeyCode";
 NSString * const CHGlobalHotKeyFlags = @"globalHotKeyFlags";

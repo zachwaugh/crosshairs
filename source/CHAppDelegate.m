@@ -179,7 +179,7 @@
 - (void)showPreferences:(id)sender
 {
 	[NSApp activateIgnoringOtherApps:YES];
-	[overlayController hideWindow];
+  [overlayController hideWindow];
 	[(CHStatusView *)[self.statusItem view] setState:CHStatusItemInactive];
   
 	if (preferencesController == nil)
@@ -194,7 +194,8 @@
 - (void)showHelp:(id)sender
 {
 	[NSApp activateIgnoringOtherApps:YES];
-	[overlayController hideWindow];
+  [overlayController hideWindow];
+  
   [(CHStatusView *)[self.statusItem view] setState:CHStatusItemInactive];
 	
 	if (helpController == nil)

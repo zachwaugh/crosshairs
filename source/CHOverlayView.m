@@ -62,6 +62,9 @@ NSPoint CHIntegralPoint(NSPoint p)
 
 - (void)updateCursorsForPoint:(NSPoint)point;
 - (void)refresh;
+- (void)fullRefresh;
+- (void)conditionalRefresh;
+- (void)switchInvertedOverlayMode;
 
 - (NSRect)resizedRectForPoint:(NSPoint)point;
 - (NSRect)topLeft;
@@ -86,7 +89,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 @synthesize smallTextAttrs, fillColor, primaryColor, alternateColor, handleImage, bubbleImage, trackingArea;
 
 // assigned
-@synthesize startPoint, lastPoint, lastPointInOverlay, overlayRect, dragging, drawing, hovering, resizing, shiftPressed, commandPressed, resizeDirection, switchedColors, fillOpacity, showDimensionsOutside;
+@synthesize startPoint, lastPoint, lastPointInOverlay, overlayRect, dragging, drawing, inverted, hovering, resizing, shiftPressed, commandPressed, resizeDirection, switchedColors, fillOpacity, showDimensionsOutside;
 
 
 - (id)initWithFrame:(NSRect)frame
@@ -107,6 +110,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 		self.resizing = NO;
 		self.shiftPressed = NO;
 		self.commandPressed = NO;
+    self.inverted = [CHPreferences invertedOverlayMode];
 		self.lastPointInOverlay = NO;
 
     // setup dimensions bubble text attrs
@@ -187,6 +191,20 @@ NSPoint CHIntegralPoint(NSPoint p)
 #pragma mark -
 #pragma mark Keyboard handling
 
+- (void)keyDown:(NSEvent *)event
+{
+  NSString *characters = [event charactersIgnoringModifiers];
+  
+  if ([characters isEqualToString:@"i"])
+  {
+    [self switchInvertedOverlayMode];
+  }
+  else
+  {
+    [super keyDown:event];
+  }
+}
+
 - (BOOL)performKeyEquivalent:(NSEvent *)event
 {
 	NSString *characters = [event charactersIgnoringModifiers];
@@ -212,11 +230,11 @@ NSPoint CHIntegralPoint(NSPoint p)
 {
 	if (self.isCommandPressed)
 	{
-		self.fillOpacity = (self.fillOpacity < 1) ? self.fillOpacity + 0.1 : 1.0;
+		self.fillOpacity = (self.fillOpacity < 1) ? self.fillOpacity + 0.05 : 1.0;
 		self.fillColor = [self.fillColor colorWithAlphaComponent:self.fillOpacity];
     [CHPreferences setLastColor:self.fillColor];
     
-		[self refresh];
+		[self conditionalRefresh];
 	}
 	else
 	{
@@ -229,11 +247,11 @@ NSPoint CHIntegralPoint(NSPoint p)
 {
 	if (self.isCommandPressed)
 	{
-		self.fillOpacity = ((self.fillOpacity - 0.1) > 0.05) ? self.fillOpacity - 0.1 : 0.05;
+		self.fillOpacity = ((self.fillOpacity - 0.05) > 0.05) ? self.fillOpacity - 0.05 : 0.05;
 		self.fillColor = [self.fillColor colorWithAlphaComponent:self.fillOpacity];
 		[CHPreferences setLastColor:self.fillColor];
     
-		[self refresh];
+    [self conditionalRefresh];
 	}
 	else
 	{
@@ -270,56 +288,57 @@ NSPoint CHIntegralPoint(NSPoint p)
 	NSPoint point = CHIntegralPoint([self convertPoint:[event locationInWindow] fromView:nil]);
 	self.startPoint = point;
 	self.lastPoint = point;
-	
-	if (NSPointInRect(point, [self leftCenter]))
+	BOOL empty = NSIsEmptyRect(self.overlayRect);
+  
+	if (!empty && NSPointInRect(point, [self leftCenter]))
 	{
 		self.resizing = YES;
 		self.resizeDirection = CHResizeLeftCenter;
 		[[NSCursor resizeLeftRightCursor] set];
 	}
-	else if (NSPointInRect(point, [self rightCenter]))
+	else if (!empty && NSPointInRect(point, [self rightCenter]))
 	{
 		self.resizing = YES;
 		self.resizeDirection = CHResizeRightCenter;
 		[[NSCursor resizeLeftRightCursor] set];
 	}
-	else if (NSPointInRect(point, [self topCenter]))
+	else if (!empty && NSPointInRect(point, [self topCenter]))
 	{
 		self.resizing = YES;
 		self.resizeDirection = CHResizeTopCenter;
 		[[NSCursor resizeUpDownCursor] set];
 	}
-	else if (NSPointInRect(point, [self bottomCenter]))
+	else if (!empty && NSPointInRect(point, [self bottomCenter]))
 	{
 		self.resizing = YES;
 		self.resizeDirection = CHResizeBottomCenter;
 		[[NSCursor resizeUpDownCursor] set];
 	}
-	else if (NSPointInRect(point, [self topLeft]))
+	else if (!empty && NSPointInRect(point, [self topLeft]))
 	{
 		self.resizing = YES;
 		self.resizeDirection = CHResizeTopLeft;
 		[[NSCursor resizeLeftDiagonalCursor] set];
 	}
-	else if (NSPointInRect(point, [self topRight]))
+	else if (!empty && NSPointInRect(point, [self topRight]))
 	{
 		self.resizing = YES;
 		self.resizeDirection = CHResizeTopRight;
 		[[NSCursor resizeRightDiagonalCursor] set];
 	}
-	else if (NSPointInRect(point, [self bottomLeft]))
+	else if (!empty && NSPointInRect(point, [self bottomLeft]))
 	{
 		self.resizing = YES;
 		self.resizeDirection = CHResizeBottomLeft;
 		[[NSCursor resizeRightDiagonalCursor] set];
 	}
-	else if (NSPointInRect(point, [self bottomRight]))
+	else if (!empty && NSPointInRect(point, [self bottomRight]))
 	{
 		self.resizing = YES;
 		self.resizeDirection = CHResizeBottomRight;
 		[[NSCursor resizeLeftDiagonalCursor] set];
 	}
-	else if (NSPointInRect(point, self.overlayRect))
+	else if (!empty && NSPointInRect(point, self.overlayRect))
 	{
 		self.dragging = YES;
 		[[NSCursor closedHandCursor] set];
@@ -332,7 +351,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 
 
 - (void)mouseMoved:(NSEvent *)event
-{
+{  
 	NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
 	
   BOOL wasHovering = self.hovering;
@@ -461,21 +480,55 @@ NSPoint CHIntegralPoint(NSPoint p)
 }
 
 
+// redraw affected area
 - (void)refresh
 {
-	[self setNeedsDisplayInRect:[self drawingRect]];
+  [self setNeedsDisplayInRect:[self drawingRect]];
+}
+
+
+// Redraw entire screen
+- (void)fullRefresh
+{
+  [self setNeedsDisplay:YES];
+}
+
+
+// Redraw region based on drawing mode
+- (void)conditionalRefresh
+{
+  if (self.inverted)
+  {
+    [self fullRefresh];
+  }
+  else
+  {
+    [self refresh];
+  }
 }
 
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-//  [[NSColor redColor] set];
-//  NSRectFill([self drawingRect]);
+  if (self.isInverted)
+  {
+    [self.fillColor set];
+    NSRectFill([self bounds]);
+  }
+
   
 	if (!NSIsEmptyRect(self.overlayRect))
-	{    
-		[self.fillColor set];
-		NSRectFill(self.overlayRect);		
+	{
+    if (self.isInverted)
+    {
+      [[NSColor clearColor] set];
+      NSRectFill([self overlayRect]);
+    }
+    else
+    {
+      [self.fillColor set];
+      NSRectFill(self.overlayRect);
+    }
 		
 		if (!self.isDrawing && !self.isDragging && !self.isResizing && self.isHovering)
 		{
@@ -564,7 +617,7 @@ NSPoint CHIntegralPoint(NSPoint p)
   [CHPreferences setLastColor:self.fillColor];
   [CHPreferences setSwitchedColors:self.switchedColors];
   
-	[self refresh];
+	[self conditionalRefresh];
 }
 
 
@@ -597,6 +650,15 @@ NSPoint CHIntegralPoint(NSPoint p)
 }
 
 
+- (void)switchInvertedOverlayMode
+{
+  self.inverted = !self.inverted;
+  [CHPreferences setInvertedOverlayMode:self.inverted];
+  [self setNeedsDisplay:YES]; // full refresh
+  [self refresh];
+}
+
+
 #pragma mark -
 #pragma mark Rectangle generation/adjustment methods
 
@@ -615,6 +677,8 @@ NSPoint CHIntegralPoint(NSPoint p)
 // Rect that encompasses current drawing area
 - (NSRect)drawingRect
 {
+  if (NSIsEmptyRect(self.overlayRect)) return NSZeroRect;
+  
 	// overlay rect + padding for handles and dimensions
 	float handles = (HANDLE_SIZE + 1) / 2;
 	float xInset = -handles;

@@ -55,6 +55,7 @@ typedef enum
 	BOOL commandPressed;
 	BOOL lastPointInOverlay;
   BOOL showDimensionsOutside;
+  BOOL inverted;
 }
 
 @property(assign) NSPoint startPoint;
@@ -72,6 +73,7 @@ typedef enum
 @property(assign, getter=isDragging) BOOL dragging;
 @property(assign, getter=isHovering) BOOL hovering;
 @property(assign, getter=isDrawing) BOOL drawing;
+@property(assign, getter=isInverted) BOOL inverted;
 @property(assign, getter=isResizing) BOOL resizing;
 @property(assign, getter=isShiftPressed) BOOL shiftPressed;
 @property(assign, getter=isCommandPressed) BOOL commandPressed;

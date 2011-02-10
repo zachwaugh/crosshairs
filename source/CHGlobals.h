@@ -14,6 +14,7 @@ extern NSString * const CHAlternateOverlayColorKey;
 extern NSString * const CHLastOverlayColorKey;
 extern NSString * const CHSwitchedOverlayColorsKey;
 extern NSString * const CHShowDimensionsOutsideKey;
+extern NSString * const CHInvertedOverlayModeKey;
 extern NSString * const CHStartAtLoginKey;
 extern NSString * const CHGlobalHotKeyCode;
 extern NSString * const CHGlobalHotKeyFlags;

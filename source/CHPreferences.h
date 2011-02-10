@@ -29,6 +29,8 @@
 + (NSColor *)lastOverlayColor;
 + (BOOL)switchedColors;
 + (void)setSwitchedColors:(BOOL)switched;
++ (BOOL)invertedOverlayMode;
++ (void)setInvertedOverlayMode:(BOOL)inverted;
 + (NSInteger)globalHotKeyCode;
 + (NSInteger)globalHotKeyFlags;
 + (void)setGlobalHotKeyCode:(NSInteger)keyCode;

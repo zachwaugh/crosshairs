@@ -16,7 +16,7 @@
 	NSPanel *window = [super initWithContentRect:contentRect styleMask:(NSBorderlessWindowMask | NSNonactivatingPanelMask) backing:NSBackingStoreBuffered defer:NO];
 	
 	[window setBackgroundColor:[NSColor clearColor]];
-	//[window setBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.5]];
+	//[window setBackgroundColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.25]];
 	[window setLevel:NSStatusWindowLevel];
 	[window setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
 	[window setAlphaValue:1.0];
