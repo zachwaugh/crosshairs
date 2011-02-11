@@ -26,6 +26,7 @@
   [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHInvertedOverlayModeKey];
   [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHShowInDockKey];
   [defaults setObject:[NSNumber numberWithBool:YES] forKey:CHActivateAppKey];
+  [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHRightMouseEscapeKey];
   [defaults setObject:[NSNumber numberWithInt:19] forKey:CHGlobalHotKeyCode];
   [defaults setObject:[NSNumber numberWithInt:(NSShiftKeyMask | NSCommandKeyMask)] forKey:CHGlobalHotKeyFlags];
   
@@ -172,6 +173,12 @@
 + (BOOL)activateApp
 {
   return [[NSUserDefaults standardUserDefaults] boolForKey:CHActivateAppKey];
+}
+
+
++ (BOOL)rightMouseEscape
+{
+  return [[NSUserDefaults standardUserDefaults] boolForKey:CHRightMouseEscapeKey];
 }
 
 @end

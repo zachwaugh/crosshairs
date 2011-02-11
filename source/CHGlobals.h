@@ -23,6 +23,7 @@ extern NSString * const CHActivateAppKey;
 extern NSString * const CHNumberOfLaunchesKey;
 extern NSString * const CHFirstLaunchDateKey;
 extern NSString * const CHTrialHashKey;
+extern NSString * const CHRightMouseEscapeKey;
 
 // Notifications
 extern NSString * const CHColorsDidChangeNotification;

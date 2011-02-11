@@ -25,6 +25,7 @@ NSString * const CHActivateAppKey = @"activateApp";
 NSString * const CHNumberOfLaunchesKey = @"numberOfLaunches";
 NSString * const CHFirstLaunchDateKey = @"firstLaunchDate";
 NSString * const CHTrialHashKey = @"trialHash";
+NSString * const CHRightMouseEscapeKey = @"rightMouseEscape";
 
 // Notifications
 NSString * const CHColorsDidChangeNotification = @"CHColorsDidChangeNotification";

@@ -1,12 +1,14 @@
 1.1
+- Added inverted overlay mode option (shortcut: i)
+- Made hotkey toggle whether app is active
+- Updated user interface (handles and dimensions bubble) to stand out better
+- Added highlight to menu bar icon to show when app is active
+- Added in-app help screen that lists all keyboard shortcut
 - Fixed bugs with color preference settings not taking effect right away
 - Fixed bug with taking screenshots on computers with multiple screens
-- Made hotkey toggle whether app is active
 - Ensured overlay always snaps to whole pixels, even during screen zoom, for sharpest possible lines
-- Updated UI (handles and dimensions bubble)
-- Added highlight to menu bar icon to show when app is active
-- Added quick in-app help screen with keyboard shortcuts
 - Now always showing dimensions outside box and removed option
+
 
 
 1.0

@@ -38,5 +38,6 @@
 + (BOOL)showInDock;
 + (void)setShowInDock:(BOOL)show;
 + (BOOL)activateApp;
++ (BOOL)rightMouseEscape;
 
 @end

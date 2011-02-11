@@ -14,6 +14,7 @@
 #import "CHGlobals.h"
 #import "NSCursor+Custom.h"
 #import "CHPreferences.h"
+#import "CHAppDelegate.h"
 
 NSRect CHRectFromTwoPoints(NSPoint a, NSPoint b)
 {
@@ -402,6 +403,16 @@ NSPoint CHIntegralPoint(NSPoint p)
 	self.drawing = NO;
 	self.resizing = NO;
 	[self refresh];
+}
+
+
+- (void)rightMouseDown:(NSEvent *)theEvent
+{
+  // Support for disabled users
+  if ([CHPreferences rightMouseEscape])
+  {
+    [(CHAppDelegate *)[NSApp delegate] deactivateApp];
+  }
 }
 
 

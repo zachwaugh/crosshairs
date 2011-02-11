@@ -31,7 +31,7 @@
 	<key>LSUIElement</key>
 	<true/>
 	<key>LSApplicationCategoryType</key>
-	<string>public.app-category.graphics-design</string>
+	<string>public.app-category.developer-tools</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2011, Giant Comet</string>
 </dict>
