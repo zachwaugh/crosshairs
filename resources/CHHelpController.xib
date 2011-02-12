@@ -51,11 +51,12 @@
 			<object class="NSWindowTemplate" id="65411015">
 				<int key="NSWindowStyleMask">31</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{319, 30}, {577, 561}}</string>
+				<string key="NSWindowRect">{{929, 377}, {584, 607}}</string>
 				<int key="NSWTFlags">-1535639552</int>
 				<string key="NSWindowTitle">Help</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
+				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<object class="NSView" key="NSWindowView" id="942769326">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
@@ -85,7 +86,7 @@
 									<string>public.url-name</string>
 								</object>
 							</object>
-							<string key="NSFrameSize">{577, 561}</string>
+							<string key="NSFrameSize">{584, 607}</string>
 							<reference key="NSSuperview" ref="942769326"/>
 							<reference key="NSNextKeyView"/>
 							<string key="FrameName"/>
@@ -112,7 +113,7 @@
 							<bool key="AllowsUndo">YES</bool>
 						</object>
 					</object>
-					<string key="NSFrameSize">{577, 561}</string>
+					<string key="NSFrameSize">{584, 607}</string>
 					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {2560, 1418}}</string>
@@ -209,9 +210,9 @@
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">AQAAAADAAAAAA</bytes>
 					</object>
-					<string>{{713, 682}, {577, 561}}</string>
+					<string>{{713, 636}, {584, 607}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{713, 682}, {577, 561}}</string>
+					<string>{{713, 636}, {584, 607}}</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 				</object>

@@ -24,6 +24,7 @@
 	[window setHasShadow:NO];
 	[window setMovableByWindowBackground:NO];
 	[window setIgnoresMouseEvents:NO];
+  [window setBecomesKeyOnlyIfNeeded:YES];
 	//[window setAcceptsMouseMovedEvents:YES];
 	
 	return window;

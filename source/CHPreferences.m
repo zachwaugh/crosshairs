@@ -18,19 +18,18 @@
 	
 	[defaults setObject:@"{w}x{h}" forKey:CHClipboardFormatKey];
 	[defaults setObject:[NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:0.0 alpha:1.0]] forKey:CHPrimaryOverlayColorKey];
-	[defaults setObject:[NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:1.0 alpha:1.0]] forKey:CHAlternateOverlayColorKey];
-  [defaults setObject:[NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:0.0 alpha:0.25]] forKey:CHLastOverlayColorKey];
+	[defaults setObject:[NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedRed:0.718 green:0.854 blue:0.978 alpha:1.000]] forKey:CHAlternateOverlayColorKey];
+  [defaults setObject:[NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:0.0 alpha:0.5]] forKey:CHLastOverlayColorKey];
   [defaults setObject:[NSNumber numberWithInt:0] forKey:CHNumberOfLaunchesKey];
   [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHSwitchedOverlayColorsKey];
   [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHStartAtLoginKey];
   [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHInvertedOverlayModeKey];
   [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHShowInDockKey];
-  [defaults setObject:[NSNumber numberWithBool:YES] forKey:CHActivateAppKey];
+  [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHActivateAppKey];
   [defaults setObject:[NSNumber numberWithBool:NO] forKey:CHRightMouseEscapeKey];
   [defaults setObject:[NSNumber numberWithInt:19] forKey:CHGlobalHotKeyCode];
   [defaults setObject:[NSNumber numberWithInt:(NSShiftKeyMask | NSCommandKeyMask)] forKey:CHGlobalHotKeyFlags];
-  
-  
+    
 	[[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 }
 
