@@ -60,7 +60,7 @@ typedef enum
 
 @property(assign) NSPoint startPoint;
 @property(assign) NSPoint lastPoint;
-@property(assign) NSRect overlayRect;
+@property(nonatomic, assign) NSRect overlayRect;
 @property(retain) NSColor *fillColor;
 @property(retain) NSColor *primaryColor;
 @property(retain) NSColor *alternateColor;

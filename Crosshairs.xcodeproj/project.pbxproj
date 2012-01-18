@@ -11,6 +11,7 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		9212FF7514C774B600D30985 /* CHPreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9212FF7414C774B600D30985 /* CHPreferencesWindowController.xib */; };
 		9221086712EFB13A000FE12C /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9221086512EFB13A000FE12C /* Growl.framework */; };
 		9221086812EFB13A000FE12C /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9221086612EFB13A000FE12C /* ShortcutRecorder.framework */; };
 		9221087A12EFB13F000FE12C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9221086512EFB13A000FE12C /* Growl.framework */; };
@@ -43,7 +44,6 @@
 		BFADE6C5124C296F0065F2E0 /* CHOverlayWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = BFADE6C4124C296F0065F2E0 /* CHOverlayWindow.m */; };
 		BFADE6F0124C2A290065F2E0 /* CHOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFADE6EF124C2A290065F2E0 /* CHOverlayView.m */; };
 		BFECBA64125C03190001CB88 /* CHPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFECBA63125C03190001CB88 /* CHPreferencesController.m */; };
-		BFECBA66125C032D0001CB88 /* CHPreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BFECBA65125C032D0001CB88 /* CHPreferencesController.xib */; };
 		BFECBAD6125C0BCA0001CB88 /* crosshairs_menu_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = BFECBAD5125C0BCA0001CB88 /* crosshairs_menu_highlight.png */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +73,7 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* Crosshairs-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Crosshairs-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Crosshairs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Crosshairs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9212FF7414C774B600D30985 /* CHPreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CHPreferencesWindowController.xib; sourceTree = "<group>"; };
 		9221086512EFB13A000FE12C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = frameworks/Growl.framework; sourceTree = "<group>"; };
 		9221086612EFB13A000FE12C /* ShortcutRecorder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShortcutRecorder.framework; path = frameworks/ShortcutRecorder.framework; sourceTree = "<group>"; };
 		922391D012FDF0CA00187E83 /* crosshairs_menu_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crosshairs_menu_active.png; sourceTree = "<group>"; };
@@ -116,7 +117,6 @@
 		BFADE6EF124C2A290065F2E0 /* CHOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHOverlayView.m; sourceTree = "<group>"; };
 		BFECBA62125C03190001CB88 /* CHPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHPreferencesController.h; sourceTree = "<group>"; };
 		BFECBA63125C03190001CB88 /* CHPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHPreferencesController.m; sourceTree = "<group>"; };
-		BFECBA65125C032D0001CB88 /* CHPreferencesController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CHPreferencesController.xib; sourceTree = "<group>"; };
 		BFECBAD5125C0BCA0001CB88 /* crosshairs_menu_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crosshairs_menu_highlight.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -248,10 +248,10 @@
 		9287E795127DC226000FCCB6 /* xibs */ = {
 			isa = PBXGroup;
 			children = (
-				BFECBA65125C032D0001CB88 /* CHPreferencesController.xib */,
 				9245E4A4128263BF00D3853E /* CHMainMenu.xib */,
 				9245E50D12826B1300D3853E /* CHOverlayWindowController.xib */,
 				922393F012FE5E3100187E83 /* CHHelpController.xib */,
+				9212FF7414C774B600D30985 /* CHPreferencesWindowController.xib */,
 			);
 			name = xibs;
 			sourceTree = "<group>";
@@ -372,7 +372,6 @@
 				BF61A8A71258EB59001E5D63 /* crosshairs_menu_inactive.png in Resources */,
 				BF492AEB1259385800641851 /* resize_cursor_diagonal_right.tiff in Resources */,
 				BF492AEC1259385800641851 /* resize_cursor_diagonal_left.tiff in Resources */,
-				BFECBA66125C032D0001CB88 /* CHPreferencesController.xib in Resources */,
 				BFECBAD6125C0BCA0001CB88 /* crosshairs_menu_highlight.png in Resources */,
 				BF0AA0CF125D68BA00EB9C85 /* CHANGELOG.md in Resources */,
 				9294587B1281150600ABF139 /* Crosshairs.icns in Resources */,
@@ -383,6 +382,7 @@
 				922391D112FDF0CA00187E83 /* crosshairs_menu_active.png in Resources */,
 				922393F112FE5E3100187E83 /* CHHelpController.xib in Resources */,
 				9265D28512FE611900060E01 /* help.html in Resources */,
+				9212FF7514C774B600D30985 /* CHPreferencesWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
