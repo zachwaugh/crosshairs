@@ -12,19 +12,18 @@
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		9212FF7514C774B600D30985 /* CHPreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9212FF7414C774B600D30985 /* CHPreferencesWindowController.xib */; };
+		921F574A14D24FD00089D7B2 /* CHWelcomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 921F574914D24FD00089D7B2 /* CHWelcomeController.m */; };
+		921F574D14D250170089D7B2 /* CHWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 921F574C14D250170089D7B2 /* CHWindowController.xib */; };
 		9221086712EFB13A000FE12C /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9221086512EFB13A000FE12C /* Growl.framework */; };
 		9221086812EFB13A000FE12C /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9221086612EFB13A000FE12C /* ShortcutRecorder.framework */; };
 		9221087A12EFB13F000FE12C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9221086512EFB13A000FE12C /* Growl.framework */; };
 		9221087B12EFB13F000FE12C /* ShortcutRecorder.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9221086612EFB13A000FE12C /* ShortcutRecorder.framework */; };
 		922391D112FDF0CA00187E83 /* crosshairs_menu_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 922391D012FDF0CA00187E83 /* crosshairs_menu_active.png */; };
-		922393EF12FE5E2100187E83 /* CHHelpController.m in Sources */ = {isa = PBXBuildFile; fileRef = 922393EE12FE5E2100187E83 /* CHHelpController.m */; };
-		922393F112FE5E3100187E83 /* CHHelpController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 922393F012FE5E3100187E83 /* CHHelpController.xib */; };
 		92365A4E1302276F00A144A4 /* CHStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92365A4D1302276F00A144A4 /* CHStatusView.m */; };
 		9245E4A5128263BF00D3853E /* CHMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9245E4A4128263BF00D3853E /* CHMainMenu.xib */; };
 		9245E50C12826B0000D3853E /* CHOverlayWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9245E50B12826B0000D3853E /* CHOverlayWindowController.m */; };
 		9245E50E12826B1300D3853E /* CHOverlayWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9245E50D12826B1300D3853E /* CHOverlayWindowController.xib */; };
 		9265D27A12FE60BF00060E01 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9265D27912FE60BF00060E01 /* WebKit.framework */; };
-		9265D28512FE611900060E01 /* help.html in Resources */ = {isa = PBXBuildFile; fileRef = 9265D28412FE611900060E01 /* help.html */; };
 		9287E7B3127DC4B4000FCCB6 /* NSUserDefaults+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 9287E7B2127DC4B4000FCCB6 /* NSUserDefaults+Color.m */; };
 		9294587B1281150600ABF139 /* Crosshairs.icns in Resources */ = {isa = PBXBuildFile; fileRef = 9294587A1281150600ABF139 /* Crosshairs.icns */; };
 		92B088E812F4BBFB0097CA56 /* handle.png in Resources */ = {isa = PBXBuildFile; fileRef = 92B088E712F4BBFB0097CA56 /* handle.png */; };
@@ -73,21 +72,20 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* Crosshairs-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Crosshairs-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Crosshairs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Crosshairs.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9212FF7414C774B600D30985 /* CHPreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CHPreferencesWindowController.xib; sourceTree = "<group>"; };
+		9212FF7414C774B600D30985 /* CHPreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CHPreferencesWindowController.xib; path = ../resources/CHPreferencesWindowController.xib; sourceTree = "<group>"; };
+		921F574814D24FD00089D7B2 /* CHWelcomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHWelcomeController.h; sourceTree = "<group>"; };
+		921F574914D24FD00089D7B2 /* CHWelcomeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHWelcomeController.m; sourceTree = "<group>"; };
+		921F574C14D250170089D7B2 /* CHWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CHWindowController.xib; sourceTree = "<group>"; };
 		9221086512EFB13A000FE12C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = frameworks/Growl.framework; sourceTree = "<group>"; };
 		9221086612EFB13A000FE12C /* ShortcutRecorder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShortcutRecorder.framework; path = frameworks/ShortcutRecorder.framework; sourceTree = "<group>"; };
 		922391D012FDF0CA00187E83 /* crosshairs_menu_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crosshairs_menu_active.png; sourceTree = "<group>"; };
-		922393ED12FE5E2100187E83 /* CHHelpController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHHelpController.h; sourceTree = "<group>"; };
-		922393EE12FE5E2100187E83 /* CHHelpController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHHelpController.m; sourceTree = "<group>"; };
-		922393F012FE5E3100187E83 /* CHHelpController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CHHelpController.xib; sourceTree = "<group>"; };
 		92365A4C1302276F00A144A4 /* CHStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHStatusView.h; sourceTree = "<group>"; };
 		92365A4D1302276F00A144A4 /* CHStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHStatusView.m; sourceTree = "<group>"; };
-		9245E4A4128263BF00D3853E /* CHMainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CHMainMenu.xib; sourceTree = "<group>"; };
+		9245E4A4128263BF00D3853E /* CHMainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CHMainMenu.xib; path = ../resources/CHMainMenu.xib; sourceTree = "<group>"; };
 		9245E50A12826B0000D3853E /* CHOverlayWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHOverlayWindowController.h; sourceTree = "<group>"; };
 		9245E50B12826B0000D3853E /* CHOverlayWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHOverlayWindowController.m; sourceTree = "<group>"; };
-		9245E50D12826B1300D3853E /* CHOverlayWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CHOverlayWindowController.xib; sourceTree = "<group>"; };
+		9245E50D12826B1300D3853E /* CHOverlayWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CHOverlayWindowController.xib; path = ../resources/CHOverlayWindowController.xib; sourceTree = "<group>"; };
 		9265D27912FE60BF00060E01 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		9265D28412FE611900060E01 /* help.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = help.html; sourceTree = "<group>"; };
 		9287E7B1127DC4B4000FCCB6 /* NSUserDefaults+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Color.h"; sourceTree = "<group>"; };
 		9287E7B2127DC4B4000FCCB6 /* NSUserDefaults+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Color.m"; sourceTree = "<group>"; };
 		9294587A1281150600ABF139 /* Crosshairs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Crosshairs.icns; sourceTree = "<group>"; };
@@ -139,14 +137,11 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				92CC56CA127E116400A7CEED /* MPLoginItems */,
+				921F574714D24DEE0089D7B2 /* Vendor */,
 				BF626E2D126A6071005D84F0 /* Categories */,
-				BF957AEA12592F8E0064B988 /* DDHotKey */,
 				9287E794127DC1FF000FCCB6 /* Models */,
 				92CC55A2127DFB8300A7CEED /* Views */,
 				92CC55A1127DF8D800A7CEED /* Controllers */,
-				256AC3D80F4B6AC300CF3369 /* CHAppDelegate.h */,
-				256AC3D90F4B6AC300CF3369 /* CHAppDelegate.m */,
 			);
 			name = Classes;
 			path = source;
@@ -186,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				080E96DDFE201D6D7F000001 /* Classes */,
+				921F574B14D24FE10089D7B2 /* Interface */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -206,7 +202,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				9287E795127DC226000FCCB6 /* xibs */,
 				92B088E712F4BBFB0097CA56 /* handle.png */,
 				92E8CB9412F62ED900A4FA67 /* bubble.png */,
 				BF492AE91259385800641851 /* resize_cursor_diagonal_right.tiff */,
@@ -219,7 +214,6 @@
 				8D1107310486CEB800E47090 /* Crosshairs-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				BF0AA0CE125D68BA00EB9C85 /* CHANGELOG.md */,
-				9265D28412FE611900060E01 /* help.html */,
 			);
 			name = Resources;
 			path = resources;
@@ -234,6 +228,27 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		921F574714D24DEE0089D7B2 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				BF957AEA12592F8E0064B988 /* DDHotKey */,
+				92CC56CA127E116400A7CEED /* MPLoginItems */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
+		921F574B14D24FE10089D7B2 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				9245E4A4128263BF00D3853E /* CHMainMenu.xib */,
+				9245E50D12826B1300D3853E /* CHOverlayWindowController.xib */,
+				9212FF7414C774B600D30985 /* CHPreferencesWindowController.xib */,
+				921F574C14D250170089D7B2 /* CHWindowController.xib */,
+			);
+			name = Interface;
+			path = source;
+			sourceTree = "<group>";
+		};
 		9287E794127DC1FF000FCCB6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -245,26 +260,17 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
-		9287E795127DC226000FCCB6 /* xibs */ = {
-			isa = PBXGroup;
-			children = (
-				9245E4A4128263BF00D3853E /* CHMainMenu.xib */,
-				9245E50D12826B1300D3853E /* CHOverlayWindowController.xib */,
-				922393F012FE5E3100187E83 /* CHHelpController.xib */,
-				9212FF7414C774B600D30985 /* CHPreferencesWindowController.xib */,
-			);
-			name = xibs;
-			sourceTree = "<group>";
-		};
 		92CC55A1127DF8D800A7CEED /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				256AC3D80F4B6AC300CF3369 /* CHAppDelegate.h */,
+				256AC3D90F4B6AC300CF3369 /* CHAppDelegate.m */,
 				BFECBA62125C03190001CB88 /* CHPreferencesController.h */,
 				BFECBA63125C03190001CB88 /* CHPreferencesController.m */,
 				9245E50A12826B0000D3853E /* CHOverlayWindowController.h */,
 				9245E50B12826B0000D3853E /* CHOverlayWindowController.m */,
-				922393ED12FE5E2100187E83 /* CHHelpController.h */,
-				922393EE12FE5E2100187E83 /* CHHelpController.m */,
+				921F574814D24FD00089D7B2 /* CHWelcomeController.h */,
+				921F574914D24FD00089D7B2 /* CHWelcomeController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -380,9 +386,8 @@
 				92B088E812F4BBFB0097CA56 /* handle.png in Resources */,
 				92E8CB9512F62ED900A4FA67 /* bubble.png in Resources */,
 				922391D112FDF0CA00187E83 /* crosshairs_menu_active.png in Resources */,
-				922393F112FE5E3100187E83 /* CHHelpController.xib in Resources */,
-				9265D28512FE611900060E01 /* help.html in Resources */,
 				9212FF7514C774B600D30985 /* CHPreferencesWindowController.xib in Resources */,
+				921F574D14D250170089D7B2 /* CHWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,8 +411,8 @@
 				92CC56CD127E117400A7CEED /* MPLoginItems.m in Sources */,
 				9245E50C12826B0000D3853E /* CHOverlayWindowController.m in Sources */,
 				92C8969B12F103ED00E0F386 /* NSString+MD5.m in Sources */,
-				922393EF12FE5E2100187E83 /* CHHelpController.m in Sources */,
 				92365A4E1302276F00A144A4 /* CHStatusView.m in Sources */,
+				921F574A14D24FD00089D7B2 /* CHWelcomeController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,6 +446,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -476,7 +482,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Giant Comet";
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -499,6 +505,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -522,6 +529,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

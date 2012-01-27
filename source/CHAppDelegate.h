@@ -11,6 +11,7 @@
 @class CHOverlayWindowController;
 @class CHPreferencesController;
 @class CHHelpController;
+@class CHWelcomeController;
 
 @interface CHAppDelegate : NSObject <NSApplicationDelegate>
 {

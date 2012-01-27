@@ -19,6 +19,7 @@
 #define TRIAL_INTERVAL (10 * 86400)
 #define TRIAL_SALT @"02818f30cf5036e78eab4ed03bab41afb8b8e323"
 #define APP_STORE_URL @"http://itunes.apple.com/us/app/crosshairs/id402446112?mt=12"
+#define HELP_URL @"http://giantcomet.com/crosshairs/help"
 
 @interface CHAppDelegate ()
 
@@ -193,17 +194,8 @@
 
 - (void)showHelp:(id)sender
 {
-	[NSApp activateIgnoringOtherApps:YES];
   [overlayController hideWindow];
-  
-  [(CHStatusView *)[self.statusItem view] setState:CHStatusItemInactive];
-	
-	if (helpController == nil)
-	{
-		helpController = [[CHHelpController alloc] initWithWindowNibName:@"CHHelpController"];
-	}
-  
-	[helpController showWindow:sender];
+  [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:HELP_URL]];
 }
 
 
