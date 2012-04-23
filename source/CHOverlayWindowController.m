@@ -35,6 +35,7 @@
 
 - (void)showWindow:(id)sender
 {
+  [self.view resetZoom];
   [[self window] makeKeyAndOrderFront:sender];
   [self.view updateTrackingAreas];
 }
@@ -42,6 +43,8 @@
 
 - (void)hideWindow
 {
+  // Clear zoom
+  [self.view resetZoom];
   [[self window] orderOut:nil];
 }
 

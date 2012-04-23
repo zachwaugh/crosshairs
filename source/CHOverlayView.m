@@ -6,15 +6,16 @@
 //  Copyright 2010 zachwaugh.com. All rights reserved.
 //
 
-#define HANDLE_SIZE 17
-#define HANDLE_CENTER 8
-#define DIMENSIONS_HEIGHT 44
-
 #import "CHOverlayView.h"
 #import "CHGlobals.h"
 #import "NSCursor+Custom.h"
 #import "CHPreferences.h"
 #import "CHAppDelegate.h"
+
+#define HANDLE_SIZE 17
+#define HANDLE_CENTER 8
+#define DIMENSIONS_HEIGHT 44
+#define MAX_ZOOM_LEVEL 20
 
 NSRect CHRectFromTwoPoints(NSPoint a, NSPoint b)
 {
@@ -87,10 +88,10 @@ NSPoint CHIntegralPoint(NSPoint p)
 @implementation CHOverlayView
 
 // retained
-@synthesize smallTextAttrs, fillColor, primaryColor, alternateColor, handleImage, bubbleImage, trackingArea;
+@synthesize smallTextAttrs, fillColor, primaryColor, alternateColor, handleImage, bubbleImage, trackingArea, zoomImage = _zoomImage;
 
 // assigned
-@synthesize startPoint, lastPoint, lastPointInOverlay, overlayRect, dragging, drawing, inverted, hovering, resizing, shiftPressed, commandPressed, resizeDirection, switchedColors, fillOpacity, showDimensionsOutside;
+@synthesize startPoint, lastPoint, lastPointInOverlay, overlayRect, dragging, drawing, inverted, hovering, resizing, shiftPressed, commandPressed, resizeDirection, switchedColors, fillOpacity, showDimensionsOutside, zooming = _zooming, zoomLevel = _zoomLevel;
 
 
 - (id)initWithFrame:(NSRect)frame
@@ -113,6 +114,9 @@ NSPoint CHIntegralPoint(NSPoint p)
 		self.commandPressed = NO;
     self.inverted = [CHPreferences invertedOverlayMode];
 		self.lastPointInOverlay = NO;
+    
+    _zoomLevel = 1;
+    _zooming = NO;
 
     // setup dimensions bubble text attrs
 		NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
@@ -280,9 +284,62 @@ NSPoint CHIntegralPoint(NSPoint p)
 }
 
 
+#pragma mark - Zooming
 
-#pragma mark -
-#pragma mark mouse handlers
+
+- (void)resetZoom
+{
+  self.zoomImage = nil;
+  self.zooming = NO;
+  self.zoomLevel = 1;
+  
+  [self fullRefresh];
+}
+
+- (void)scrollWheel:(NSEvent *)event
+{
+  if ([event modifierFlags] & NSCommandKeyMask)
+  {
+    float delta = [event scrollingDeltaY];
+    BOOL zoomingIn = (delta > 0);
+    
+    if (zoomingIn)
+    {
+      self.zoomLevel = self.zoomLevel + 0.5;
+    }
+    else
+    {
+      self.zoomLevel = self.zoomLevel - 0.5;
+    }
+    
+    if (self.zoomLevel > MAX_ZOOM_LEVEL)
+    {
+      self.zoomLevel = MAX_ZOOM_LEVEL;
+    }
+    else if (self.zoomLevel < 1)
+    {
+      self.zoomLevel = 1;
+    }
+
+    self.zooming = (self.zoomLevel > 1);
+    
+    //NSLog(@"scrolling: %f, in? %d", delta, zoomingIn);
+    
+    if (!self.zoomImage)
+    {
+      NSRect rect = [self.window frame];
+      rect.origin.y = NSMaxY([[[NSScreen screens] objectAtIndex:0] frame]) - NSMaxY(rect);
+      CGImageRef image = CGWindowListCreateImage(rect, kCGWindowListOptionOnScreenBelowWindow, (unsigned int)[self.window windowNumber], kCGWindowImageDefault);
+      
+      self.zoomImage = [[NSImage alloc] initWithCGImage:image size:rect.size];
+    }
+    
+    [self fullRefresh];
+  }
+}
+
+
+#pragma mark - Mouse Events
 
 - (void)mouseDown:(NSEvent *)event
 {
@@ -521,6 +578,29 @@ NSPoint CHIntegralPoint(NSPoint p)
 
 - (void)drawRect:(NSRect)dirtyRect
 {
+  if (self.zoomImage)
+  {
+    NSRect b = [self bounds];
+    NSRect imageRect = NSMakeRect(b.origin.x - (((b.size.width * self.zoomLevel) - b.size.width) / 2), b.origin.y - (((b.size.height * self.zoomLevel) - b.size.height) / 2), b.size.width * self.zoomLevel, b.size.height * self.zoomLevel);
+    
+    [self.zoomImage drawInRect:imageRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInteger:NSImageInterpolationNone] forKey:NSImageHintInterpolation]];
+    
+//    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
+//    
+//    float offset = ((10 * self.view.f) - LOUPE_SIZE) / 2;
+//    
+//    CGContextSaveGState(ctx);
+//    CGContextSetInterpolationQuality(ctx, kCGInterpolationNone);
+//    //CGContextSetRGBFillColor(ctx, 255, 0, 0, 1);
+//    //CGContextFillRect(ctx, [self bounds]);
+//    CGContextTranslateCTM(ctx, -offset, -offset);
+//    CGContextScaleCTM(ctx, ZOOM_LEVEL, ZOOM_LEVEL);
+//    //CGContextSetAlpha(ctx, 0.75);
+//    //CGContextDrawImage(ctx, CGRectMake(0, 0, LOUPE_SIZE * ZOOM_LEVEL, LOUPE_SIZE * ZOOM_LEVEL), screenShot);
+//    CGContextDrawImage(ctx, b, self.zoomImage.CGImage);
+//    CGContextRestoreGState(ctx);
+  }
+  
   if (self.isInverted)
   {
     [self.fillColor set];
@@ -583,7 +663,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 // bubble that shows dimensions
 - (void)drawDimensionsBox
 {
-  NSString *dimensions = [NSString stringWithFormat:@"%d x %d", (int)round(self.overlayRect.size.width), (int)round(self.overlayRect.size.height)];
+  NSString *dimensions = [NSString stringWithFormat:@"%d x %d", (int)round(self.overlayRect.size.width / self.zoomLevel), (int)round(self.overlayRect.size.height / self.zoomLevel)];
   
   NSSize dimensionsSize = [dimensions sizeWithAttributes:self.smallTextAttrs];
 	
