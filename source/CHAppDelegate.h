@@ -10,7 +10,6 @@
 
 @class CHOverlayWindowController;
 @class CHPreferencesController;
-@class CHHelpController;
 @class CHWelcomeController;
 
 @interface CHAppDelegate : NSObject <NSApplicationDelegate>
@@ -20,7 +19,6 @@
 	
   CHOverlayWindowController *overlayController;
 	CHPreferencesController *preferencesController;
-  CHHelpController *helpController;
 }
 
 @property (retain) NSStatusItem *statusItem;

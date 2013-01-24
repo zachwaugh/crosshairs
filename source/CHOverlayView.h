@@ -26,37 +26,6 @@ typedef enum
 
 
 @interface CHOverlayView : NSView
-{
-	NSPoint startPoint;
-	NSPoint lastPoint;
-	NSRect overlayRect;
-
-	NSMutableDictionary *smallTextAttrs;
-	
-  NSColor *fillColor;
-	NSColor *primaryColor;
-  NSColor *alternateColor;
-	
-	CHResizeDirection resizeDirection;
-	
-	NSImage *handleImage;
-	NSImage *bubbleImage;
-  
-  NSTrackingArea *trackingArea;
-  
-	float fillOpacity;
-	
-	BOOL switchedColors;
-	BOOL dragging;
-	BOOL drawing;
-  BOOL hovering;
-	BOOL resizing;
-	BOOL shiftPressed;
-	BOOL commandPressed;
-	BOOL lastPointInOverlay;
-  BOOL showDimensionsOutside;
-  BOOL inverted;
-}
 
 @property(assign) NSPoint startPoint;
 @property(assign) NSPoint lastPoint;

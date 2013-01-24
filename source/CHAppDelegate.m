@@ -10,7 +10,7 @@
 #import "DDHotKeyCenter.h"
 #import "CHOverlayWindowController.h"
 #import "CHPreferencesController.h"
-#import "CHHelpController.h"
+//#import "CHHelpController.h"
 #import "CHPreferences.h"
 #import "CHStatusView.h"
 #import "CHGlobals.h"
@@ -46,7 +46,6 @@
 	self.statusMenu = nil;
   [overlayController release];
 	[preferencesController release];
-  [helpController release];
 	
 	[super dealloc];
 }
@@ -60,12 +59,10 @@
 {
   [CHPreferences registerDefaults];
   
-  if ([CHPreferences showInDock])
-  {
+  if ([CHPreferences showInDock]) {
     [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
   }
 }
-
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
@@ -87,7 +84,6 @@
   [CHPreferences incrementNumberOfLaunches];
 }
 
-
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
 {
   [overlayController showWindow:nil];
@@ -95,19 +91,16 @@
   return YES;
 }
 
-
 - (void)applicationWillUnhide:(NSNotification *)aNotification
 {
   [overlayController showWindow:nil];
 }
-
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
   [[NSUserDefaults standardUserDefaults] synchronize];
 	[[NSStatusBar systemStatusBar] removeStatusItem:self.statusItem];
 }
-
 
 #pragma mark -
 
@@ -126,31 +119,24 @@
   statusView.statusItem = self.statusItem;
 }
 
-
 - (void)setupHotkeys
 {
 	DDHotKeyCenter *hotKeyCenter = [[[DDHotKeyCenter alloc] init] autorelease];
 	[hotKeyCenter registerHotKeyWithKeyCode:[CHPreferences globalHotKeyCode] modifierFlags:[CHPreferences globalHotKeyFlags] target:self action:@selector(hotkeyWithEvent:) object:nil];
 }
 
-
 - (void)hotkeyWithEvent:(NSEvent *)event
 {
-  if ([[overlayController window] isVisible])
-  {
+  if ([[overlayController window] isVisible]) {
     [self deactivateApp];
-  }
-  else
-  {
+  } else {
     [self activateApp:nil];  
   }	
 }
 
-
 - (void)activateApp:(id)sender
 {
-  if ([CHPreferences activateApp])
-  {
+  if ([CHPreferences activateApp]) {
     [NSApp activateIgnoringOtherApps:YES];
   }
 	
@@ -158,24 +144,20 @@
   [(CHStatusView *)[self.statusItem view] setState:CHStatusItemActive];
 }
 
-
 - (void)deactivateApp
 {
   [(CHStatusView *)[self.statusItem view] setState:CHStatusItemInactive];
   [NSApp hide:nil];
 }
 
-
 - (void)showOverlayWindow
 {
-  if (overlayController == nil)
-  {
+  if (overlayController == nil) {
     overlayController = [[CHOverlayWindowController alloc] initWithWindowNibName:@"CHOverlayWindowController"];
   }
   
   [overlayController showWindow:self];
 }
-
 
 - (void)showPreferences:(id)sender
 {
@@ -183,14 +165,12 @@
   [overlayController hideWindow];
 	[(CHStatusView *)[self.statusItem view] setState:CHStatusItemInactive];
   
-	if (preferencesController == nil)
-	{
+	if (preferencesController == nil) {
 		preferencesController = [[CHPreferencesController alloc] initWithWindowNibName:@"CHPreferencesController"];
 	}
 
 	[preferencesController showWindow:sender];
 }
-
 
 - (void)showHelp:(id)sender
 {
@@ -198,15 +178,13 @@
   [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:HELP_URL]];
 }
 
-
 #pragma mark -
 #pragma mark Trial support
 
 - (void)validateTrial
 {
   // First launch
-  if ([CHPreferences numberOfLaunches] == 0 && [CHPreferences trialHash] == nil)
-  {
+  if ([CHPreferences numberOfLaunches] == 0 && [CHPreferences trialHash] == nil) {
     NSDate *launchDate = [NSDate date];
     //NSDate *launchDate = [NSDate dateWithTimeIntervalSinceNow:86400 * -9];
     [CHPreferences setFirstLaunchDate:launchDate];
@@ -235,7 +213,6 @@
   [self.statusMenu insertItem:[NSMenuItem separatorItem] atIndex:1];
 }
 
-
 - (void)openAppStore:(id)sender
 {
   [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:APP_STORE_URL]];
@@ -243,7 +220,6 @@
   // track purchase
   //[[[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:4567/trialbuy"]] delegate:nil startImmediately:YES] autorelease];
 }
-
 
 - (int)daysLeftInTrial
 {
@@ -253,7 +229,6 @@
   
   return ceil(days);
 }
-
 
 - (BOOL)hasTrialExpired
 {
@@ -266,6 +241,5 @@
   
   return (tampered || expired);
 }
-
 
 @end

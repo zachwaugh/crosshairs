@@ -29,7 +29,6 @@ NSRect CHRectFromTwoPoints(NSPoint a, NSPoint b)
 	return r;
 }
 
-
 NSRect CHRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 {
 	NSRect r;
@@ -48,7 +47,6 @@ NSRect CHRectSquareFromTwoPoints(NSPoint a, NSPoint b)
 	
 	return r;
 }
-
 
 NSPoint CHIntegralPoint(NSPoint p)
 {
@@ -83,15 +81,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 
 @end
 
-
 @implementation CHOverlayView
-
-// retained
-@synthesize smallTextAttrs, fillColor, primaryColor, alternateColor, handleImage, bubbleImage, trackingArea;
-
-// assigned
-@synthesize startPoint, lastPoint, lastPointInOverlay, overlayRect, dragging, drawing, inverted, hovering, resizing, shiftPressed, commandPressed, resizeDirection, switchedColors, fillOpacity, showDimensionsOutside;
-
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -130,7 +120,6 @@ NSPoint CHIntegralPoint(NSPoint p)
 	return self;
 }
 
-
 - (void)dealloc
 {
 	self.smallTextAttrs = nil;
@@ -147,36 +136,30 @@ NSPoint CHIntegralPoint(NSPoint p)
 	[super dealloc];
 }
 
-
 - (BOOL)acceptsFirstResponder
 {
 	return YES;
 }
-
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent
 {
   return YES;
 }
 
-
 - (BOOL)needsPanelToBecomeKey
 {
   return YES;
 }
-
 
 - (BOOL)isFlipped
 {
 	return YES;
 }
 
-
 - (void)resetCursorRects
 {
 	[self addCursorRect:[self bounds] cursor:[NSCursor crosshairsCursor]];
 }
-
 
 - (void)updateTrackingAreas
 {
@@ -188,7 +171,6 @@ NSPoint CHIntegralPoint(NSPoint p)
   [self addTrackingArea:self.trackingArea];
 }
 
-
 #pragma mark -
 #pragma mark Keyboard handling
 
@@ -196,12 +178,9 @@ NSPoint CHIntegralPoint(NSPoint p)
 {
   NSString *characters = [event charactersIgnoringModifiers];
   
-  if ([characters isEqualToString:@"i"])
-  {
+  if ([characters isEqualToString:@"i"]) {
     [self switchInvertedOverlayMode];
-  }
-  else
-  {
+  } else {
     [super keyDown:event];
   }
 }
@@ -210,14 +189,11 @@ NSPoint CHIntegralPoint(NSPoint p)
 {
 	NSString *characters = [event charactersIgnoringModifiers];
 	
-	if ([characters characterAtIndex:0] == NSTabCharacter) 
-	{
+	if ([characters characterAtIndex:0] == NSTabCharacter)  {
 		// Handle tab key switching colors
 		[self toggleColors];
 		return YES;
-	}
-	else if ([characters characterAtIndex:0] == NSDeleteCharacter || [characters characterAtIndex:0] == NSDeleteFunctionKey)
-	{
+	} else if ([characters characterAtIndex:0] == NSDeleteCharacter || [characters characterAtIndex:0] == NSDeleteFunctionKey) {
 		// Delete overlay
 		[self clearOverlay];
 		return YES;
@@ -226,60 +202,47 @@ NSPoint CHIntegralPoint(NSPoint p)
 	return [super performKeyEquivalent:event];
 }
 
-
 - (void)moveUp:(id)sender
 {
-	if (self.isCommandPressed)
-	{
+	if (self.isCommandPressed) {
 		self.fillOpacity = (self.fillOpacity < 1) ? self.fillOpacity + 0.05 : 1.0;
 		self.fillColor = [self.fillColor colorWithAlphaComponent:self.fillOpacity];
     [CHPreferences setLastColor:self.fillColor];
     
 		[self conditionalRefresh];
-	}
-	else
-	{
+	} else {
 		self.overlayRect = NSOffsetRect(self.overlayRect, 0, (self.isShiftPressed) ? -10 : -1);
 	}
 }
 
-
 - (void)moveDown:(id)sender
 {
-	if (self.isCommandPressed)
-	{
+	if (self.isCommandPressed) {
 		self.fillOpacity = ((self.fillOpacity - 0.05) > 0.05) ? self.fillOpacity - 0.05 : 0.05;
 		self.fillColor = [self.fillColor colorWithAlphaComponent:self.fillOpacity];
 		[CHPreferences setLastColor:self.fillColor];
     
     [self conditionalRefresh];
-	}
-	else
-	{
+	} else {
 		self.overlayRect = NSOffsetRect(self.overlayRect, 0, (self.isShiftPressed) ? 10 : 1);
 	}
 }
-
 
 - (void)moveLeft:(id)sender
 {
 	self.overlayRect = NSOffsetRect(self.overlayRect, (self.isShiftPressed) ? -10 : -1, 0);
 }
 
-
 - (void)moveRight:(id)sender
 {
 	self.overlayRect = NSOffsetRect(self.overlayRect, (self.isShiftPressed) ? 10 : 1, 0);
 }
-
 
 - (void)flagsChanged:(NSEvent *)event
 {
 	self.shiftPressed = ([event modifierFlags] & NSShiftKeyMask) ? YES : NO;
 	self.commandPressed = ([event modifierFlags] & NSCommandKeyMask) ? YES : NO;
 }
-
-
 
 #pragma mark -
 #pragma mark mouse handlers
@@ -291,65 +254,45 @@ NSPoint CHIntegralPoint(NSPoint p)
 	self.lastPoint = point;
 	BOOL empty = NSIsEmptyRect(self.overlayRect);
   
-	if (!empty && NSPointInRect(point, [self leftCenter]))
-	{
+	if (!empty && NSPointInRect(point, [self leftCenter])) {
 		self.resizing = YES;
 		self.resizeDirection = CHResizeLeftCenter;
 		[[NSCursor resizeLeftRightCursor] set];
-	}
-	else if (!empty && NSPointInRect(point, [self rightCenter]))
-	{
+	} else if (!empty && NSPointInRect(point, [self rightCenter])) {
 		self.resizing = YES;
 		self.resizeDirection = CHResizeRightCenter;
 		[[NSCursor resizeLeftRightCursor] set];
-	}
-	else if (!empty && NSPointInRect(point, [self topCenter]))
-	{
+	} else if (!empty && NSPointInRect(point, [self topCenter])) {
 		self.resizing = YES;
 		self.resizeDirection = CHResizeTopCenter;
 		[[NSCursor resizeUpDownCursor] set];
-	}
-	else if (!empty && NSPointInRect(point, [self bottomCenter]))
-	{
+	} else if (!empty && NSPointInRect(point, [self bottomCenter])) {
 		self.resizing = YES;
 		self.resizeDirection = CHResizeBottomCenter;
 		[[NSCursor resizeUpDownCursor] set];
-	}
-	else if (!empty && NSPointInRect(point, [self topLeft]))
-	{
+	} else if (!empty && NSPointInRect(point, [self topLeft])) {
 		self.resizing = YES;
 		self.resizeDirection = CHResizeTopLeft;
 		[[NSCursor resizeLeftDiagonalCursor] set];
-	}
-	else if (!empty && NSPointInRect(point, [self topRight]))
-	{
+	} else if (!empty && NSPointInRect(point, [self topRight])) {
 		self.resizing = YES;
 		self.resizeDirection = CHResizeTopRight;
 		[[NSCursor resizeRightDiagonalCursor] set];
-	}
-	else if (!empty && NSPointInRect(point, [self bottomLeft]))
-	{
+	} else if (!empty && NSPointInRect(point, [self bottomLeft])) {
 		self.resizing = YES;
 		self.resizeDirection = CHResizeBottomLeft;
 		[[NSCursor resizeRightDiagonalCursor] set];
-	}
-	else if (!empty && NSPointInRect(point, [self bottomRight]))
-	{
+	} else if (!empty && NSPointInRect(point, [self bottomRight])) {
 		self.resizing = YES;
 		self.resizeDirection = CHResizeBottomRight;
 		[[NSCursor resizeLeftDiagonalCursor] set];
-	}
-	else if (!empty && NSPointInRect(point, self.overlayRect))
-	{
+	} else if (!empty && NSPointInRect(point, self.overlayRect)) {
 		self.dragging = YES;
 		[[NSCursor closedHandCursor] set];
-	}
-	else
-	{
+	} else {
 		self.drawing = YES;
 	}
 }
-
 
 - (void)mouseMoved:(NSEvent *)event
 {  
@@ -358,41 +301,30 @@ NSPoint CHIntegralPoint(NSPoint p)
   BOOL wasHovering = self.hovering;
 	[self updateCursorsForPoint:point];
   
-  if (wasHovering != self.hovering)
-  {
+  if (wasHovering != self.hovering) {
     [self refresh];
   }
 }
-
 
 - (void)mouseDragged:(NSEvent *)event
 {
 	NSPoint point = CHIntegralPoint([self convertPoint:[event locationInWindow] fromView:nil]);
 
-	if (self.isResizing)
-	{
+	if (self.isResizing) {
 		self.overlayRect = [self resizedRectForPoint:point];
-	}
-	else if (self.isDragging)
-	{
+	} else if (self.isDragging) {
 		self.overlayRect = NSOffsetRect(self.overlayRect, point.x - self.startPoint.x, point.y - self.startPoint.y);
 		self.startPoint = point;
-	}
-	else
-	{
-		if ([event modifierFlags] & NSShiftKeyMask)
-		{
+	} else {
+		if ([event modifierFlags] & NSShiftKeyMask) {
 			self.overlayRect = CHRectSquareFromTwoPoints(self.startPoint, point);
-		}
-		else
-		{
+		} else {
 			self.overlayRect = CHRectFromTwoPoints(self.startPoint, point);
 		}
 	}
 	
 	self.lastPoint = point;
 }
-
 
 - (void)mouseUp:(NSEvent *)event
 {
@@ -405,16 +337,13 @@ NSPoint CHIntegralPoint(NSPoint p)
 	[self refresh];
 }
 
-
 - (void)rightMouseDown:(NSEvent *)theEvent
 {
   // Support for disabled users
-  if ([CHPreferences rightMouseEscape])
-  {
+  if ([CHPreferences rightMouseEscape]) {
     [(CHAppDelegate *)[NSApp delegate] deactivateApp];
   }
 }
-
 
 - (void)cursorUpdate:(NSEvent *)event
 {
@@ -422,54 +351,31 @@ NSPoint CHIntegralPoint(NSPoint p)
 	[[NSCursor crosshairsCursor] set];
 }
 
-
 // Cursor handling
 - (void)updateCursorsForPoint:(NSPoint)point
 {
-  if (NSIsEmptyRect(self.overlayRect))
-  {
+  if (NSIsEmptyRect(self.overlayRect)) {
     [[NSCursor crosshairsCursor] set];
-  }
-  else
-  {
-    if (NSPointInRect(point, [self leftCenter]))
-    {
+  } else {
+    if (NSPointInRect(point, [self leftCenter])) {
       [[NSCursor resizeLeftRightCursor] set];
-    }
-    else if (NSPointInRect(point, [self rightCenter]))
-    {
+    } else if (NSPointInRect(point, [self rightCenter])) {
       [[NSCursor resizeLeftRightCursor] set];
-    }
-    else if (NSPointInRect(point, [self topCenter]))
-    {
+    } else if (NSPointInRect(point, [self topCenter])) {
       [[NSCursor resizeUpDownCursor] set];
-    }
-    else if (NSPointInRect(point, [self bottomCenter]))
-    {
+    } else if (NSPointInRect(point, [self bottomCenter])) {
       [[NSCursor resizeUpDownCursor] set];
-    }
-    else if (NSPointInRect(point, [self topLeft]))
-    {
+    } else if (NSPointInRect(point, [self topLeft])) {
       [[NSCursor resizeLeftDiagonalCursor] set];
-    }
-    else if (NSPointInRect(point, [self topRight]))
-    {
+    } else if (NSPointInRect(point, [self topRight])) {
       [[NSCursor resizeRightDiagonalCursor] set];
-    }
-    else if (NSPointInRect(point, [self bottomLeft]))
-    {
+    } else if (NSPointInRect(point, [self bottomLeft])) {
       [[NSCursor resizeRightDiagonalCursor] set];
-    }
-    else if (NSPointInRect(point, [self bottomRight]))
-    {
+    } else if (NSPointInRect(point, [self bottomRight])) {
       [[NSCursor resizeLeftDiagonalCursor] set];
-    }
-    else if (NSPointInRect(point, self.overlayRect))
-    {
+    } else if (NSPointInRect(point, self.overlayRect)) {
       [[NSCursor openHandCursor] set];
-    }
-    else
-    {
+    } else {
       [[NSCursor crosshairsCursor] set];
     }
    
@@ -477,7 +383,6 @@ NSPoint CHIntegralPoint(NSPoint p)
     self.hovering = (NSPointInRect(point, NSInsetRect([self drawingRect], -20, -20)));
   }
 }
-
 
 #pragma mark  -
 #pragma mark Drawing
@@ -490,13 +395,11 @@ NSPoint CHIntegralPoint(NSPoint p)
 	[self refresh];
 }
 
-
 // redraw affected area
 - (void)refresh
 {
   [self setNeedsDisplayInRect:[self drawingRect]];
 }
-
 
 // Redraw entire screen
 - (void)fullRefresh
@@ -504,48 +407,35 @@ NSPoint CHIntegralPoint(NSPoint p)
   [self setNeedsDisplay:YES];
 }
 
-
 // Redraw region based on drawing mode
 - (void)conditionalRefresh
 {
-  if (self.inverted)
-  {
+  if (self.inverted) {
     [self fullRefresh];
-  }
-  else
-  {
+  } else {
     [self refresh];
   }
 }
 
-
 - (void)drawRect:(NSRect)dirtyRect
 {
-  if (self.isInverted)
-  {
+  if (self.isInverted) {
     [self.fillColor set];
     NSRectFill([self bounds]);
   }
 
-  
-	if (!NSIsEmptyRect(self.overlayRect))
-	{
-    if (self.isInverted)
-    {
+	if (!NSIsEmptyRect(self.overlayRect)) {
+    if (self.isInverted) {
       [[NSColor clearColor] set];
       NSRectFill([self overlayRect]);
-    }
-    else
-    {
+    } else {
       [self.fillColor set];
       NSRectFill(self.overlayRect);
     }
 		
-		if (!self.isDrawing && !self.isDragging && !self.isResizing && self.isHovering)
-		{
+		if (!self.isDrawing && !self.isDragging && !self.isResizing && self.isHovering) {
 			// draw handles if enough room
-      if (self.overlayRect.size.height > HANDLE_SIZE && self.overlayRect.size.width > HANDLE_SIZE)
-      {
+      if (self.overlayRect.size.height > HANDLE_SIZE && self.overlayRect.size.width > HANDLE_SIZE) {
         [self drawHandleInRect:[self topLeft]];	
         [self drawHandleInRect:[self topRight]];
         [self drawHandleInRect:[self bottomRight]];	
@@ -553,15 +443,13 @@ NSPoint CHIntegralPoint(NSPoint p)
       }
 			
       // don't draw middle handles if not enough vertical room
-      if (self.overlayRect.size.height > (HANDLE_SIZE * 2))
-      {
+      if (self.overlayRect.size.height > (HANDLE_SIZE * 2)) {
         [self drawHandleInRect:[self rightCenter]];
         [self drawHandleInRect:[self leftCenter]];
       }
       
       // Don't draw middle handles if not enough horizontal room
-      if (self.overlayRect.size.width > (HANDLE_SIZE * 2))
-      {
+      if (self.overlayRect.size.width > (HANDLE_SIZE * 2)) {
         [self drawHandleInRect:[self topCenter]];
         [self drawHandleInRect:[self bottomCenter]];	
       }
@@ -571,14 +459,12 @@ NSPoint CHIntegralPoint(NSPoint p)
 	}
 }
 
-
 // Draw a resize handle in the specified rect
 - (void)drawHandleInRect:(NSRect)rect
 {
   rect = NSIntegralRect(rect);
   [self.handleImage drawInRect:NSMakeRect(rect.origin.x, rect.origin.y, HANDLE_SIZE, HANDLE_SIZE) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 }
-
 
 // bubble that shows dimensions
 - (void)drawDimensionsBox
@@ -619,7 +505,6 @@ NSPoint CHIntegralPoint(NSPoint p)
   [dimensions drawInRect:dimensionsRect withAttributes:self.smallTextAttrs];
 }
 
-
 // TAB between primary and alternate colors
 - (void)toggleColors
 {
@@ -630,7 +515,6 @@ NSPoint CHIntegralPoint(NSPoint p)
   
 	[self conditionalRefresh];
 }
-
 
 // Overlay colors were changed in perferences
 - (void)colorsDidChange:(NSNotification *)notification
@@ -669,7 +553,6 @@ NSPoint CHIntegralPoint(NSPoint p)
   [self refresh];
 }
 
-
 #pragma mark -
 #pragma mark Rectangle generation/adjustment methods
 
@@ -679,11 +562,10 @@ NSPoint CHIntegralPoint(NSPoint p)
 	// clears old drawing
 	[self setNeedsDisplayInRect:[self drawingRect]];
 	
-	overlayRect = newRect;
+	_overlayRect = newRect;
 	
 	[self refresh];
 }
-
 
 // Rect that encompasses current drawing area
 - (NSRect)drawingRect
@@ -712,50 +594,37 @@ NSPoint CHIntegralPoint(NSPoint p)
 {
 	NSRect newRect = self.overlayRect;
 	
-	if (self.resizeDirection == CHResizeLeftCenter)
-	{
+	if (self.resizeDirection == CHResizeLeftCenter) {
 		float delta = self.lastPoint.x - point.x;
 		
 		newRect.origin.x -= delta;
 		newRect.size.width += delta;
-	}
-	else if (self.resizeDirection == CHResizeRightCenter)
-	{
+	} else if (self.resizeDirection == CHResizeRightCenter) {
 		float delta = point.x - self.lastPoint.x;
 		
 		newRect.size.width += delta;
-	}
-	else if (self.resizeDirection == CHResizeBottomCenter)
-	{
+	} else if (self.resizeDirection == CHResizeBottomCenter) {
 		float delta = point.y - self.lastPoint.y;
 		newRect.size.height += delta;
-	}
-	else if (self.resizeDirection == CHResizeTopCenter)
-	{
+	} else if (self.resizeDirection == CHResizeTopCenter) {
 		float delta = self.lastPoint.y - point.y;
 		
 		newRect.origin.y -= delta;
 		newRect.size.height += delta;
-	}
-	else if (self.resizeDirection == CHResizeBottomLeft)
-	{
+	} else if (self.resizeDirection == CHResizeBottomLeft) {
 		float deltaX = self.lastPoint.x - point.x; 
 		float deltaY = point.y - self.lastPoint.y;
 		
 		newRect.origin.x -= deltaX;
 		newRect.size.height += deltaY;
 		newRect.size.width += deltaX;
-	}
-	else if (self.resizeDirection == CHResizeBottomRight)
-	{
+	} else if (self.resizeDirection == CHResizeBottomRight) {
 		float deltaX = point.x - self.lastPoint.x;
 		float deltaY = point.y - self.lastPoint.y;
 		
 		newRect.size.width += deltaX;
 		newRect.size.height += deltaY;
-	}
-	else if (self.resizeDirection == CHResizeTopLeft)
-	{
+	} else if (self.resizeDirection == CHResizeTopLeft) {
 		float deltaX = self.lastPoint.x - point.x;
 		float deltaY = self.lastPoint.y - point.y;
 		
@@ -763,9 +632,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 		newRect.origin.y -= deltaY;
 		newRect.size.width += deltaX;
 		newRect.size.height += deltaY;
-	}
-	else if (self.resizeDirection == CHResizeTopRight)
-	{
+	} else if (self.resizeDirection == CHResizeTopRight) {
 		float deltaX = point.x - self.lastPoint.x; 
 		float deltaY = self.lastPoint.y - point.y;
 		
@@ -777,48 +644,40 @@ NSPoint CHIntegralPoint(NSPoint p)
 	return newRect;
 }
 
-
 - (NSRect)topLeft
 {
 	return NSMakeRect(NSMinX(self.overlayRect) - HANDLE_CENTER, NSMinY(self.overlayRect) - HANDLE_CENTER, HANDLE_SIZE, HANDLE_SIZE);
 }
-
 
 - (NSRect)topCenter
 {
 	return NSMakeRect(NSMidX(self.overlayRect) - HANDLE_CENTER, NSMinY(self.overlayRect) - HANDLE_CENTER, HANDLE_SIZE, HANDLE_SIZE);
 }
 
-
 - (NSRect)topRight
 {
 	return NSMakeRect(NSMaxX(self.overlayRect) - HANDLE_CENTER, NSMinY(self.overlayRect) - HANDLE_CENTER, HANDLE_SIZE, HANDLE_SIZE);
 }
-
 								
 - (NSRect)rightCenter
 {
 	return NSMakeRect(NSMaxX(self.overlayRect) - HANDLE_CENTER, NSMidY(self.overlayRect) - HANDLE_CENTER, HANDLE_SIZE, HANDLE_SIZE);
 }
 
-
 - (NSRect)bottomRight
 {
 	return NSMakeRect(NSMaxX(self.overlayRect) - HANDLE_CENTER, NSMaxY(self.overlayRect) - HANDLE_CENTER, HANDLE_SIZE, HANDLE_SIZE);
 }
 
-								
 - (NSRect)bottomLeft
 {
 	return NSMakeRect(NSMinX(self.overlayRect) - HANDLE_CENTER, NSMaxY(self.overlayRect) - HANDLE_CENTER, HANDLE_SIZE, HANDLE_SIZE);
 }
 
-
 - (NSRect)bottomCenter
 {
 	return NSMakeRect(NSMidX(self.overlayRect) - HANDLE_CENTER, NSMaxY(self.overlayRect) - HANDLE_CENTER, HANDLE_SIZE, HANDLE_SIZE);
 }
-
 
 - (NSRect)leftCenter
 {
