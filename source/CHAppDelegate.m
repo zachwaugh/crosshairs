@@ -10,7 +10,6 @@
 #import "DDHotKeyCenter.h"
 #import "CHOverlayWindowController.h"
 #import "CHPreferencesController.h"
-//#import "CHHelpController.h"
 #import "CHPreferences.h"
 #import "CHStatusView.h"
 #import "CHGlobals.h"
