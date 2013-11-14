@@ -13,19 +13,20 @@
 
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag 
 {	
-	if ((self =[super initWithContentRect:contentRect styleMask:(NSBorderlessWindowMask | NSNonactivatingPanelMask) backing:NSBackingStoreBuffered defer:NO])) {
-		[self setBackgroundColor:[NSColor clearColor]];
-		//[window setBackgroundColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.25]];
-		[self setLevel:NSStatusWindowLevel];
-		[self setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
-		[self setAlphaValue:1.0];
-		[self setOpaque:NO];
-		[self setHasShadow:NO];
-		[self setMovableByWindowBackground:NO];
-		[self setIgnoresMouseEvents:NO];
-		[self setBecomesKeyOnlyIfNeeded:YES];
-		//[window setAcceptsMouseMovedEvents:YES];
-	}
+	self = [super initWithContentRect:contentRect styleMask:(NSBorderlessWindowMask | NSNonactivatingPanelMask) backing:NSBackingStoreBuffered defer:NO];
+  if (!self) return nil;
+  
+  [self setBackgroundColor:[NSColor clearColor]];
+  //[window setBackgroundColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.25]];
+  [self setLevel:NSStatusWindowLevel];
+  [self setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
+  [self setAlphaValue:1.0];
+  [self setOpaque:NO];
+  [self setHasShadow:NO];
+  [self setMovableByWindowBackground:NO];
+  [self setIgnoresMouseEvents:NO];
+  [self setBecomesKeyOnlyIfNeeded:YES];
+  //[window setAcceptsMouseMovedEvents:YES];
 
 	return self;
 }

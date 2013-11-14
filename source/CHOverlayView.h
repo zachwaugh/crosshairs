@@ -12,8 +12,7 @@
 #define Q_KEY 12
 #define H_KEY 4
 
-typedef enum
-{
+typedef enum {
 	CHResizeTopLeft,
 	CHResizeTopCenter,
 	CHResizeTopRight,
@@ -23,7 +22,6 @@ typedef enum
 	CHResizeBottomLeft,
 	CHResizeLeftCenter
 } CHResizeDirection;
-
 
 @interface CHOverlayView : NSView
 

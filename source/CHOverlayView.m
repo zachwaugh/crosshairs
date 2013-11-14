@@ -57,7 +57,6 @@ NSPoint CHIntegralPoint(NSPoint p)
 	return p;
 }
 
-
 @interface CHOverlayView ()
 
 - (void)updateCursorsForPoint:(NSPoint)point;
@@ -86,40 +85,40 @@ NSPoint CHIntegralPoint(NSPoint p)
 
 - (id)initWithFrame:(NSRect)frame
 {
-	if (self = [super initWithFrame:frame])
-	{
-		self.overlayRect = NSZeroRect;
-		self.fillColor = [CHPreferences lastOverlayColor];
-    self.primaryColor = [CHPreferences primaryOverlayColor];
-    self.alternateColor = [CHPreferences alternateOverlayColor];
-    self.fillOpacity = [self.fillColor alphaComponent];
-		self.handleImage = [NSImage imageNamed:@"handle.png"];
-    self.bubbleImage = [NSImage imageNamed:@"bubble.png"];
-		self.switchedColors = [CHPreferences switchedColors];
-		self.dragging = NO;
-    self.hovering = NO;
-		self.drawing = NO;
-		self.resizing = NO;
-		self.shiftPressed = NO;
-		self.commandPressed = NO;
-    self.inverted = [CHPreferences invertedOverlayMode];
-		self.lastPointInOverlay = NO;
-    
-    _zoomLevel = 1;
-    _zooming = NO;
+	self = [super initWithFrame:frame];
+  if (!self) return nil;
+  
+  self.overlayRect = NSZeroRect;
+  self.fillColor = [CHPreferences lastOverlayColor];
+  self.primaryColor = [CHPreferences primaryOverlayColor];
+  self.alternateColor = [CHPreferences alternateOverlayColor];
+  self.fillOpacity = [self.fillColor alphaComponent];
+  self.handleImage = [NSImage imageNamed:@"handle.png"];
+  self.bubbleImage = [NSImage imageNamed:@"bubble.png"];
+  self.switchedColors = [CHPreferences switchedColors];
+  self.dragging = NO;
+  self.hovering = NO;
+  self.drawing = NO;
+  self.resizing = NO;
+  self.shiftPressed = NO;
+  self.commandPressed = NO;
+  self.inverted = [CHPreferences invertedOverlayMode];
+  self.lastPointInOverlay = NO;
+  
+  _zoomLevel = 1;
+  _zooming = NO;
 
-    // setup dimensions bubble text attrs
-		NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
-		[shadow setShadowColor:[NSColor blackColor]];
-		[shadow setShadowOffset:NSMakeSize(0, 1)];
-    
-		self.smallTextAttrs = [NSMutableDictionary dictionary];
-    [self.smallTextAttrs setObject:shadow forKey:NSShadowAttributeName];
-    [self.smallTextAttrs setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
-		[self.smallTextAttrs setObject:[NSFont fontWithName:@"Helvetica Bold" size:14.0] forKey:NSFontAttributeName];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(colorsDidChange:) name:CHColorsDidChangeNotification object:nil];
-	}
+  // setup dimensions bubble text attrs
+  NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
+  [shadow setShadowColor:[NSColor blackColor]];
+  [shadow setShadowOffset:NSMakeSize(0, 1)];
+  
+  self.smallTextAttrs = [NSMutableDictionary dictionary];
+  [self.smallTextAttrs setObject:shadow forKey:NSShadowAttributeName];
+  [self.smallTextAttrs setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
+  [self.smallTextAttrs setObject:[NSFont fontWithName:@"Helvetica Bold" size:14.0] forKey:NSFontAttributeName];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(colorsDidChange:) name:CHColorsDidChangeNotification object:nil];
 
 	return self;
 }
@@ -168,6 +167,7 @@ NSPoint CHIntegralPoint(NSPoint p)
 - (void)updateTrackingAreas
 {
 	[super updateTrackingAreas];
+  
 	[self removeTrackingArea:self.trackingArea];
 	self.trackingArea = nil;
 	
@@ -175,8 +175,7 @@ NSPoint CHIntegralPoint(NSPoint p)
   [self addTrackingArea:self.trackingArea];
 }
 
-#pragma mark -
-#pragma mark Keyboard handling
+#pragma mark - Keyboard
 
 - (void)keyDown:(NSEvent *)event
 {
@@ -261,26 +260,19 @@ NSPoint CHIntegralPoint(NSPoint p)
 
 - (void)scrollWheel:(NSEvent *)event
 {
-  if ([event modifierFlags] & NSCommandKeyMask)
-  {
-    float delta = [event scrollingDeltaY];
+  if ([event modifierFlags] & NSCommandKeyMask) {
+    CGFloat delta = [event scrollingDeltaY];
     BOOL zoomingIn = (delta > 0);
     
-    if (zoomingIn)
-    {
+    if (zoomingIn) {
       self.zoomLevel = self.zoomLevel + 0.5;
-    }
-    else
-    {
+    } else {
       self.zoomLevel = self.zoomLevel - 0.5;
     }
     
-    if (self.zoomLevel > MAX_ZOOM_LEVEL)
-    {
+    if (self.zoomLevel > MAX_ZOOM_LEVEL) {
       self.zoomLevel = MAX_ZOOM_LEVEL;
-    }
-    else if (self.zoomLevel < 1)
-    {
+    } else if (self.zoomLevel < 1) {
       self.zoomLevel = 1;
     }
 
@@ -288,8 +280,7 @@ NSPoint CHIntegralPoint(NSPoint p)
     
     //NSLog(@"scrolling: %f, in? %d", delta, zoomingIn);
     
-    if (!self.zoomImage)
-    {
+    if (!self.zoomImage) {
       NSRect rect = [self.window frame];
       rect.origin.y = NSMaxY([[[NSScreen screens] objectAtIndex:0] frame]) - NSMaxY(rect);
       CGImageRef image = CGWindowListCreateImage(rect, kCGWindowListOptionOnScreenBelowWindow, (unsigned int)[self.window windowNumber], kCGWindowImageDefault);
@@ -480,21 +471,6 @@ NSPoint CHIntegralPoint(NSPoint p)
     NSRect imageRect = NSMakeRect(b.origin.x - (((b.size.width * self.zoomLevel) - b.size.width) / 2), b.origin.y - (((b.size.height * self.zoomLevel) - b.size.height) / 2), b.size.width * self.zoomLevel, b.size.height * self.zoomLevel);
     
     [self.zoomImage drawInRect:imageRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInteger:NSImageInterpolationNone] forKey:NSImageHintInterpolation]];
-    
-//    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
-//    
-//    float offset = ((10 * self.view.f) - LOUPE_SIZE) / 2;
-//    
-//    CGContextSaveGState(ctx);
-//    CGContextSetInterpolationQuality(ctx, kCGInterpolationNone);
-//    //CGContextSetRGBFillColor(ctx, 255, 0, 0, 1);
-//    //CGContextFillRect(ctx, [self bounds]);
-//    CGContextTranslateCTM(ctx, -offset, -offset);
-//    CGContextScaleCTM(ctx, ZOOM_LEVEL, ZOOM_LEVEL);
-//    //CGContextSetAlpha(ctx, 0.75);
-//    //CGContextDrawImage(ctx, CGRectMake(0, 0, LOUPE_SIZE * ZOOM_LEVEL, LOUPE_SIZE * ZOOM_LEVEL), screenShot);
-//    CGContextDrawImage(ctx, b, self.zoomImage.CGImage);
-//    CGContextRestoreGState(ctx);
   }
   
   if (self.isInverted) {
@@ -551,13 +527,12 @@ NSPoint CHIntegralPoint(NSPoint p)
   
   NSSize dimensionsSize = [dimensions sizeWithAttributes:self.smallTextAttrs];
 	
-  float totalWidth = dimensionsSize.width + 18;
-  float bodyWidth = round((dimensionsSize.width - 18) / 2);
+  CGFloat totalWidth = dimensionsSize.width + 18;
+  CGFloat bodyWidth = round((dimensionsSize.width - 18) / 2);
   
 	int startX = round(NSMidX(self.overlayRect) - (totalWidth / 2)) - 1;
   
-  if ((int)self.overlayRect.size.width % 2 == 0)
-  {
+  if ((int)self.overlayRect.size.width % 2 == 0) {
     startX += 1;
   }
   
@@ -600,28 +575,22 @@ NSPoint CHIntegralPoint(NSPoint p)
   NSDictionary *userInfo = [notification userInfo];
   NSString *key = [[userInfo allKeys] objectAtIndex:0];
   
-  if (key == CHPrimaryOverlayColorKey)
-  {
+  if (key == CHPrimaryOverlayColorKey) {
     self.primaryColor = [userInfo objectForKey:key];
     
-    if (!self.switchedColors)
-    {
+    if (!self.switchedColors) {
       self.fillColor = [self.primaryColor colorWithAlphaComponent:self.fillOpacity];
       [CHPreferences setLastColor:self.fillColor];
     }
-  }
-  else
-  {
+  } else {
     self.alternateColor = [userInfo objectForKey:key];
     
-    if (self.switchedColors)
-    {
+    if (self.switchedColors) {
       self.fillColor = [self.alternateColor colorWithAlphaComponent:self.fillOpacity];
       [CHPreferences setLastColor:self.fillColor];
     }
   }
 }
-
 
 - (void)switchInvertedOverlayMode
 {
@@ -631,8 +600,7 @@ NSPoint CHIntegralPoint(NSPoint p)
   [self refresh];
 }
 
-#pragma mark -
-#pragma mark Rectangle generation/adjustment methods
+#pragma mark - Rectangle generation/adjustment methods
 
 // Override setter to refresh display
 - (void)setOverlayRect:(NSRect)newRect
@@ -651,16 +619,15 @@ NSPoint CHIntegralPoint(NSPoint p)
   if (NSIsEmptyRect(self.overlayRect)) return NSZeroRect;
   
 	// overlay rect + padding for handles and dimensions
-	float handles = (HANDLE_SIZE + 1) / 2;
-	float xInset = -handles;
-	float yInset = -(handles + (DIMENSIONS_HEIGHT / 2));
+	CGFloat handles = (HANDLE_SIZE + 1) / 2;
+	CGFloat xInset = -handles;
+	CGFloat yInset = -(handles + (DIMENSIONS_HEIGHT / 2));
 	
 	NSRect drawingRect = NSOffsetRect(NSInsetRect(self.overlayRect, xInset, yInset), 0, 20);
 	
   // Leave enough space for bubble to be bigger than overlay
-	if (drawingRect.size.width < 120)
-	{
-    float deltaX = (120 - drawingRect.size.width) / 2;
+	if (drawingRect.size.width < 120) {
+    CGFloat deltaX = (120 - drawingRect.size.width) / 2;
 		drawingRect = NSInsetRect(drawingRect, -deltaX, 0);
   }
 	
@@ -673,46 +640,46 @@ NSPoint CHIntegralPoint(NSPoint p)
 	NSRect newRect = self.overlayRect;
 	
 	if (self.resizeDirection == CHResizeLeftCenter) {
-		float delta = self.lastPoint.x - point.x;
+		CGFloat delta = self.lastPoint.x - point.x;
 		
 		newRect.origin.x -= delta;
 		newRect.size.width += delta;
 	} else if (self.resizeDirection == CHResizeRightCenter) {
-		float delta = point.x - self.lastPoint.x;
+		CGFloat delta = point.x - self.lastPoint.x;
 		
 		newRect.size.width += delta;
 	} else if (self.resizeDirection == CHResizeBottomCenter) {
-		float delta = point.y - self.lastPoint.y;
+		CGFloat delta = point.y - self.lastPoint.y;
 		newRect.size.height += delta;
 	} else if (self.resizeDirection == CHResizeTopCenter) {
-		float delta = self.lastPoint.y - point.y;
+		CGFloat delta = self.lastPoint.y - point.y;
 		
 		newRect.origin.y -= delta;
 		newRect.size.height += delta;
 	} else if (self.resizeDirection == CHResizeBottomLeft) {
-		float deltaX = self.lastPoint.x - point.x; 
-		float deltaY = point.y - self.lastPoint.y;
+		CGFloat deltaX = self.lastPoint.x - point.x;
+		CGFloat deltaY = point.y - self.lastPoint.y;
 		
 		newRect.origin.x -= deltaX;
 		newRect.size.height += deltaY;
 		newRect.size.width += deltaX;
 	} else if (self.resizeDirection == CHResizeBottomRight) {
-		float deltaX = point.x - self.lastPoint.x;
-		float deltaY = point.y - self.lastPoint.y;
+		CGFloat deltaX = point.x - self.lastPoint.x;
+		CGFloat deltaY = point.y - self.lastPoint.y;
 		
 		newRect.size.width += deltaX;
 		newRect.size.height += deltaY;
 	} else if (self.resizeDirection == CHResizeTopLeft) {
-		float deltaX = self.lastPoint.x - point.x;
-		float deltaY = self.lastPoint.y - point.y;
+		CGFloat deltaX = self.lastPoint.x - point.x;
+		CGFloat deltaY = self.lastPoint.y - point.y;
 		
 		newRect.origin.x -= deltaX;
 		newRect.origin.y -= deltaY;
 		newRect.size.width += deltaX;
 		newRect.size.height += deltaY;
 	} else if (self.resizeDirection == CHResizeTopRight) {
-		float deltaX = point.x - self.lastPoint.x; 
-		float deltaY = self.lastPoint.y - point.y;
+		CGFloat deltaX = point.x - self.lastPoint.x;
+		CGFloat deltaY = self.lastPoint.y - point.y;
 		
 		newRect.origin.y -= deltaY;
 		newRect.size.height += deltaY;

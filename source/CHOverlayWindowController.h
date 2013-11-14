@@ -7,11 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <Growl/Growl.h>
 
 @class CHOverlayView;
 
-@interface CHOverlayWindowController : NSWindowController <GrowlApplicationBridgeDelegate>
+@interface CHOverlayWindowController : NSWindowController
 {
   IBOutlet CHOverlayView *view;
 }

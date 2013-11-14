@@ -12,41 +12,35 @@
 
 + (NSCursor *)crosshairsCursor 
 {
-  static NSCursor *crosshairsCursor = nil; 
+  static NSCursor *_crosshairsCursor = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    _crosshairsCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"crosshairs_cursor"] hotSpot:NSMakePoint(11, 11)];
+  });
   
-	if (crosshairsCursor == nil)
-	{ 
-		crosshairsCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"crosshairs_cursor.png"] hotSpot:NSMakePoint(11, 11)]; 
-	}
-	
-	return crosshairsCursor; 
+	return _crosshairsCursor;
 }
-
 
 + (NSCursor *)resizeLeftDiagonalCursor 
-{ 
-	static NSCursor *resizeLeftDiagonalCursor = nil;
-	
-	if (!resizeLeftDiagonalCursor)
-	{ 
-		resizeLeftDiagonalCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"resize_cursor_diagonal_left.tiff"] hotSpot:NSMakePoint(8, 8)]; 
-	} 
+{
+  static NSCursor *_resizeLeftDiagonalCursor = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    _resizeLeftDiagonalCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"resize_cursor_diagonal_left"] hotSpot:NSMakePoint(8, 8)];
+  });
 
-	return resizeLeftDiagonalCursor; 
+	return _resizeLeftDiagonalCursor;
 }
-
 
 + (NSCursor *)resizeRightDiagonalCursor 
-{ 
-	static NSCursor *resizeRightDiagonalCursor = nil;
-	
-	if (!resizeRightDiagonalCursor)
-	{ 
-		resizeRightDiagonalCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"resize_cursor_diagonal_right.tiff"] hotSpot:NSMakePoint(8, 8)]; 
-	} 
-	
-	return resizeRightDiagonalCursor; 
+{
+  static NSCursor *_resizeRightDiagonalCursor = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    _resizeRightDiagonalCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"resize_cursor_diagonal_right"] hotSpot:NSMakePoint(8, 8)];
+  });
+  
+	return _resizeRightDiagonalCursor;
 }
-
 
 @end

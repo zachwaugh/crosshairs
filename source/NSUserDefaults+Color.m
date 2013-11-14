@@ -8,27 +8,24 @@
 
 #import "NSUserDefaults+Color.h"
 
-
 @implementation NSUserDefaults (Color)
 
-- (void)setColor:(NSColor *)aColor forKey:(NSString *)aKey
+- (void)setColor:(NSColor *)color forKey:(NSString *)key
 {
-  NSData *theData = [NSArchiver archivedDataWithRootObject:aColor];
-  [self setObject:theData forKey:aKey];
+  NSData *data = [NSArchiver archivedDataWithRootObject:color];
+  [self setObject:data forKey:key];
 }
 
-
-- (NSColor *)colorForKey:(NSString *)aKey
+- (NSColor *)colorForKey:(NSString *)key
 {
-  NSColor *theColor = nil;
-  NSData *theData = [self dataForKey:aKey];
+  NSColor *color = nil;
+  NSData *data = [self dataForKey:key];
   
-  if (theData != nil)
-  {
-    theColor = (NSColor *)[NSUnarchiver unarchiveObjectWithData:theData];
+  if (data) {
+    color = (NSColor *)[NSUnarchiver unarchiveObjectWithData:data];
   }
     
-  return theColor;
+  return color;
 }
 
 @end

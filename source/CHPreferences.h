@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface CHPreferences : NSObject
 
 + (void)registerDefaults;

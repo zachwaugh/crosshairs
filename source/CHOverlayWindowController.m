@@ -26,13 +26,6 @@
   [super dealloc];
 }
 
-
-- (void)awakeFromNib
-{
-  [GrowlApplicationBridge setGrowlDelegate:self];
-}
-
-
 - (void)showWindow:(id)sender
 {
   [self.view resetZoom];
@@ -124,18 +117,7 @@
   
 	CGImageRelease(screenShot);
   
-  [GrowlApplicationBridge notifyWithTitle:@"Screenshot Saved" description:filename notificationName:CHGrowlScreenshotSavedNotification iconData:nil priority:0 isSticky:NO clickContext:nil];
+  // Notify
 }
-
-
-#pragma mark -
-#pragma mark Growl Delegate
-
-- (NSDictionary *)registrationDictionaryForGrowl
-{
-  NSArray *notifications = [NSArray arrayWithObject:CHGrowlScreenshotSavedNotification];
-  return [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:1], GROWL_TICKET_VERSION, notifications, GROWL_NOTIFICATIONS_ALL, notifications, GROWL_NOTIFICATIONS_DEFAULT, nil];
-}
-
 
 @end

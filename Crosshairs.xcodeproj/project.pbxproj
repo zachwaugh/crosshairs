@@ -14,10 +14,6 @@
 		9212FF7514C774B600D30985 /* CHPreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9212FF7414C774B600D30985 /* CHPreferencesWindowController.xib */; };
 		921F574A14D24FD00089D7B2 /* CHWelcomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 921F574914D24FD00089D7B2 /* CHWelcomeController.m */; };
 		921F574D14D250170089D7B2 /* CHWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 921F574C14D250170089D7B2 /* CHWindowController.xib */; };
-		9221086712EFB13A000FE12C /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9221086512EFB13A000FE12C /* Growl.framework */; };
-		9221086812EFB13A000FE12C /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9221086612EFB13A000FE12C /* ShortcutRecorder.framework */; };
-		9221087A12EFB13F000FE12C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9221086512EFB13A000FE12C /* Growl.framework */; };
-		9221087B12EFB13F000FE12C /* ShortcutRecorder.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9221086612EFB13A000FE12C /* ShortcutRecorder.framework */; };
 		922391D112FDF0CA00187E83 /* crosshairs_menu_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 922391D012FDF0CA00187E83 /* crosshairs_menu_active.png */; };
 		92365A4E1302276F00A144A4 /* CHStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92365A4D1302276F00A144A4 /* CHStatusView.m */; };
 		9245E4A5128263BF00D3853E /* CHMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9245E4A4128263BF00D3853E /* CHMainMenu.xib */; };
@@ -53,8 +49,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9221087A12EFB13F000FE12C /* Growl.framework in CopyFiles */,
-				9221087B12EFB13F000FE12C /* ShortcutRecorder.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,14 +70,12 @@
 		921F574814D24FD00089D7B2 /* CHWelcomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHWelcomeController.h; sourceTree = "<group>"; };
 		921F574914D24FD00089D7B2 /* CHWelcomeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHWelcomeController.m; sourceTree = "<group>"; };
 		921F574C14D250170089D7B2 /* CHWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CHWindowController.xib; sourceTree = "<group>"; };
-		9221086512EFB13A000FE12C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = frameworks/Growl.framework; sourceTree = "<group>"; };
-		9221086612EFB13A000FE12C /* ShortcutRecorder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShortcutRecorder.framework; path = frameworks/ShortcutRecorder.framework; sourceTree = "<group>"; };
 		922391D012FDF0CA00187E83 /* crosshairs_menu_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crosshairs_menu_active.png; sourceTree = "<group>"; };
 		92365A4C1302276F00A144A4 /* CHStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHStatusView.h; sourceTree = "<group>"; };
 		92365A4D1302276F00A144A4 /* CHStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHStatusView.m; sourceTree = "<group>"; };
 		9245E4A4128263BF00D3853E /* CHMainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CHMainMenu.xib; path = ../resources/CHMainMenu.xib; sourceTree = "<group>"; };
 		9245E50A12826B0000D3853E /* CHOverlayWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHOverlayWindowController.h; sourceTree = "<group>"; };
-		9245E50B12826B0000D3853E /* CHOverlayWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHOverlayWindowController.m; sourceTree = "<group>"; };
+		9245E50B12826B0000D3853E /* CHOverlayWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CHOverlayWindowController.m; sourceTree = "<group>"; tabWidth = 2; };
 		9245E50D12826B1300D3853E /* CHOverlayWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CHOverlayWindowController.xib; path = ../resources/CHOverlayWindowController.xib; sourceTree = "<group>"; };
 		9265D27912FE60BF00060E01 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		9287E7B1127DC4B4000FCCB6 /* NSUserDefaults+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Color.h"; sourceTree = "<group>"; };
@@ -126,8 +118,6 @@
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				BF957B091259310B0064B988 /* Carbon.framework in Frameworks */,
-				9221086712EFB13A000FE12C /* Growl.framework in Frameworks */,
-				9221086812EFB13A000FE12C /* ShortcutRecorder.framework in Frameworks */,
 				9265D27A12FE60BF00060E01 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -151,8 +141,6 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9221086512EFB13A000FE12C /* Growl.framework */,
-				9221086612EFB13A000FE12C /* ShortcutRecorder.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				BF957B081259310B0064B988 /* Carbon.framework */,
 				9265D27912FE60BF00060E01 /* WebKit.framework */,
@@ -188,8 +176,10 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
+			indentWidth = 2;
 			name = Crosshairs;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
@@ -519,7 +509,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = Crosshairs.entitlements;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Giant Comet";
+				CODE_SIGN_IDENTITY = "Mac Developer: Zachary Waugh (WJQ3EJHJF5)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (

@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface NSUserDefaults (Color)
 
 - (void)setColor:(NSColor *)aColor forKey:(NSString *)aKey;

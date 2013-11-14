@@ -33,15 +33,12 @@
 	[[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 }
 
-
-#pragma mark -
-#pragma mark Trial
+#pragma mark - Trial
 
 + (int)numberOfLaunches
 {
   return [[NSUserDefaults standardUserDefaults] integerForKey:CHNumberOfLaunchesKey];
 }
-
 
 + (void)incrementNumberOfLaunches
 {
@@ -50,130 +47,107 @@
   [[NSUserDefaults standardUserDefaults] setInteger:launches forKey:CHNumberOfLaunchesKey];
 }
 
-
 + (NSDate *)firstLaunchDate
 {
   return [[NSUserDefaults standardUserDefaults] objectForKey:CHFirstLaunchDateKey];
 }
-
 
 + (void)setFirstLaunchDate:(NSDate *)date
 {
   [[NSUserDefaults standardUserDefaults] setObject:date forKey:CHFirstLaunchDateKey];
 }
 
-
 + (NSString *)trialHash
 {
   return [[NSUserDefaults standardUserDefaults] stringForKey:CHTrialHashKey];
 }
-
 
 + (void)setTrialHash:(NSString *)hash
 {
   [[NSUserDefaults standardUserDefaults] setObject:hash forKey:CHTrialHashKey];
 }
 
-
-#pragma -
-#pragma mark Preferences
-
+#pragma - Preferences
 
 + (NSString *)clipboardFormat
 {
   return [[NSUserDefaults standardUserDefaults] stringForKey:CHClipboardFormatKey];
 }
 
-
 + (NSColor *)primaryOverlayColor
 {
   return [[NSUserDefaults standardUserDefaults] colorForKey:CHPrimaryOverlayColorKey];
 }
-
 
 + (NSColor *)alternateOverlayColor
 {
   return [[NSUserDefaults standardUserDefaults] colorForKey:CHAlternateOverlayColorKey];
 }
 
-
 + (void)setLastColor:(NSColor *)color
 {
   [[NSUserDefaults standardUserDefaults] setColor:color forKey:CHLastOverlayColorKey];
 }
-
 
 + (NSColor *)lastOverlayColor
 {
   return [[NSUserDefaults standardUserDefaults] colorForKey:CHLastOverlayColorKey];
 }
 
-
 + (BOOL)switchedColors
 {
   return [[NSUserDefaults standardUserDefaults] boolForKey:CHSwitchedOverlayColorsKey];
 }
-
 
 + (void)setSwitchedColors:(BOOL)switched
 {
   [[NSUserDefaults standardUserDefaults] setBool:switched forKey:CHSwitchedOverlayColorsKey];
 }
 
-
 + (BOOL)invertedOverlayMode
 {
   return [[NSUserDefaults standardUserDefaults] boolForKey:CHInvertedOverlayModeKey];
 }
-
 
 + (void)setInvertedOverlayMode:(BOOL)inverted
 {
   [[NSUserDefaults standardUserDefaults] setBool:inverted forKey:CHInvertedOverlayModeKey];
 }
 
-
 + (NSInteger)globalHotKeyCode
 {
   return [[NSUserDefaults standardUserDefaults] integerForKey:CHGlobalHotKeyCode];
 }
-
 
 + (void)setGlobalHotKeyCode:(NSInteger)keyCode
 {
   [[NSUserDefaults standardUserDefaults] setInteger:keyCode forKey:CHGlobalHotKeyCode];
 }
 
-
 + (NSInteger)globalHotKeyFlags
 {
   return [[NSUserDefaults standardUserDefaults] integerForKey:CHGlobalHotKeyFlags];
 }
-
 
 + (void)setGlobalHotKeyFlags:(NSInteger)flags
 {
   [[NSUserDefaults standardUserDefaults] setInteger:flags forKey:CHGlobalHotKeyFlags];
 }
 
-
 + (BOOL)showInDock
 {
   return [[NSUserDefaults standardUserDefaults] boolForKey:CHShowInDockKey];
 }
-
 
 + (void)setShowInDock:(BOOL)show
 {
   [[NSUserDefaults standardUserDefaults] setBool:show forKey:CHShowInDockKey];
 }
 
-
 + (BOOL)activateApp
 {
   return [[NSUserDefaults standardUserDefaults] boolForKey:CHActivateAppKey];
 }
-
 
 + (BOOL)rightMouseEscape
 {

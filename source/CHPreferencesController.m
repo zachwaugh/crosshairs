@@ -15,11 +15,11 @@
 
 @implementation CHPreferencesController
 
-@synthesize toolbar, startAtLogin, primaryColorWell, alternateColorWell, shortcutRecorder;
+@synthesize toolbar, startAtLogin, primaryColorWell, alternateColorWell;
 
 - (void)awakeFromNib
 {
-  [self.shortcutRecorder setKeyCombo:SRMakeKeyCombo([CHPreferences globalHotKeyCode], [CHPreferences globalHotKeyFlags])];
+  //[self.shortcutRecorder setKeyCombo:SRMakeKeyCombo([CHPreferences globalHotKeyCode], [CHPreferences globalHotKeyFlags])];
   [self.toolbar setSelectedItemIdentifier:@"general"];
   
   NSURL *appPath = [[NSBundle mainBundle] bundleURL];
@@ -35,17 +35,17 @@
 }
 
 
-- (void)shortcutRecorder:(SRRecorderControl *)aRecorder keyComboDidChange:(KeyCombo)newKeyCombo
-{
-  KeyCombo keyCombo = [aRecorder keyCombo];
-  [CHPreferences setGlobalHotKeyCode:keyCombo.code];
-  [CHPreferences setGlobalHotKeyFlags:keyCombo.flags];
-  
-  DDHotKeyCenter *hotKeyCenter = [[[DDHotKeyCenter alloc] init] autorelease];
-  
-  [hotKeyCenter unregisterHotKeysWithTarget:[NSApp delegate]];
-  [hotKeyCenter registerHotKeyWithKeyCode:keyCombo.code modifierFlags:keyCombo.flags target:[NSApp delegate] action:@selector(hotkeyWithEvent:) object:nil];
-}
+//- (void)shortcutRecorder:(SRRecorderControl *)aRecorder keyComboDidChange:(KeyCombo)newKeyCombo
+//{
+//  KeyCombo keyCombo = [aRecorder keyCombo];
+//  [CHPreferences setGlobalHotKeyCode:keyCombo.code];
+//  [CHPreferences setGlobalHotKeyFlags:keyCombo.flags];
+//  
+//  DDHotKeyCenter *hotKeyCenter = [[[DDHotKeyCenter alloc] init] autorelease];
+//  
+//  [hotKeyCenter unregisterHotKeysWithTarget:[NSApp delegate]];
+//  [hotKeyCenter registerHotKeyWithKeyCode:keyCombo.code modifierFlags:keyCombo.flags target:[NSApp delegate] action:@selector(hotkeyWithEvent:) object:nil];
+//}
 
 
 - (void)colorUpdated:(id)sender

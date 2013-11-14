@@ -6,7 +6,6 @@
 //  Copyright 2010 Giant Comet. All rights reserved.
 //
 
-
 // User defaults keys
 extern NSString * const CHClipboardFormatKey;
 extern NSString * const CHPrimaryOverlayColorKey;
@@ -27,10 +26,6 @@ extern NSString * const CHRightMouseEscapeKey;
 
 // Notifications
 extern NSString * const CHColorsDidChangeNotification;
-
-// Growl
-extern NSString * const CHGrowlScreenshotSavedNotification;
-
 
 typedef enum {
   CHStatusItemInactive,

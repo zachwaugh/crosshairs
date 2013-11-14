@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface NSString (MD5)
 
 + (NSString *)md5:(NSString *)input;

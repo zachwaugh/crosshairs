@@ -8,7 +8,6 @@
 
 #import "CHGlobals.h"
 
-
 // User defaults keys
 NSString * const CHClipboardFormatKey = @"clipboardFormat";
 NSString * const CHPrimaryOverlayColorKey = @"primaryOverlayColor";
@@ -29,6 +28,3 @@ NSString * const CHRightMouseEscapeKey = @"rightMouseEscape";
 
 // Notifications
 NSString * const CHColorsDidChangeNotification = @"CHColorsDidChangeNotification";
-
-// Growl
-NSString * const CHGrowlScreenshotSavedNotification = @"Screenshot Saved";
