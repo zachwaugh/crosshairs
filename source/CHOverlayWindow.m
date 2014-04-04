@@ -11,23 +11,23 @@
 
 @implementation CHOverlayWindow
 
-- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag 
-{	
+- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
+{
 	self = [super initWithContentRect:contentRect styleMask:(NSBorderlessWindowMask | NSNonactivatingPanelMask) backing:NSBackingStoreBuffered defer:NO];
-  if (!self) return nil;
-  
-  [self setBackgroundColor:[NSColor clearColor]];
-  //[window setBackgroundColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.25]];
-  [self setLevel:NSStatusWindowLevel];
-  [self setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
-  [self setAlphaValue:1.0];
-  [self setOpaque:NO];
-  [self setHasShadow:NO];
-  [self setMovableByWindowBackground:NO];
-  [self setIgnoresMouseEvents:NO];
-  [self setBecomesKeyOnlyIfNeeded:YES];
-  //[window setAcceptsMouseMovedEvents:YES];
-
+    if (!self) return nil;
+    
+    [self setBackgroundColor:[NSColor clearColor]];
+    //[window setBackgroundColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.25]];
+    [self setLevel:NSStatusWindowLevel];
+    [self setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
+    [self setAlphaValue:1.0];
+    [self setOpaque:NO];
+    [self setHasShadow:NO];
+    [self setMovableByWindowBackground:NO];
+    [self setIgnoresMouseEvents:NO];
+    [self setBecomesKeyOnlyIfNeeded:YES];
+    //[window setAcceptsMouseMovedEvents:YES];
+    
 	return self;
 }
 
@@ -41,7 +41,7 @@
 	NSRect windowRect = NSZeroRect;
 	
 	for (NSScreen *screen in [NSScreen screens]) {
-    windowRect = NSUnionRect([screen frame], windowRect);
+        windowRect = NSUnionRect([screen frame], windowRect);
 	}
   	
 	[self setFrame:windowRect display:YES animate:NO];
@@ -51,7 +51,7 @@
 {
 	//NSLog(@"(CHOverlayWindow) performKeyEquivalent: %@, %c", [event characters], [event keyCode]);
 	NSString *characters = [event charactersIgnoringModifiers];
-
+    
 	if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@"h"]) {
 		[(CHAppDelegate *)[NSApp delegate] deactivateApp];
 		return YES;

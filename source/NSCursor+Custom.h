@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface NSCursor (Custom)
 
 + (NSCursor *)crosshairsCursor;

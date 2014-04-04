@@ -11,11 +11,8 @@
 @class CHOverlayView;
 
 @interface CHOverlayWindowController : NSWindowController
-{
-  IBOutlet CHOverlayView *view;
-}
 
-@property (retain) CHOverlayView *view;
+@property (nonatomic, strong) CHOverlayView *view;
 
 - (void)hideWindow;
 - (NSRect)overlayDimensions;

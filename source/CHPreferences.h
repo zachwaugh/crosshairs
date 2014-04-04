@@ -8,6 +8,24 @@
 
 #import <Cocoa/Cocoa.h>
 
+// User defaults keys
+extern NSString * const CHClipboardFormatKey;
+extern NSString * const CHPrimaryOverlayColorKey;
+extern NSString * const CHAlternateOverlayColorKey;
+extern NSString * const CHLastOverlayColorKey;
+extern NSString * const CHSwitchedOverlayColorsKey;
+extern NSString * const CHShowDimensionsOutsideKey;
+extern NSString * const CHInvertedOverlayModeKey;
+extern NSString * const CHStartAtLoginKey;
+extern NSString * const CHGlobalHotKeyCode;
+extern NSString * const CHGlobalHotKeyFlags;
+extern NSString * const CHShowInDockKey;
+extern NSString * const CHActivateAppKey;
+extern NSString * const CHNumberOfLaunchesKey;
+extern NSString * const CHFirstLaunchDateKey;
+extern NSString * const CHTrialHashKey;
+extern NSString * const CHRightMouseEscapeKey;
+
 @interface CHPreferences : NSObject
 
 + (void)registerDefaults;

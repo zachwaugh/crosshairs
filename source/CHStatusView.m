@@ -19,9 +19,9 @@
 
   if (self)
   {
-    inactiveImage = [[NSImage imageNamed:@"crosshairs_menu_inactive.png"] retain];
-    activeImage = [[NSImage imageNamed:@"crosshairs_menu_active.png"] retain];
-    highlightImage = [[NSImage imageNamed:@"crosshairs_menu_highlight.png"] retain];
+    inactiveImage = [NSImage imageNamed:@"crosshairs_menu_inactive.png"];
+    activeImage = [NSImage imageNamed:@"crosshairs_menu_active.png"];
+    highlightImage = [NSImage imageNamed:@"crosshairs_menu_highlight.png"];
     currentState = CHStatusItemInactive;
   }
   
@@ -29,17 +29,6 @@
 }
 
 
-- (void)dealloc
-{
-  [inactiveImage release];
-  [activeImage release];
-  [highlightImage release];
-  
-  self.statusItem = nil;
-  self.statusMenu = nil;
-  
-  [super dealloc];
-}
 
 
 - (void)drawRect:(NSRect)dirtyRect

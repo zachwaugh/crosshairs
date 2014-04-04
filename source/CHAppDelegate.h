@@ -8,25 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class CHOverlayWindowController;
-@class CHPreferencesController;
-@class CHWelcomeController;
-
 @interface CHAppDelegate : NSObject <NSApplicationDelegate>
-{
-	IBOutlet NSMenu *statusMenu;
-	NSStatusItem *statusItem;
-	
-  CHOverlayWindowController *overlayController;
-	CHPreferencesController *preferencesController;
-}
 
-@property (retain) NSStatusItem *statusItem;
-@property (retain) NSMenu *statusMenu;
+@property (nonatomic, strong) NSStatusItem *statusItem;
+@property (nonatomic, strong) NSMenu *statusMenu;
 
-- (void)activateApp:(id)sender;
-- (void)deactivateApp;
-- (void)showPreferences:(id)sender;
-- (void)showHelp:(id)sender;
+- (IBAction)activateApp:(id)sender;
+- (IBAction)deactivateApp;
+- (IBAction)showPreferences:(id)sender;
+- (IBAction)showHelp:(id)sender;
 
 @end

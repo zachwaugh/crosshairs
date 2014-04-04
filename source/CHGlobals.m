@@ -8,23 +8,5 @@
 
 #import "CHGlobals.h"
 
-// User defaults keys
-NSString * const CHClipboardFormatKey = @"clipboardFormat";
-NSString * const CHPrimaryOverlayColorKey = @"primaryOverlayColor";
-NSString * const CHAlternateOverlayColorKey = @"alternateOverlayColor";
-NSString * const CHLastOverlayColorKey = @"lastOverlayColor";
-NSString * const CHSwitchedOverlayColorsKey = @"switchedOverlayColors";
-NSString * const CHShowDimensionsOutsideKey = @"showDimensionsOutside";
-NSString * const CHInvertedOverlayModeKey = @"invertedOverlayMode";
-NSString * const CHStartAtLoginKey = @"startAtLogin";
-NSString * const CHGlobalHotKeyCode = @"globalHotKeyCode";
-NSString * const CHGlobalHotKeyFlags = @"globalHotKeyFlags";
-NSString * const CHShowInDockKey = @"showInDock";
-NSString * const CHActivateAppKey = @"activateApp";
-NSString * const CHNumberOfLaunchesKey = @"numberOfLaunches";
-NSString * const CHFirstLaunchDateKey = @"firstLaunchDate";
-NSString * const CHTrialHashKey = @"trialHash";
-NSString * const CHRightMouseEscapeKey = @"rightMouseEscape";
-
 // Notifications
 NSString * const CHColorsDidChangeNotification = @"CHColorsDidChangeNotification";

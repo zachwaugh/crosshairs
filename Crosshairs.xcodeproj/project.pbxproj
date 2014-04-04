@@ -12,8 +12,6 @@
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		9212FF7514C774B600D30985 /* CHPreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9212FF7414C774B600D30985 /* CHPreferencesWindowController.xib */; };
-		921F574A14D24FD00089D7B2 /* CHWelcomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 921F574914D24FD00089D7B2 /* CHWelcomeController.m */; };
-		921F574D14D250170089D7B2 /* CHWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 921F574C14D250170089D7B2 /* CHWindowController.xib */; };
 		922391D112FDF0CA00187E83 /* crosshairs_menu_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 922391D012FDF0CA00187E83 /* crosshairs_menu_active.png */; };
 		92365A4E1302276F00A144A4 /* CHStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92365A4D1302276F00A144A4 /* CHStatusView.m */; };
 		9245E4A5128263BF00D3853E /* CHMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9245E4A4128263BF00D3853E /* CHMainMenu.xib */; };
@@ -22,9 +20,8 @@
 		9265D27A12FE60BF00060E01 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9265D27912FE60BF00060E01 /* WebKit.framework */; };
 		9287E7B3127DC4B4000FCCB6 /* NSUserDefaults+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 9287E7B2127DC4B4000FCCB6 /* NSUserDefaults+Color.m */; };
 		9294587B1281150600ABF139 /* Crosshairs.icns in Resources */ = {isa = PBXBuildFile; fileRef = 9294587A1281150600ABF139 /* Crosshairs.icns */; };
-		92B088E812F4BBFB0097CA56 /* handle.png in Resources */ = {isa = PBXBuildFile; fileRef = 92B088E712F4BBFB0097CA56 /* handle.png */; };
-		92C8969B12F103ED00E0F386 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C8969A12F103ED00E0F386 /* NSString+MD5.m */; };
-		92CC56CD127E117400A7CEED /* MPLoginItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 92CC56CC127E117400A7CEED /* MPLoginItems.m */; };
+		92A50BE018EF3C17002560DD /* handle.png in Resources */ = {isa = PBXBuildFile; fileRef = 92A50BDE18EF3C17002560DD /* handle.png */; };
+		92A50BE118EF3C17002560DD /* handle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92A50BDF18EF3C17002560DD /* handle@2x.png */; };
 		92E8CB9512F62ED900A4FA67 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 92E8CB9412F62ED900A4FA67 /* bubble.png */; };
 		BF0AA0CF125D68BA00EB9C85 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = BF0AA0CE125D68BA00EB9C85 /* CHANGELOG.md */; };
 		BF492AEB1259385800641851 /* resize_cursor_diagonal_right.tiff in Resources */ = {isa = PBXBuildFile; fileRef = BF492AE91259385800641851 /* resize_cursor_diagonal_right.tiff */; };
@@ -33,7 +30,7 @@
 		BF626B3A126A304A005D84F0 /* NSCursor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = BF626B39126A304A005D84F0 /* NSCursor+Custom.m */; };
 		BF626E2C126A6065005D84F0 /* CHPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = BF626E2B126A6065005D84F0 /* CHPreferences.m */; };
 		BF626EAB126A65BB005D84F0 /* CHGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = BF626EAA126A65BB005D84F0 /* CHGlobals.m */; };
-		BF957AED12592F990064B988 /* DDHotKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = BF957AEC12592F990064B988 /* DDHotKeyCenter.m */; };
+		BF957AED12592F990064B988 /* DDHotKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = BF957AEC12592F990064B988 /* DDHotKeyCenter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BF957B091259310B0064B988 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF957B081259310B0064B988 /* Carbon.framework */; };
 		BF9B1E28124EA86E00308205 /* crosshairs_cursor.png in Resources */ = {isa = PBXBuildFile; fileRef = BF9B1E27124EA86E00308205 /* crosshairs_cursor.png */; };
 		BFADE6C5124C296F0065F2E0 /* CHOverlayWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = BFADE6C4124C296F0065F2E0 /* CHOverlayWindow.m */; };
@@ -67,25 +64,19 @@
 		8D1107310486CEB800E47090 /* Crosshairs-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Crosshairs-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Crosshairs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Crosshairs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9212FF7414C774B600D30985 /* CHPreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CHPreferencesWindowController.xib; path = ../resources/CHPreferencesWindowController.xib; sourceTree = "<group>"; };
-		921F574814D24FD00089D7B2 /* CHWelcomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHWelcomeController.h; sourceTree = "<group>"; };
-		921F574914D24FD00089D7B2 /* CHWelcomeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHWelcomeController.m; sourceTree = "<group>"; };
-		921F574C14D250170089D7B2 /* CHWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CHWindowController.xib; sourceTree = "<group>"; };
 		922391D012FDF0CA00187E83 /* crosshairs_menu_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crosshairs_menu_active.png; sourceTree = "<group>"; };
 		92365A4C1302276F00A144A4 /* CHStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHStatusView.h; sourceTree = "<group>"; };
 		92365A4D1302276F00A144A4 /* CHStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHStatusView.m; sourceTree = "<group>"; };
 		9245E4A4128263BF00D3853E /* CHMainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CHMainMenu.xib; path = ../resources/CHMainMenu.xib; sourceTree = "<group>"; };
 		9245E50A12826B0000D3853E /* CHOverlayWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHOverlayWindowController.h; sourceTree = "<group>"; };
-		9245E50B12826B0000D3853E /* CHOverlayWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = CHOverlayWindowController.m; sourceTree = "<group>"; tabWidth = 2; };
+		9245E50B12826B0000D3853E /* CHOverlayWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = CHOverlayWindowController.m; sourceTree = "<group>"; tabWidth = 4; };
 		9245E50D12826B1300D3853E /* CHOverlayWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CHOverlayWindowController.xib; path = ../resources/CHOverlayWindowController.xib; sourceTree = "<group>"; };
 		9265D27912FE60BF00060E01 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		9287E7B1127DC4B4000FCCB6 /* NSUserDefaults+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Color.h"; sourceTree = "<group>"; };
 		9287E7B2127DC4B4000FCCB6 /* NSUserDefaults+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Color.m"; sourceTree = "<group>"; };
 		9294587A1281150600ABF139 /* Crosshairs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Crosshairs.icns; sourceTree = "<group>"; };
-		92B088E712F4BBFB0097CA56 /* handle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = handle.png; sourceTree = "<group>"; };
-		92C8969912F103ED00E0F386 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
-		92C8969A12F103ED00E0F386 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
-		92CC56CB127E117400A7CEED /* MPLoginItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPLoginItems.h; sourceTree = "<group>"; };
-		92CC56CC127E117400A7CEED /* MPLoginItems.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPLoginItems.m; sourceTree = "<group>"; };
+		92A50BDE18EF3C17002560DD /* handle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = handle.png; sourceTree = "<group>"; };
+		92A50BDF18EF3C17002560DD /* handle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "handle@2x.png"; sourceTree = "<group>"; };
 		92E8CB9412F62ED900A4FA67 /* bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble.png; sourceTree = "<group>"; };
 		92ED6ED516B1ECA400BE43BC /* Crosshairs.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Crosshairs.entitlements; path = ../Crosshairs.entitlements; sourceTree = "<group>"; };
 		BF0AA0CE125D68BA00EB9C85 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG.md; sourceTree = "<group>"; };
@@ -128,6 +119,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				92A50BDD18EF378C002560DD /* Application */,
 				921F574714D24DEE0089D7B2 /* Vendor */,
 				BF626E2D126A6071005D84F0 /* Categories */,
 				9287E794127DC1FF000FCCB6 /* Models */,
@@ -176,10 +168,10 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
-			indentWidth = 2;
+			indentWidth = 4;
 			name = Crosshairs;
 			sourceTree = "<group>";
-			tabWidth = 2;
+			tabWidth = 4;
 		};
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
@@ -194,8 +186,9 @@
 			isa = PBXGroup;
 			children = (
 				92ED6ED516B1ECA400BE43BC /* Crosshairs.entitlements */,
-				92B088E712F4BBFB0097CA56 /* handle.png */,
 				92E8CB9412F62ED900A4FA67 /* bubble.png */,
+				92A50BDE18EF3C17002560DD /* handle.png */,
+				92A50BDF18EF3C17002560DD /* handle@2x.png */,
 				BF492AE91259385800641851 /* resize_cursor_diagonal_right.tiff */,
 				BF492AEA1259385800641851 /* resize_cursor_diagonal_left.tiff */,
 				BF9B1E27124EA86E00308205 /* crosshairs_cursor.png */,
@@ -224,7 +217,6 @@
 			isa = PBXGroup;
 			children = (
 				BF957AEA12592F8E0064B988 /* DDHotKey */,
-				92CC56CA127E116400A7CEED /* MPLoginItems */,
 			);
 			name = Vendor;
 			sourceTree = "<group>";
@@ -235,7 +227,6 @@
 				9245E4A4128263BF00D3853E /* CHMainMenu.xib */,
 				9245E50D12826B1300D3853E /* CHOverlayWindowController.xib */,
 				9212FF7414C774B600D30985 /* CHPreferencesWindowController.xib */,
-				921F574C14D250170089D7B2 /* CHWindowController.xib */,
 			);
 			name = Interface;
 			path = source;
@@ -252,17 +243,22 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
-		92CC55A1127DF8D800A7CEED /* Controllers */ = {
+		92A50BDD18EF378C002560DD /* Application */ = {
 			isa = PBXGroup;
 			children = (
 				256AC3D80F4B6AC300CF3369 /* CHAppDelegate.h */,
 				256AC3D90F4B6AC300CF3369 /* CHAppDelegate.m */,
+			);
+			name = Application;
+			sourceTree = "<group>";
+		};
+		92CC55A1127DF8D800A7CEED /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
 				BFECBA62125C03190001CB88 /* CHPreferencesController.h */,
 				BFECBA63125C03190001CB88 /* CHPreferencesController.m */,
 				9245E50A12826B0000D3853E /* CHOverlayWindowController.h */,
 				9245E50B12826B0000D3853E /* CHOverlayWindowController.m */,
-				921F574814D24FD00089D7B2 /* CHWelcomeController.h */,
-				921F574914D24FD00089D7B2 /* CHWelcomeController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -280,15 +276,6 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
-		92CC56CA127E116400A7CEED /* MPLoginItems */ = {
-			isa = PBXGroup;
-			children = (
-				92CC56CB127E117400A7CEED /* MPLoginItems.h */,
-				92CC56CC127E117400A7CEED /* MPLoginItems.m */,
-			);
-			name = MPLoginItems;
-			sourceTree = "<group>";
-		};
 		BF626E2D126A6071005D84F0 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -296,8 +283,6 @@
 				BF626B39126A304A005D84F0 /* NSCursor+Custom.m */,
 				9287E7B1127DC4B4000FCCB6 /* NSUserDefaults+Color.h */,
 				9287E7B2127DC4B4000FCCB6 /* NSUserDefaults+Color.m */,
-				92C8969912F103ED00E0F386 /* NSString+MD5.h */,
-				92C8969A12F103ED00E0F386 /* NSString+MD5.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -339,7 +324,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0510;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Crosshairs" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -375,11 +360,11 @@
 				9294587B1281150600ABF139 /* Crosshairs.icns in Resources */,
 				9245E4A5128263BF00D3853E /* CHMainMenu.xib in Resources */,
 				9245E50E12826B1300D3853E /* CHOverlayWindowController.xib in Resources */,
-				92B088E812F4BBFB0097CA56 /* handle.png in Resources */,
+				92A50BE118EF3C17002560DD /* handle@2x.png in Resources */,
 				92E8CB9512F62ED900A4FA67 /* bubble.png in Resources */,
+				92A50BE018EF3C17002560DD /* handle.png in Resources */,
 				922391D112FDF0CA00187E83 /* crosshairs_menu_active.png in Resources */,
 				9212FF7514C774B600D30985 /* CHPreferencesWindowController.xib in Resources */,
-				921F574D14D250170089D7B2 /* CHWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,11 +385,8 @@
 				BF626E2C126A6065005D84F0 /* CHPreferences.m in Sources */,
 				BF626EAB126A65BB005D84F0 /* CHGlobals.m in Sources */,
 				9287E7B3127DC4B4000FCCB6 /* NSUserDefaults+Color.m in Sources */,
-				92CC56CD127E117400A7CEED /* MPLoginItems.m in Sources */,
 				9245E50C12826B0000D3853E /* CHOverlayWindowController.m in Sources */,
-				92C8969B12F103ED00E0F386 /* NSString+MD5.m in Sources */,
 				92365A4E1302276F00A144A4 /* CHStatusView.m in Sources */,
-				921F574A14D24FD00089D7B2 /* CHWelcomeController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,50 +404,9 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		9221088C12EFB72D000FE12C /* Trial */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				SDKROOT = macosx;
-				VALID_ARCHS = "i386 x86_64";
-			};
-			name = Trial;
-		};
-		9221088D12EFB72D000FE12C /* Trial */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CODE_SIGN_ENTITLEMENTS = Crosshairs.entitlements;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Giant Comet";
-				COMBINE_HIDPI_IMAGES = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/frameworks\"",
-				);
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = source/Crosshairs_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = TRIAL;
-				INFOPLIST_FILE = "resources/Crosshairs-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PRODUCT_NAME = Crosshairs;
-				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx;
-				VALID_ARCHS = "i386 x86_64";
-			};
-			name = Trial;
-		};
 		9273174B12DA642900D55A46 /* App Store */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = TRIAL;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -479,7 +420,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Crosshairs.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Giant Comet";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -495,7 +436,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				INFOPLIST_FILE = "resources/Crosshairs-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = Crosshairs;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
@@ -507,7 +448,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Crosshairs.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer: Zachary Waugh (WJQ3EJHJF5)";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -524,7 +465,7 @@
 				GCC_PREFIX_HEADER = source/Crosshairs_Prefix.pch;
 				INFOPLIST_FILE = "resources/Crosshairs-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = Crosshairs;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
@@ -536,7 +477,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Crosshairs.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Giant Comet";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -551,7 +492,7 @@
 				GCC_PREFIX_HEADER = source/Crosshairs_Prefix.pch;
 				INFOPLIST_FILE = "resources/Crosshairs-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = Crosshairs;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
@@ -562,7 +503,6 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -576,7 +516,6 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -593,7 +532,6 @@
 			buildConfigurations = (
 				C01FCF4B08A954540054247B /* Debug */,
 				C01FCF4C08A954540054247B /* Release */,
-				9221088D12EFB72D000FE12C /* Trial */,
 				9273174C12DA642900D55A46 /* App Store */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -604,7 +542,6 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
-				9221088C12EFB72D000FE12C /* Trial */,
 				9273174B12DA642900D55A46 /* App Store */,
 			);
 			defaultConfigurationIsVisible = 0;

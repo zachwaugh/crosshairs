@@ -17,107 +17,94 @@
 
 @implementation CHOverlayWindowController
 
-@synthesize view;
-
-- (void)dealloc
+- (id)init
 {
-  self.view = nil;
-  
-  [super dealloc];
+    self = [super initWithWindowNibName:@"CHOverlayWindowController"];
+    if (!self) return nil;
+    
+    return self;
 }
 
 - (void)showWindow:(id)sender
 {
-  [self.view resetZoom];
-  [[self window] makeKeyAndOrderFront:sender];
-  [self.view updateTrackingAreas];
+    [self.view resetZoom];
+    [[self window] makeKeyAndOrderFront:sender];
+    [self.view updateTrackingAreas];
 }
-
 
 - (void)hideWindow
 {
-  // Clear zoom
-  [self.view resetZoom];
-  [[self window] orderOut:nil];
+    // Clear zoom
+    [self.view resetZoom];
+    [[self window] orderOut:nil];
 }
-
 
 - (void)keyDown:(NSEvent *)event
 {
 	//NSLog(@"(CHOverlayWindowController) keyDown: %@", event);
-  NSString *characters = [event charactersIgnoringModifiers];
-  
-  if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@"c"])
-  {
-    [self copyDimensionsToClipboard];
-  }
-	else if ([event keyCode] == SPACE_KEY)
-	{
+    NSString *characters = [event charactersIgnoringModifiers];
+    
+    if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@"c"]) {
+        [self copyDimensionsToClipboard];
+    } else if ([event keyCode] == SPACE_KEY) {
 		[self takeScreenshot];
-	}
-	else
-	{
+	} else {
 		[super keyDown:event];
 	}
 }
-
 
 - (void)cancel:(id)sender
 {
 	[(CHAppDelegate *)[NSApp delegate] deactivateApp];
 }
 
-
 - (NSRect)overlayDimensions
 {
-  return self.view.overlayRect;
+    return self.view.overlayRect;
 }
-
 
 - (void)copyDimensionsToClipboard
 {
-  NSRect overlayRect = [self overlayDimensions];
-  int width = (int)overlayRect.size.width;
-  int height = (int)overlayRect.size.height;
-  NSString *format = [CHPreferences clipboardFormat];
-  
-  NSString *dimensions = [format stringByReplacingOccurrencesOfString:@"{w}" withString:[NSString stringWithFormat:@"%d", width]];
-  dimensions = [dimensions stringByReplacingOccurrencesOfString:@"{h}" withString:[NSString stringWithFormat:@"%d", height]];
-  
-	[[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:self];
+    NSRect overlayRect = [self overlayDimensions];
+    int width = (int)overlayRect.size.width;
+    int height = (int)overlayRect.size.height;
+    NSString *format = [CHPreferences clipboardFormat];
+    
+    NSString *dimensions = [format stringByReplacingOccurrencesOfString:@"{w}" withString:[NSString stringWithFormat:@"%d", width]];
+    dimensions = [dimensions stringByReplacingOccurrencesOfString:@"{h}" withString:[NSString stringWithFormat:@"%d", height]];
+    
+	[[NSPasteboard generalPasteboard] declareTypes:@[NSStringPboardType] owner:self];
 	[[NSPasteboard generalPasteboard] setString:dimensions forType:NSStringPboardType];
 }
 
-
-#pragma mark -
-#pragma mark Screenshot
+#pragma mark - Screenshot
 
 - (void)takeScreenshot
-{  
-  // Capture screenshot
-  NSRect overlayRect = [self.view convertRectToBase:[self overlayDimensions]];
-  overlayRect.origin = [[self window] convertBaseToScreen:overlayRect.origin];
-  overlayRect.origin.y = NSMaxY([[[NSScreen screens] objectAtIndex:0] frame]) - NSMaxY(overlayRect);
-
+{
+    // Capture screenshot
+    NSRect overlayRect = [self.view convertRectToBase:[self overlayDimensions]];
+    overlayRect.origin = [[self window] convertBaseToScreen:overlayRect.origin];
+    overlayRect.origin.y = NSMaxY([[NSScreen screens][0] frame]) - NSMaxY(overlayRect);
+    
 	CGImageRef screenShot = CGWindowListCreateImage(NSRectToCGRect(overlayRect), kCGWindowListOptionOnScreenBelowWindow, [[self window] windowNumber], kCGWindowImageDefault);
-	NSBitmapImageRep *image = [[[NSBitmapImageRep alloc] initWithCGImage:screenShot] autorelease];
-  
-  // Build screenshot filename
-  int width = (int)overlayRect.size.width;
-  int height = (int)overlayRect.size.height;
-  
-  NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-  [dateFormatter setDateFormat:@"yyyy-MM-dd 'at' h.mm.ss a"];
-  NSString *timestamp = [NSString stringWithFormat:@"%@ (%d x %d)", [dateFormatter stringFromDate:[NSDate date]], width, height];
-  
-  NSString *filename = [NSString stringWithFormat:@"Screen shot %@.png", timestamp];
-  
-  // Write out screenshot png
-  [[image representationUsingType:NSPNGFileType properties:nil] writeToFile:[NSString stringWithFormat:@"%@/Desktop/%@", NSHomeDirectory(), filename] atomically:NO];
-  
+	NSBitmapImageRep *image = [[NSBitmapImageRep alloc] initWithCGImage:screenShot];
+    
+    // Build screenshot filename
+    int width = (int)overlayRect.size.width;
+    int height = (int)overlayRect.size.height;
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd 'at' h.mm.ss a"];
+    NSString *timestamp = [NSString stringWithFormat:@"%@ (%d x %d)", [dateFormatter stringFromDate:[NSDate date]], width, height];
+    
+    NSString *filename = [NSString stringWithFormat:@"Screen shot %@.png", timestamp];
+    
+    // Write out screenshot png
+    [[image representationUsingType:NSPNGFileType properties:nil] writeToFile:[NSString stringWithFormat:@"%@/Desktop/%@", NSHomeDirectory(), filename] atomically:NO];
+    
 	CGImageRelease(screenShot);
-  
-  // Notify
+    
+    // Notify
 }
 
 @end

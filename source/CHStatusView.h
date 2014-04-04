@@ -11,16 +11,16 @@
 
 @interface CHStatusView : NSView <NSMenuDelegate>
 {
-  NSStatusItem *statusItem;
-  CHStatusItemState currentState;
-  NSMenu *statusMenu;
-  NSImage *inactiveImage;
-  NSImage *activeImage;
-  NSImage *highlightImage;
+    NSStatusItem *statusItem;
+    CHStatusItemState currentState;
+    NSMenu *statusMenu;
+    NSImage *inactiveImage;
+    NSImage *activeImage;
+    NSImage *highlightImage;
 }
 
-@property (retain) NSStatusItem *statusItem;
-@property (retain) NSMenu *statusMenu;
+@property (strong) NSStatusItem *statusItem;
+@property (strong) NSMenu *statusMenu;
 
 - (void)setState:(CHStatusItemState)state;
 

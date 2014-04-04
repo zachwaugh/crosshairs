@@ -8,11 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-#define TAB_KEY 48
-#define Q_KEY 12
-#define H_KEY 4
+//#define TAB_KEY 48
+//#define Q_KEY 12
+//#define H_KEY 4
 
-typedef enum {
+typedef NS_ENUM(NSInteger, CHResizeDirection) {
 	CHResizeTopLeft,
 	CHResizeTopCenter,
 	CHResizeTopRight,
@@ -21,35 +21,35 @@ typedef enum {
 	CHResizeBottomCenter,
 	CHResizeBottomLeft,
 	CHResizeLeftCenter
-} CHResizeDirection;
+};
 
 @interface CHOverlayView : NSView
 
-@property (assign) NSPoint startPoint;
-@property (assign) NSPoint lastPoint;
+@property (nonatomic, assign) NSPoint startPoint;
+@property (nonatomic, assign) NSPoint lastPoint;
 @property (nonatomic, assign) NSRect overlayRect;
-@property (retain) NSColor *fillColor;
-@property (retain) NSColor *primaryColor;
-@property (retain) NSColor *alternateColor;
-@property (retain) NSImage *handleImage;
-@property (retain) NSImage *bubbleImage;
-@property (retain) NSTrackingArea *trackingArea;
-@property (retain) NSMutableDictionary *smallTextAttrs;
-@property (assign) CHResizeDirection resizeDirection;
-@property (assign) float fillOpacity;
-@property (assign, getter=isDragging) BOOL dragging;
-@property (assign, getter=isHovering) BOOL hovering;
-@property (assign, getter=isDrawing) BOOL drawing;
-@property (assign, getter=isInverted) BOOL inverted;
-@property (assign, getter=isResizing) BOOL resizing;
-@property (assign, getter=isShiftPressed) BOOL shiftPressed;
-@property (assign, getter=isCommandPressed) BOOL commandPressed;
-@property (assign) BOOL switchedColors;
-@property (assign) BOOL lastPointInOverlay;
-@property (assign) BOOL showDimensionsOutside;
-@property (retain) NSImage *zoomImage;
-@property (assign) BOOL zooming;
-@property (assign) float zoomLevel;
+@property (nonatomic, strong) NSColor *fillColor;
+@property (nonatomic, strong) NSColor *primaryColor;
+@property (nonatomic, strong) NSColor *alternateColor;
+@property (nonatomic, strong) NSImage *handleImage;
+@property (nonatomic, strong) NSImage *bubbleImage;
+@property (nonatomic, strong) NSTrackingArea *trackingArea;
+@property (nonatomic, strong) NSMutableDictionary *smallTextAttrs;
+@property (nonatomic, assign) CHResizeDirection resizeDirection;
+@property (nonatomic, assign) CGFloat fillOpacity;
+@property (nonatomic, assign, getter=isDragging) BOOL dragging;
+@property (nonatomic, assign, getter=isHovering) BOOL hovering;
+@property (nonatomic, assign, getter=isDrawing) BOOL drawing;
+@property (nonatomic, assign, getter=isInverted) BOOL inverted;
+@property (nonatomic, assign, getter=isResizing) BOOL resizing;
+@property (nonatomic, assign, getter=isShiftPressed) BOOL shiftPressed;
+@property (nonatomic, assign, getter=isCommandPressed) BOOL commandPressed;
+@property (nonatomic, assign) BOOL switchedColors;
+@property (nonatomic, assign) BOOL lastPointInOverlay;
+@property (nonatomic, assign) BOOL showDimensionsOutside;
+@property (nonatomic, strong) NSImage *zoomImage;
+@property (nonatomic, assign) BOOL zooming;
+@property (nonatomic, assign) CGFloat zoomLevel;
 
 - (void)clearOverlay;
 - (void)toggleColors;

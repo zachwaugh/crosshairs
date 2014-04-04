@@ -10,81 +10,62 @@
 #import "CHPreferences.h"
 #import "CHAppDelegate.h"
 #import "CHGlobals.h"
-#import "MPLoginItems.h"
 #import "DDHotKeyCenter.h"
 
 @implementation CHPreferencesController
 
-@synthesize toolbar, startAtLogin, primaryColorWell, alternateColorWell;
+- (id)init
+{
+    self = [super initWithWindowNibName:@"CHPreferencesController"];
+	if (!self) return nil;
+    
+    return self;
+}
 
 - (void)awakeFromNib
 {
-  //[self.shortcutRecorder setKeyCombo:SRMakeKeyCombo([CHPreferences globalHotKeyCode], [CHPreferences globalHotKeyFlags])];
-  [self.toolbar setSelectedItemIdentifier:@"general"];
-  
-  NSURL *appPath = [[NSBundle mainBundle] bundleURL];
-  BOOL loginItemExists = [MPLoginItems loginItemExists:appPath];
-  [self.startAtLogin setState:(loginItemExists) ? NSOnState : NSOffState];
+    //[self.shortcutRecorder setKeyCombo:SRMakeKeyCombo([CHPreferences globalHotKeyCode], [CHPreferences globalHotKeyFlags])];
+    [self.toolbar setSelectedItemIdentifier:@"general"];
 }
-
 
 // Only one option, do nothing
 - (void)toolbarItemSelected:(id)sender
 {
-  
+    
 }
-
 
 //- (void)shortcutRecorder:(SRRecorderControl *)aRecorder keyComboDidChange:(KeyCombo)newKeyCombo
 //{
 //  KeyCombo keyCombo = [aRecorder keyCombo];
 //  [CHPreferences setGlobalHotKeyCode:keyCombo.code];
 //  [CHPreferences setGlobalHotKeyFlags:keyCombo.flags];
-//  
+//
 //  DDHotKeyCenter *hotKeyCenter = [[[DDHotKeyCenter alloc] init] autorelease];
-//  
+//
 //  [hotKeyCenter unregisterHotKeysWithTarget:[NSApp delegate]];
 //  [hotKeyCenter registerHotKeyWithKeyCode:keyCombo.code modifierFlags:keyCombo.flags target:[NSApp delegate] action:@selector(hotkeyWithEvent:) object:nil];
 //}
 
 
 - (void)colorUpdated:(id)sender
-{  
-  if (sender == primaryColorWell)
-  {
-    [[NSNotificationCenter defaultCenter] postNotificationName:CHColorsDidChangeNotification object:self userInfo:[NSDictionary dictionaryWithObject:[primaryColorWell color] forKey:CHPrimaryOverlayColorKey]];
-  }
-  else if (sender == alternateColorWell)
-  {
-    [[NSNotificationCenter defaultCenter] postNotificationName:CHColorsDidChangeNotification object:nil userInfo:[NSDictionary dictionaryWithObject:[alternateColorWell color] forKey:CHAlternateOverlayColorKey]];
-  }
+{
+    if (sender == self.primaryColorWell) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:CHColorsDidChangeNotification object:self userInfo:@{ CHPrimaryOverlayColorKey: self.primaryColorWell.color }];
+    } else if (sender == self.alternateColorWell) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:CHColorsDidChangeNotification object:nil userInfo:@{ CHAlternateOverlayColorKey: self.alternateColorWell.color }];
+    }
 }
-
 
 - (void)toggleStartAtLogin:(id)sender
 {
-  NSURL *appPath = [[NSBundle mainBundle] bundleURL];
-  BOOL wantsToStartAtLogin = [sender state];
-  BOOL loginItemEnabled = [MPLoginItems loginItemExists:appPath];
-  
-  if (wantsToStartAtLogin && !loginItemEnabled)
-  {
-    [MPLoginItems addLoginItemWithURL:appPath];
-  }
-  
-  if (!wantsToStartAtLogin && loginItemEnabled)
-  {
-    [MPLoginItems removeLoginItemWithURL:appPath];
-  }
+    
 }
 
-
-#pragma mark -
-#pragma mark NSWindowDelegate
+#pragma mark - NSWindowDelegate
 
 - (void)windowWillClose:(id)sender
 {
-  [NSApp hide:sender];
+    [NSApp hide:sender];
 }
 
 @end
