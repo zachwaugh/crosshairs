@@ -9,14 +9,6 @@
 #import "CHStatusView.h"
 #import "CHAppDelegate.h"
 
-@interface CHStatusView ()
-
-@property (nonatomic, strong) NSImage *defaultImage;
-@property (nonatomic, strong) NSImage *activeImage;
-@property (nonatomic, strong) NSImage *highlightImage;
-
-@end
-
 @implementation CHStatusView
 
 - (id)initWithFrame:(NSRect)frame
@@ -24,9 +16,6 @@
     self = [super initWithFrame:frame];
     if (!self) return nil;
     
-    _defaultImage = [NSImage imageNamed:@"menu_default"];
-    _activeImage = [NSImage imageNamed:@"menu_active"];
-    _highlightImage = [NSImage imageNamed:@"menu_highlight"];
     _state = CHStatusItemDefault;
     
     return self;
@@ -34,20 +23,15 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    NSSize imageSize;
+    NSImage *image = [self imageForState:self.state];
     
-    if (self.state == CHStatusItemDefault) {
-        imageSize = self.defaultImage.size;
-        [self.defaultImage drawInRect:NSMakeRect(round(([self bounds].size.width - imageSize.width) / 2), round(([self bounds].size.height - imageSize.height) / 2), imageSize.width, imageSize.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
-    } else if (self.state == CHStatusItemActive) {
-        imageSize = [self.activeImage size];
-        [self.activeImage drawInRect:NSMakeRect(round(([self bounds].size.width - imageSize.width) / 2), round(([self bounds].size.height - imageSize.height) / 2), imageSize.width, imageSize.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
-    } else if (self.state == CHStatusItemHighlighted) {
-        imageSize = [self.highlightImage size];
+    if (self.state == CHStatusItemHighlighted) {
         [[NSColor selectedMenuItemColor] set];
-        NSRectFill([self bounds]);
-        [self.highlightImage drawInRect:NSMakeRect(round(([self bounds].size.width - imageSize.width) / 2), round(([self bounds].size.height - imageSize.height) / 2), imageSize.width, imageSize.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+        NSRectFill(self.bounds);
     }
+    
+    NSRect imageRect = NSMakeRect(round((self.bounds.size.width - image.size.width) / 2), round((self.bounds.size.height - image.size.height) / 2), image.size.width, image.size.height);
+    [image drawInRect:imageRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
 }
 
 - (void)mouseDown:(NSEvent *)event
@@ -81,6 +65,20 @@
 {
     _state = state;
     [self setNeedsDisplay:YES];
+}
+
+- (NSImage *)imageForState:(CHStatusItemState)state
+{
+    switch (state) {
+        case CHStatusItemHighlighted:
+            return [NSImage imageNamed:@"menu_highlight"];
+            break;
+        case CHStatusItemActive:
+            return [NSImage imageNamed:@"menu_active"];
+        default:
+            return [NSImage imageNamed:@"menu_default"];
+            break;
+    }
 }
 
 @end
