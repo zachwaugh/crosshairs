@@ -7,11 +7,10 @@
 //
 
 #import "CHOverlayView.h"
-#import "CHGlobals.h"
-#import "NSCursor+Custom.h"
 #import "CHPreferences.h"
 #import "CHGeometry.h"
 #import "CHAppDelegate.h"
+#import "NSCursor+Custom.h"
 
 #define HANDLE_SIZE 19
 #define HANDLE_CENTER 9

@@ -6,14 +6,13 @@
 //  Copyright 2010 Giant Comet. All rights reserved.
 //
 
+#import <Carbon/Carbon.h> // for key codes
+
 #import "CHOverlayWindowController.h"
 #import "CHAppDelegate.h"
 #import "CHPreferences.h"
 #import "CHOverlayWindow.h"
 #import "CHOverlayView.h"
-#import "CHGlobals.h"
-
-#define SPACE_KEY 49
 
 @implementation CHOverlayWindowController
 
@@ -36,7 +35,7 @@
 {
     // Clear zoom
     [self.view resetZoom];
-    [[self window] orderOut:nil];
+    [self.window orderOut:nil];
 }
 
 - (void)keyDown:(NSEvent *)event
@@ -45,7 +44,7 @@
     
     if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@"c"]) {
         [self copyDimensionsToClipboard];
-    } else if (event.keyCode == SPACE_KEY) {
+    } else if (event.keyCode == kVK_Space) {
 		[self takeScreenshot];
 	} else {
 		[super keyDown:event];

@@ -10,10 +10,10 @@
 
 @interface CHPreferencesController : NSWindowController <NSToolbarDelegate>
 
-@property (nonatomic, weak) NSToolbar *toolbar;
-@property (nonatomic, weak) NSButton *startAtLogin;
-@property (nonatomic, weak) NSColorWell *primaryColorWell;
-@property (nonatomic, weak) NSColorWell *alternateColorWell;
+@property (nonatomic, weak) IBOutlet NSToolbar *toolbar;
+@property (nonatomic, weak) IBOutlet NSButton *startAtLogin;
+@property (nonatomic, weak) IBOutlet NSColorWell *primaryColorWell;
+@property (nonatomic, weak) IBOutlet NSColorWell *alternateColorWell;
 
 - (IBAction)toolbarItemSelected:(id)sender;
 - (IBAction)colorUpdated:(id)sender;

@@ -12,7 +12,6 @@
 #import "CHPreferencesController.h"
 #import "CHPreferences.h"
 #import "CHStatusView.h"
-#import "CHGlobals.h"
 
 static NSString * const CHAppStoreURL = @"http://itunes.apple.com/us/app/crosshairs/id402446112?mt=12";
 static NSString * const CHHelpURL = @"http://giantcomet.com/crosshairs/help";

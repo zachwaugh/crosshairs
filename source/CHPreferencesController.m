@@ -9,7 +9,6 @@
 #import "CHPreferencesController.h"
 #import "CHPreferences.h"
 #import "CHAppDelegate.h"
-#import "CHGlobals.h"
 #import "DDHotKeyCenter.h"
 
 @implementation CHPreferencesController

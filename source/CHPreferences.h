@@ -8,6 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
+// Notifications
+extern NSString * const CHColorsDidChangeNotification;
+
+
 // User defaults keys
 extern NSString * const CHClipboardFormatKey;
 extern NSString * const CHPrimaryOverlayColorKey;

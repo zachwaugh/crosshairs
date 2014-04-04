@@ -23,13 +23,12 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    NSImage *image = [self imageForState:self.state];
-    
     if (self.state == CHStatusItemHighlighted) {
         [[NSColor selectedMenuItemColor] set];
         NSRectFill(self.bounds);
     }
-    
+
+    NSImage *image = [self imageForState:self.state];
     NSRect imageRect = NSMakeRect(round((self.bounds.size.width - image.size.width) / 2), round((self.bounds.size.height - image.size.height) / 2), image.size.width, image.size.height);
     [image drawInRect:imageRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
 }
@@ -47,7 +46,7 @@
 
 - (void)rightMouseDown:(NSEvent *)event
 {
-    [self setState:CHStatusItemHighlighted];
+    self.state = CHStatusItemHighlighted;
     [self.statusItem popUpStatusItemMenu:self.statusMenu];
 }
 
@@ -75,6 +74,7 @@
             break;
         case CHStatusItemActive:
             return [NSImage imageNamed:@"menu_active"];
+            break;
         default:
             return [NSImage imageNamed:@"menu_default"];
             break;

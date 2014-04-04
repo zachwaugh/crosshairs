@@ -12,20 +12,20 @@
 
 - (void)setColor:(NSColor *)color forKey:(NSString *)key
 {
-  NSData *data = [NSArchiver archivedDataWithRootObject:color];
-  [self setObject:data forKey:key];
+    NSData *data = [NSArchiver archivedDataWithRootObject:color];
+    [self setObject:data forKey:key];
 }
 
 - (NSColor *)colorForKey:(NSString *)key
 {
-  NSColor *color = nil;
-  NSData *data = [self dataForKey:key];
-  
-  if (data) {
-    color = (NSColor *)[NSUnarchiver unarchiveObjectWithData:data];
-  }
+    NSColor *color = nil;
+    NSData *data = [self dataForKey:key];
     
-  return color;
+    if (data) {
+        color = (NSColor *)[NSUnarchiver unarchiveObjectWithData:data];
+    }
+    
+    return color;
 }
 
 @end

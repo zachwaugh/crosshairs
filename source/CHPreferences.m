@@ -7,8 +7,10 @@
 //
 
 #import "CHPreferences.h"
-#import "CHGlobals.h"
 #import "NSUserDefaults+Color.h"
+
+// Notifications
+NSString * const CHColorsDidChangeNotification = @"CHColorsDidChangeNotification";
 
 // User defaults keys
 NSString * const CHClipboardFormatKey = @"clipboardFormat";

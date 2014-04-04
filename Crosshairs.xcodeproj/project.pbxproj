@@ -11,7 +11,7 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		9212FF7514C774B600D30985 /* CHPreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9212FF7414C774B600D30985 /* CHPreferencesWindowController.xib */; };
+		9212FF7514C774B600D30985 /* CHPreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9212FF7414C774B600D30985 /* CHPreferencesController.xib */; };
 		92365A4E1302276F00A144A4 /* CHStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92365A4D1302276F00A144A4 /* CHStatusView.m */; };
 		9245E4A5128263BF00D3853E /* CHMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9245E4A4128263BF00D3853E /* CHMainMenu.xib */; };
 		9245E50C12826B0000D3853E /* CHOverlayWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9245E50B12826B0000D3853E /* CHOverlayWindowController.m */; };
@@ -33,7 +33,6 @@
 		BF492AEC1259385800641851 /* resize_cursor_diagonal_left.tiff in Resources */ = {isa = PBXBuildFile; fileRef = BF492AEA1259385800641851 /* resize_cursor_diagonal_left.tiff */; };
 		BF626B3A126A304A005D84F0 /* NSCursor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = BF626B39126A304A005D84F0 /* NSCursor+Custom.m */; };
 		BF626E2C126A6065005D84F0 /* CHPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = BF626E2B126A6065005D84F0 /* CHPreferences.m */; };
-		BF626EAB126A65BB005D84F0 /* CHGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = BF626EAA126A65BB005D84F0 /* CHGlobals.m */; };
 		BF957AED12592F990064B988 /* DDHotKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = BF957AEC12592F990064B988 /* DDHotKeyCenter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BF957B091259310B0064B988 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF957B081259310B0064B988 /* Carbon.framework */; };
 		BF9B1E28124EA86E00308205 /* crosshairs_cursor.png in Resources */ = {isa = PBXBuildFile; fileRef = BF9B1E27124EA86E00308205 /* crosshairs_cursor.png */; };
@@ -66,7 +65,7 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* Crosshairs-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Crosshairs-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Crosshairs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Crosshairs.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9212FF7414C774B600D30985 /* CHPreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CHPreferencesWindowController.xib; path = ../resources/CHPreferencesWindowController.xib; sourceTree = "<group>"; };
+		9212FF7414C774B600D30985 /* CHPreferencesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CHPreferencesController.xib; path = ../resources/CHPreferencesController.xib; sourceTree = "<group>"; };
 		92365A4C1302276F00A144A4 /* CHStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHStatusView.h; sourceTree = "<group>"; };
 		92365A4D1302276F00A144A4 /* CHStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHStatusView.m; sourceTree = "<group>"; };
 		9245E4A4128263BF00D3853E /* CHMainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CHMainMenu.xib; path = ../resources/CHMainMenu.xib; sourceTree = "<group>"; };
@@ -95,8 +94,6 @@
 		BF626B39126A304A005D84F0 /* NSCursor+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCursor+Custom.m"; sourceTree = "<group>"; };
 		BF626E2A126A6065005D84F0 /* CHPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHPreferences.h; sourceTree = "<group>"; };
 		BF626E2B126A6065005D84F0 /* CHPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHPreferences.m; sourceTree = "<group>"; };
-		BF626EA9126A65BB005D84F0 /* CHGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHGlobals.h; sourceTree = "<group>"; };
-		BF626EAA126A65BB005D84F0 /* CHGlobals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHGlobals.m; sourceTree = "<group>"; };
 		BF957AEB12592F990064B988 /* DDHotKeyCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDHotKeyCenter.h; sourceTree = "<group>"; };
 		BF957AEC12592F990064B988 /* DDHotKeyCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHotKeyCenter.m; sourceTree = "<group>"; };
 		BF957B081259310B0064B988 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
@@ -235,7 +232,7 @@
 			children = (
 				9245E4A4128263BF00D3853E /* CHMainMenu.xib */,
 				9245E50D12826B1300D3853E /* CHOverlayWindowController.xib */,
-				9212FF7414C774B600D30985 /* CHPreferencesWindowController.xib */,
+				9212FF7414C774B600D30985 /* CHPreferencesController.xib */,
 			);
 			name = Interface;
 			path = source;
@@ -244,8 +241,6 @@
 		9287E794127DC1FF000FCCB6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				BF626EA9126A65BB005D84F0 /* CHGlobals.h */,
-				BF626EAA126A65BB005D84F0 /* CHGlobals.m */,
 				BF626E2A126A6065005D84F0 /* CHPreferences.h */,
 				BF626E2B126A6065005D84F0 /* CHPreferences.m */,
 				92A50BE218EF3FBA002560DD /* CHGeometry.h */,
@@ -375,7 +370,7 @@
 				92E8CB9512F62ED900A4FA67 /* bubble.png in Resources */,
 				92A50BEB18EF4153002560DD /* menu_default.png in Resources */,
 				92A50BE018EF3C17002560DD /* handle.png in Resources */,
-				9212FF7514C774B600D30985 /* CHPreferencesWindowController.xib in Resources */,
+				9212FF7514C774B600D30985 /* CHPreferencesController.xib in Resources */,
 				92A50BF018EF43D5002560DD /* menu_highlight@2x.png in Resources */,
 				92A50BEA18EF4153002560DD /* menu_active@2x.png in Resources */,
 			);
@@ -396,7 +391,6 @@
 				BFECBA64125C03190001CB88 /* CHPreferencesController.m in Sources */,
 				BF626B3A126A304A005D84F0 /* NSCursor+Custom.m in Sources */,
 				BF626E2C126A6065005D84F0 /* CHPreferences.m in Sources */,
-				BF626EAB126A65BB005D84F0 /* CHGlobals.m in Sources */,
 				9287E7B3127DC4B4000FCCB6 /* NSUserDefaults+Color.m in Sources */,
 				9245E50C12826B0000D3853E /* CHOverlayWindowController.m in Sources */,
 				92365A4E1302276F00A144A4 /* CHStatusView.m in Sources */,
