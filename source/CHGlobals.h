@@ -8,9 +8,3 @@
 
 // Notifications
 extern NSString * const CHColorsDidChangeNotification;
-
-typedef NS_ENUM(NSInteger, CHStatusItemState) {
-  CHStatusItemInactive,
-  CHStatusItemHighlighted,
-  CHStatusItemActive
-};

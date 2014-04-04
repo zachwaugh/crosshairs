@@ -41,12 +41,11 @@
 
 - (void)keyDown:(NSEvent *)event
 {
-	//NSLog(@"(CHOverlayWindowController) keyDown: %@", event);
     NSString *characters = [event charactersIgnoringModifiers];
     
     if (([event modifierFlags] & NSCommandKeyMask) && [characters length] == 1 && [characters isEqualToString:@"c"]) {
         [self copyDimensionsToClipboard];
-    } else if ([event keyCode] == SPACE_KEY) {
+    } else if (event.keyCode == SPACE_KEY) {
 		[self takeScreenshot];
 	} else {
 		[super keyDown:event];

@@ -17,7 +17,6 @@
     if (!self) return nil;
     
     [self setBackgroundColor:[NSColor clearColor]];
-    //[window setBackgroundColor:[NSColor colorWithCalibratedWhite:0.0 alpha:0.25]];
     [self setLevel:NSStatusWindowLevel];
     [self setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
     [self setAlphaValue:1.0];
@@ -26,7 +25,6 @@
     [self setMovableByWindowBackground:NO];
     [self setIgnoresMouseEvents:NO];
     [self setBecomesKeyOnlyIfNeeded:YES];
-    //[window setAcceptsMouseMovedEvents:YES];
     
 	return self;
 }

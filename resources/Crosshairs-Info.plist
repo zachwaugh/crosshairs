@@ -29,7 +29,7 @@
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
-	<string>© 2011, Giant Comet</string>
+	<string>© 2014 Zach Waugh</string>
 	<key>NSMainNibFile</key>
 	<string>CHMainMenu</string>
 	<key>NSPrincipalClass</key>

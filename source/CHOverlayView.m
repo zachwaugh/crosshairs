@@ -10,6 +10,7 @@
 #import "CHGlobals.h"
 #import "NSCursor+Custom.h"
 #import "CHPreferences.h"
+#import "CHGeometry.h"
 #import "CHAppDelegate.h"
 
 #define HANDLE_SIZE 19
@@ -17,44 +18,44 @@
 #define DIMENSIONS_HEIGHT 44
 #define MAX_ZOOM_LEVEL 20
 
-NSRect CHRectFromTwoPoints(NSPoint a, NSPoint b) {
-	NSRect r;
-	
-	r.origin.x = MIN(a.x, b.x);
-	r.origin.y = MIN(a.y, b.y);
-	
-	r.size.width = ABS(a.x - b.x);
-	r.size.height = ABS(a.y - b.y);
-	
-	return r;
-}
-
-NSRect CHRectSquareFromTwoPoints(NSPoint a, NSPoint b) {
-	NSRect r;
-	
-	r.origin.x = MIN(a.x, b.x);
-	r.origin.y = MIN(a.y, b.y);
-	
-	float width;
-	float height;
-	
-	width = ABS(a.x - b.x);
-	height = ABS(a.y - b.y);
-	
-	r.size.width = MIN(width, height);
-	r.size.height = MIN(width, height);
-	
-	return r;
-}
-
-NSPoint CHIntegralPoint(NSPoint p) {
-	p.x = round(p.x);
-	p.y = round(p.y);
-	
-	return p;
-}
+typedef NS_ENUM(NSInteger, CHResizeDirection) {
+	CHResizeTopLeft,
+	CHResizeTopCenter,
+	CHResizeTopRight,
+	CHResizeRightCenter,
+	CHResizeBottomRight,
+	CHResizeBottomCenter,
+	CHResizeBottomLeft,
+	CHResizeLeftCenter
+};
 
 @interface CHOverlayView ()
+
+@property (nonatomic, assign) NSPoint startPoint;
+@property (nonatomic, assign) NSPoint lastPoint;
+@property (nonatomic, assign) NSRect overlayRect;
+@property (nonatomic, strong) NSColor *fillColor;
+@property (nonatomic, strong) NSColor *primaryColor;
+@property (nonatomic, strong) NSColor *alternateColor;
+@property (nonatomic, strong) NSImage *handleImage;
+@property (nonatomic, strong) NSImage *bubbleImage;
+@property (nonatomic, strong) NSTrackingArea *trackingArea;
+@property (nonatomic, strong) NSMutableDictionary *smallTextAttrs;
+@property (nonatomic, assign) CHResizeDirection resizeDirection;
+@property (nonatomic, assign) CGFloat fillOpacity;
+@property (nonatomic, assign, getter=isDragging) BOOL dragging;
+@property (nonatomic, assign, getter=isHovering) BOOL hovering;
+@property (nonatomic, assign, getter=isDrawing) BOOL drawing;
+@property (nonatomic, assign, getter=isInverted) BOOL inverted;
+@property (nonatomic, assign, getter=isResizing) BOOL resizing;
+@property (nonatomic, assign, getter=isShiftPressed) BOOL shiftPressed;
+@property (nonatomic, assign, getter=isCommandPressed) BOOL commandPressed;
+@property (nonatomic, assign) BOOL switchedColors;
+@property (nonatomic, assign) BOOL lastPointInOverlay;
+@property (nonatomic, assign) BOOL showDimensionsOutside;
+@property (nonatomic, strong) NSImage *zoomImage;
+@property (nonatomic, assign) BOOL zooming;
+@property (nonatomic, assign) CGFloat zoomLevel;
 
 - (void)updateCursorsForPoint:(NSPoint)point;
 - (void)refresh;
@@ -89,7 +90,7 @@ NSPoint CHIntegralPoint(NSPoint p) {
     _fillColor = [CHPreferences lastOverlayColor];
     _primaryColor = [CHPreferences primaryOverlayColor];
     _alternateColor = [CHPreferences alternateOverlayColor];
-    _fillOpacity = [self.fillColor alphaComponent];
+    _fillOpacity = [_fillColor alphaComponent];
     _handleImage = [NSImage imageNamed:@"handle"];
     _bubbleImage = [NSImage imageNamed:@"bubble"];
     _switchedColors = [CHPreferences switchedColors];
@@ -119,9 +120,7 @@ NSPoint CHIntegralPoint(NSPoint p) {
 - (void)dealloc
 {
     [self removeTrackingArea:self.trackingArea];
-	
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
 }
 
 - (BOOL)acceptsFirstResponder
@@ -328,7 +327,7 @@ NSPoint CHIntegralPoint(NSPoint p) {
 
 - (void)mouseMoved:(NSEvent *)event
 {
-	NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
+	NSPoint point = [self convertPoint:event.locationInWindow fromView:nil];
 	
     BOOL wasHovering = self.hovering;
 	[self updateCursorsForPoint:point];
@@ -340,7 +339,7 @@ NSPoint CHIntegralPoint(NSPoint p) {
 
 - (void)mouseDragged:(NSEvent *)event
 {
-	NSPoint point = CHIntegralPoint([self convertPoint:[event locationInWindow] fromView:nil]);
+	NSPoint point = CHIntegralPoint([self convertPoint:event.locationInWindow fromView:nil]);
     
 	if (self.isResizing) {
 		self.overlayRect = [self resizedRectForPoint:point];
@@ -416,8 +415,7 @@ NSPoint CHIntegralPoint(NSPoint p) {
     }
 }
 
-#pragma mark  -
-#pragma mark Drawing
+#pragma mark - Drawing
 
 - (void)clearOverlay
 {
@@ -557,7 +555,7 @@ NSPoint CHIntegralPoint(NSPoint p) {
 // Overlay colors were changed in perferences
 - (void)colorsDidChange:(NSNotification *)notification
 {
-    NSDictionary *userInfo = [notification userInfo];
+    NSDictionary *userInfo = notification.userInfo;
     NSString *key = [userInfo allKeys][0];
     
     if (key == CHPrimaryOverlayColorKey) {
@@ -618,7 +616,6 @@ NSPoint CHIntegralPoint(NSPoint p) {
 	
 	return drawingRect;
 }
-
 
 - (NSRect)resizedRectForPoint:(NSPoint)point
 {

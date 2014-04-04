@@ -7,21 +7,17 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "CHGlobals.h"
+
+typedef NS_ENUM(NSInteger, CHStatusItemState) {
+    CHStatusItemDefault = 0,
+    CHStatusItemHighlighted,
+    CHStatusItemActive
+};
 
 @interface CHStatusView : NSView <NSMenuDelegate>
-{
-    NSStatusItem *statusItem;
-    CHStatusItemState currentState;
-    NSMenu *statusMenu;
-    NSImage *inactiveImage;
-    NSImage *activeImage;
-    NSImage *highlightImage;
-}
 
-@property (strong) NSStatusItem *statusItem;
-@property (strong) NSMenu *statusMenu;
-
-- (void)setState:(CHStatusItemState)state;
+@property (nonatomic, strong) NSStatusItem *statusItem;
+@property (nonatomic, strong) NSMenu *statusMenu;
+@property (nonatomic, assign) CHStatusItemState state;
 
 @end

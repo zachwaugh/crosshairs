@@ -44,7 +44,7 @@ static NSString * const CHHelpURL = @"http://giantcomet.com/crosshairs/help";
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
-    // Only show overlay if not launched at login
+    // Only active overlay immediately if not launched at login
     NSAppleEventDescriptor *currentEvent = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
     
     [self createStatusItem];
@@ -119,7 +119,7 @@ static NSString * const CHHelpURL = @"http://giantcomet.com/crosshairs/help";
 
 - (void)deactivateApp
 {
-    [(CHStatusView *)[self.statusItem view] setState:CHStatusItemInactive];
+    [(CHStatusView *)[self.statusItem view] setState:CHStatusItemDefault];
     [NSApp hide:nil];
 }
 
@@ -150,7 +150,7 @@ static NSString * const CHHelpURL = @"http://giantcomet.com/crosshairs/help";
 {
 	[NSApp activateIgnoringOtherApps:YES];
     [self.overlayController hideWindow];
-	[(CHStatusView *)[self.statusItem view] setState:CHStatusItemInactive];
+	[(CHStatusView *)[self.statusItem view] setState:CHStatusItemDefault];
     
 	[self.preferencesController showWindow:sender];
 }
