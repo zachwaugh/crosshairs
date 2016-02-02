@@ -330,7 +330,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0720;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Crosshairs" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -430,7 +430,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Crosshairs.entitlements;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Giant Comet";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -445,6 +445,7 @@
 				INFOPLIST_FILE = "resources/Crosshairs-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = com.giantcomet.crosshairs;
 				PRODUCT_NAME = Crosshairs;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
@@ -458,7 +459,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Crosshairs.entitlements;
-				CODE_SIGN_IDENTITY = "Mac Developer: Zachary Waugh (WJQ3EJHJF5)";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -474,6 +475,7 @@
 				INFOPLIST_FILE = "resources/Crosshairs-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = com.giantcomet.crosshairs;
 				PRODUCT_NAME = Crosshairs;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
@@ -487,7 +489,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Crosshairs.entitlements;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Giant Comet";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -501,6 +503,7 @@
 				INFOPLIST_FILE = "resources/Crosshairs-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = com.giantcomet.crosshairs;
 				PRODUCT_NAME = Crosshairs;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
@@ -511,6 +514,7 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
